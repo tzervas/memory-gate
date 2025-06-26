@@ -1,89 +1,19 @@
 [
     {
-        "label": "subprocess",
+        "label": "runpy",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "subprocess",
-        "description": "subprocess",
-        "detail": "subprocess",
+        "importPath": "runpy",
+        "description": "runpy",
+        "detail": "runpy",
         "documentation": {}
     },
     {
-        "label": "sys",
-        "kind": 6,
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
         "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "math,",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "math.",
-        "description": "math.",
-        "detail": "math.",
-        "documentation": {}
-    },
-    {
-        "label": "dill",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "dill",
-        "description": "dill",
-        "detail": "dill",
-        "documentation": {}
-    },
-    {
-        "label": "StringIO",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "StringIO",
-        "description": "StringIO",
-        "detail": "StringIO",
-        "documentation": {}
-    },
-    {
-        "label": "pands",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pands",
-        "description": "pands",
-        "detail": "pands",
-        "documentation": {}
-    },
-    {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "Object",
-        "importPath": "my_lib",
-        "description": "my_lib",
-        "isExtraImport": true,
-        "detail": "my_lib",
-        "documentation": {}
-    },
-    {
-        "label": "Object3",
-        "importPath": "my_lib",
-        "description": "my_lib",
-        "isExtraImport": true,
-        "detail": "my_lib",
-        "documentation": {}
-    },
-    {
-        "label": "Object2",
-        "importPath": "my_lib",
-        "description": "my_lib",
-        "isExtraImport": true,
-        "detail": "my_lib",
+        "detail": "__future__",
         "documentation": {}
     },
     {
@@ -96,227 +26,25 @@
         "documentation": {}
     },
     {
-        "label": "lib15",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib1",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib2",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib3",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib4",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib5",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib6",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib7",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib8",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib9",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib10",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib11",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib12",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib13",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib14",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "lib3",
-        "importPath": "third_party",
-        "description": "third_party",
-        "isExtraImport": true,
-        "detail": "third_party",
-        "documentation": {}
-    },
-    {
-        "label": "absolute_import",
-        "importPath": "__future__",
-        "description": "__future__",
-        "isExtraImport": true,
-        "detail": "__future__",
-        "documentation": {}
-    },
-    {
-        "label": "annotations",
-        "importPath": "__future__",
-        "description": "__future__",
-        "isExtraImport": true,
-        "detail": "__future__",
-        "documentation": {}
-    },
-    {
-        "label": "argparse",
+        "label": "site",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "argparse",
-        "description": "argparse",
-        "detail": "argparse",
+        "importPath": "site",
+        "description": "site",
+        "detail": "site",
         "documentation": {}
     },
     {
-        "label": "re",
+        "label": "sys",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "re",
-        "description": "re",
-        "detail": "re",
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
         "documentation": {}
     },
     {
-        "label": "google.protobuf.descriptor_pb2",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "google.protobuf.descriptor_pb2",
-        "description": "google.protobuf.descriptor_pb2",
-        "detail": "google.protobuf.descriptor_pb2",
-        "documentation": {}
-    },
-    {
-        "label": "Bar",
-        "importPath": "source",
-        "description": "source",
-        "isExtraImport": true,
-        "detail": "source",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "pairwise",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
-        "documentation": {}
-    },
-    {
-        "label": "islice",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
-        "documentation": {}
-    },
-    {
-        "label": "string",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "string",
-        "description": "string",
-        "detail": "string",
-        "documentation": {}
-    },
-    {
-        "label": "Callable",
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -324,7 +52,7 @@
         "documentation": {}
     },
     {
-        "label": "Iterator",
+        "label": "Dict",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -332,7 +60,7 @@
         "documentation": {}
     },
     {
-        "label": "Union",
+        "label": "Tuple",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -340,63 +68,7 @@
         "documentation": {}
     },
     {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Callable",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Iterator",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Union",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
+        "label": "List",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -420,7 +92,103 @@
         "documentation": {}
     },
     {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "cast",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "TYPE_CHECKING",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -460,14 +228,6 @@
         "documentation": {}
     },
     {
-        "label": "Generic",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
         "label": "TypeVar",
         "importPath": "typing",
         "description": "typing",
@@ -484,145 +244,6 @@
         "documentation": {}
     },
     {
-        "label": "collections",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "collections",
-        "description": "collections",
-        "detail": "collections",
-        "documentation": {}
-    },
-    {
-        "label": "runpy",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "runpy",
-        "description": "runpy",
-        "detail": "runpy",
-        "documentation": {}
-    },
-    {
-        "label": "site",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "site",
-        "description": "site",
-        "detail": "site",
-        "documentation": {}
-    },
-    {
-        "label": "KnowledgeStore",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "KnowledgeStore",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "MemoryAdapter",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "KnowledgeStore",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "KnowledgeStore",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "LearningContext",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "MemoryAdapter",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
-        "label": "KnowledgeStore",
-        "importPath": "memory_gate.memory_protocols",
-        "description": "memory_gate.memory_protocols",
-        "isExtraImport": true,
-        "detail": "memory_gate.memory_protocols",
-        "documentation": {}
-    },
-    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
@@ -632,7 +253,272 @@
         "documentation": {}
     },
     {
+        "label": "BaseMemoryEnabledAgent",
+        "importPath": "memory_gate.agent_interface",
+        "description": "memory_gate.agent_interface",
+        "isExtraImport": true,
+        "detail": "memory_gate.agent_interface",
+        "documentation": {}
+    },
+    {
+        "label": "AgentDomain",
+        "importPath": "memory_gate.agent_interface",
+        "description": "memory_gate.agent_interface",
+        "isExtraImport": true,
+        "detail": "memory_gate.agent_interface",
+        "documentation": {}
+    },
+    {
+        "label": "SimpleEchoAgent",
+        "importPath": "memory_gate.agent_interface",
+        "description": "memory_gate.agent_interface",
+        "isExtraImport": true,
+        "detail": "memory_gate.agent_interface",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "KnowledgeStore",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "KnowledgeStore",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "KnowledgeStore",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryAdapter",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryAdapter",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "KnowledgeStore",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryAdapter",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "LearningContext",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryAdapter",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "KnowledgeStore",
+        "importPath": "memory_gate.memory_protocols",
+        "description": "memory_gate.memory_protocols",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryGateway",
+        "importPath": "memory_gate.memory_gateway",
+        "description": "memory_gate.memory_gateway",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_gateway",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryGateway",
+        "importPath": "memory_gate.memory_gateway",
+        "description": "memory_gate.memory_gateway",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_gateway",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryGateway",
+        "importPath": "memory_gate.memory_gateway",
+        "description": "memory_gate.memory_gateway",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_gateway",
+        "documentation": {}
+    },
+    {
+        "label": "MemoryGateway",
+        "importPath": "memory_gate.memory_gateway",
+        "description": "memory_gate.memory_gateway",
+        "isExtraImport": true,
+        "detail": "memory_gate.memory_gateway",
+        "documentation": {}
+    },
+    {
+        "label": "chromadb",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "chromadb",
+        "description": "chromadb",
+        "detail": "chromadb",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "chromadb.config",
+        "description": "chromadb.config",
+        "isExtraImport": true,
+        "detail": "chromadb.config",
+        "documentation": {}
+    },
+    {
+        "label": "SentenceTransformer",
+        "importPath": "sentence_transformers",
+        "description": "sentence_transformers",
+        "isExtraImport": true,
+        "detail": "sentence_transformers",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -661,6 +547,263 @@
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_STORE_LATENCY_SECONDS",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_RETRIEVAL_LATENCY_SECONDS",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "\\",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "AGENT_TASK_DURATION_SECONDS",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_agent_task_processed",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_agent_memory_learned",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_DURATION_SECONDS",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "\\",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "start_metrics_server",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_memory_operation",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "VectorMemoryStore",
+        "importPath": "memory_gate.storage.vector_store",
+        "description": "memory_gate.storage.vector_store",
+        "isExtraImport": true,
+        "detail": "memory_gate.storage.vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "VectorMemoryStore",
+        "importPath": "memory_gate.storage.vector_store",
+        "description": "memory_gate.storage.vector_store",
+        "isExtraImport": true,
+        "detail": "memory_gate.storage.vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "VectorMemoryStore",
+        "importPath": "memory_gate.storage.vector_store",
+        "description": "memory_gate.storage.vector_store",
+        "isExtraImport": true,
+        "detail": "memory_gate.storage.vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "VectorMemoryStore",
+        "importPath": "memory_gate.storage.vector_store",
+        "description": "memory_gate.storage.vector_store",
+        "isExtraImport": true,
+        "detail": "memory_gate.storage.vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "ConsolidationWorker",
+        "importPath": "memory_gate.consolidation",
+        "description": "memory_gate.consolidation",
+        "isExtraImport": true,
+        "detail": "memory_gate.consolidation",
+        "documentation": {}
+    },
+    {
+        "label": "ConsolidationWorker",
+        "importPath": "memory_gate.consolidation",
+        "description": "memory_gate.consolidation",
+        "isExtraImport": true,
+        "detail": "memory_gate.consolidation",
+        "documentation": {}
+    },
+    {
+        "label": "InfrastructureAgent",
+        "importPath": "memory_gate.agents",
+        "description": "memory_gate.agents",
+        "isExtraImport": true,
+        "detail": "memory_gate.agents",
+        "documentation": {}
+    },
+    {
+        "label": "InfrastructureAgent",
+        "importPath": "memory_gate.agents",
+        "description": "memory_gate.agents",
+        "isExtraImport": true,
+        "detail": "memory_gate.agents",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "# type: ignore[import-not-found]\r\n    Counter",
+        "importPath": "prometheus_client",
+        "description": "prometheus_client",
+        "isExtraImport": true,
+        "detail": "prometheus_client",
+        "documentation": {}
+    },
+    {
+        "label": "Gauge",
+        "importPath": "prometheus_client",
+        "description": "prometheus_client",
+        "isExtraImport": true,
+        "detail": "prometheus_client",
+        "documentation": {}
+    },
+    {
+        "label": "Histogram",
+        "importPath": "prometheus_client",
+        "description": "prometheus_client",
+        "isExtraImport": true,
+        "detail": "prometheus_client",
+        "documentation": {}
+    },
+    {
+        "label": "CollectorRegistry",
+        "importPath": "prometheus_client",
+        "description": "prometheus_client",
+        "isExtraImport": true,
+        "detail": "prometheus_client",
+        "documentation": {}
+    },
+    {
+        "label": "start_http_server",
+        "importPath": "prometheus_client",
+        "description": "prometheus_client",
+        "isExtraImport": true,
+        "detail": "prometheus_client",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
         "documentation": {}
     },
     {
@@ -681,1187 +824,77 @@
         "documentation": {}
     },
     {
-        "label": "AsyncMock",
-        "importPath": "unittest.mock",
-        "description": "unittest.mock",
+        "label": "shutil",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "unittest.mock",
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
         "documentation": {}
     },
     {
-        "label": "AsyncMock",
-        "importPath": "unittest.mock",
-        "description": "unittest.mock",
+        "label": "tempfile",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "unittest.mock",
+        "importPath": "tempfile",
+        "description": "tempfile",
+        "detail": "tempfile",
         "documentation": {}
     },
     {
-        "label": "ConsolidationWorker",
-        "importPath": "memory_gate.consolidation",
-        "description": "memory_gate.consolidation",
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
         "isExtraImport": true,
-        "detail": "memory_gate.consolidation",
+        "detail": "pathlib",
         "documentation": {}
     },
     {
         "label": "MemoryGateway",
-        "importPath": "memory_gate.memory_gateway",
-        "description": "memory_gate.memory_gateway",
+        "importPath": "memory_gate",
+        "description": "memory_gate",
         "isExtraImport": true,
-        "detail": "memory_gate.memory_gateway",
+        "detail": "memory_gate",
         "documentation": {}
     },
     {
-        "label": "run_command",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "description": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "peekOfCode": "def run_command(cmd):\n    \"\"\"\n    Execute a shell command and return its exit code, stdout, and stderr.\n    Args:\n        cmd: List of command arguments to execute\n    Returns:\n        Tuple containing (return_code, stdout, stderr)\n    \"\"\"\n    try:\n        process = subprocess.Popen(",
-        "detail": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
+        "label": "LearningContext",
+        "importPath": "memory_gate",
+        "description": "memory_gate",
+        "isExtraImport": true,
+        "detail": "memory_gate",
         "documentation": {}
     },
     {
-        "label": "update_cmd",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "description": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "peekOfCode": "update_cmd = [\"terraform-docs\", \".\"]\nreturn_code, stdout, stderr = run_command(update_cmd)\nif stderr:\n    print(f\"terraform-docs error: Warning during execution:\\n{stderr}\", file=sys.stderr)\n# Check git status for unstaged README changes\nstatus_cmd = [\"git\", \"status\", \"--porcelain\"]\nreturn_code, stdout, stderr = run_command(status_cmd)\n# Look for any README.md files in the unstaged changes\nunstaged_readmes = [\n    line.split()[-1]",
-        "detail": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
+        "label": "AgentDomain",
+        "importPath": "memory_gate",
+        "description": "memory_gate",
+        "isExtraImport": true,
+        "detail": "memory_gate",
         "documentation": {}
     },
     {
-        "label": "status_cmd",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "description": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "peekOfCode": "status_cmd = [\"git\", \"status\", \"--porcelain\"]\nreturn_code, stdout, stderr = run_command(status_cmd)\n# Look for any README.md files in the unstaged changes\nunstaged_readmes = [\n    line.split()[-1]\n    for line in stdout.splitlines()\n    if line.startswith(\" M\") and line.endswith(\"README.md\")\n]\n# Check if we found any unstaged README files\nif len(unstaged_readmes) > 0:",
-        "detail": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
+        "label": "SimpleEchoAgent",
+        "importPath": "memory_gate",
+        "description": "memory_gate",
+        "isExtraImport": true,
+        "detail": "memory_gate",
         "documentation": {}
     },
     {
-        "label": "unstaged_readmes",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "description": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
-        "peekOfCode": "unstaged_readmes = [\n    line.split()[-1]\n    for line in stdout.splitlines()\n    if line.startswith(\" M\") and line.endswith(\"README.md\")\n]\n# Check if we found any unstaged README files\nif len(unstaged_readmes) > 0:\n    print(\"terraform-docs error: Please stage any README changes before committing.\")\n    sys.exit(1)\nprint(\"terraform-docs: Documentation is up to date\")",
-        "detail": ".trunk.plugins.trunk.actions.terraform-docs.terraform-docs",
+        "label": "AsyncMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
         "documentation": {}
     },
     {
-        "label": "Example3",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "peekOfCode": "class Example3(   object ):\n    def __init__    ( self, bar ):\n     #Comments should have a space after the hash.\n     if bar : bar+=1;  bar=bar* bar   ; return bar\n     else:\n                    some_string = \"\"\"\n                       Indentation in multiline strings should not be touched.\nOnly actual code should be reindented.\n\"\"\"\n                    return (sys.path, some_string)",
-        "detail": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "example1",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "peekOfCode": "def example1():\n    ####This is a long comment. This should be wrapped to fit within 72 characters.\n    some_tuple=(   1,2, 3,'a'  );\n    some_variable={'long':'Long code lines should be wrapped within 79 characters.',\n    'other':[math.pi, 100,200,300,9876543210,'This is a long string that goes on'],\n    'more':{'inner':'This whole logical line should be wrapped.',some_tuple:[1,\n    20,300,40000,500000000,60000000000000000]}}\n    return (some_tuple, some_variable)\ndef example2(): return {'has_key() is deprecated':True}.has_key({'f':2}.has_key(''));\nclass Example3(   object ):",
-        "detail": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "example2",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "peekOfCode": "def example2(): return {'has_key() is deprecated':True}.has_key({'f':2}.has_key(''));\nclass Example3(   object ):\n    def __init__    ( self, bar ):\n     #Comments should have a space after the hash.\n     if bar : bar+=1;  bar=bar* bar   ; return bar\n     else:\n                    some_string = \"\"\"\n                       Indentation in multiline strings should not be touched.\nOnly actual code should be reindented.\n\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "pick",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "peekOfCode": "pick = dill.dumps({\"a\": \"b\", \"c\": \"d\"})\nprint(dill.loads(pick))\nfile_obj = StringIO.StringIO()\ndill.dump([1, 2, \"3\"], file_obj)",
-        "detail": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "file_obj",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "peekOfCode": "file_obj = StringIO.StringIO()\ndill.dump([1, 2, \"3\"], file_obj)",
-        "detail": ".trunk.plugins.trunk.linters.bandit.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "NoDocstring",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "peekOfCode": "class NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1\nclass Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n    def __inti__(self):\n        prit(\"this is not a valid method\")\n        callbak = lamda x: x * 2\n    varName1 = \"helol ym anme is var\"",
-        "detail": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "Globe",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "peekOfCode": "class Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n    def __inti__(self):\n        prit(\"this is not a valid method\")\n        callbak = lamda x: x * 2\n    varName1 = \"helol ym anme is var\"\ncachedir = \"/tmp\"",
-        "detail": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\nimport pands\nclass NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1",
-        "detail": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "cachedir",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "peekOfCode": "cachedir = \"/tmp\"",
-        "detail": ".trunk.plugins.trunk.linters.codespell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "peekOfCode": "def main(argv):\n    results = []\n    for line in sys.stdin.readlines():\n        filename, line_number, message = line.split(\":\")\n        results.append(\n            to_result_sarif(\n                filename, int(line_number), 0, \"misspelled\", message.strip()\n            )\n        )\n    sarif = {",
-        "detail": ".trunk.plugins.trunk.linters.codespell.codespell_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "NoDocstring",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "peekOfCode": "class NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1\nclass Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n    def __inti__(self):\n        prit(\"this is not a valid method\")\n        callbak = lamda x: x * 2\n    varName1 = \"helol ym anme is var\"",
-        "detail": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "Globe",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "peekOfCode": "class Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n    def __inti__(self):\n        prit(\"this is not a valid method\")\n        callbak = lamda x: x * 2\n    varName1 = \"helol ym anme is var\"\ncachedir = \"/tmp\"",
-        "detail": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\nimport pands\nclass NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1",
-        "detail": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "cachedir",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "description": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "peekOfCode": "cachedir = \"/tmp\"",
-        "detail": ".trunk.plugins.trunk.linters.cspell.test_data.basic_py.in",
-        "documentation": {}
-    },
-    {
-        "label": "NoDocstring",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "peekOfCode": "class NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1\nclass Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'",
-        "detail": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "Globe",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "peekOfCode": "class Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'",
-        "detail": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\n# trunk-ignore(flake8/F401): this will trigger a warning to verify that the config is applied\nclass NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1",
-        "detail": ".trunk.plugins.trunk.linters.flake8.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "aws_access_key_id",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "peekOfCode": "aws_access_key_id = \"AKIAIO5FODNN7EXAMPLE\"\naws_token = \"AKIALALEMEL33243OLIA\"\nprivate_key = \"\"\"-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\nQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XAAAAJDiKO3C4ijt\nwgAAAAtzc2gtZWQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XA\nAAAECzmj8DGxg5YHtBK4AmBttMXDQHsPAaCyYHQjJ4YujRBTxhYpjO266/FQgyiZzfO/Q5\n1cJPnsJzZxFi7dMxtf1cAAAADHJvb3RAZGV2aG9zdAE=\n-----END OPENSSH PRIVATE KEY-----\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "aws_token",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "peekOfCode": "aws_token = \"AKIALALEMEL33243OLIA\"\nprivate_key = \"\"\"-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\nQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XAAAAJDiKO3C4ijt\nwgAAAAtzc2gtZWQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XA\nAAAECzmj8DGxg5YHtBK4AmBttMXDQHsPAaCyYHQjJ4YujRBTxhYpjO266/FQgyiZzfO/Q5\n1cJPnsJzZxFi7dMxtf1cAAAADHJvb3RAZGV2aG9zdAE=\n-----END OPENSSH PRIVATE KEY-----\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "private_key",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "peekOfCode": "private_key = \"\"\"-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\nQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XAAAAJDiKO3C4ijt\nwgAAAAtzc2gtZWQyNTUxOQAAACA8YWKYztuuvxUIMomc3zv0OdXCT57Cc2cRYu3TMbX9XA\nAAAECzmj8DGxg5YHtBK4AmBttMXDQHsPAaCyYHQjJ4YujRBTxhYpjO266/FQgyiZzfO/Q5\n1cJPnsJzZxFi7dMxtf1cAAAADHJvb3RAZGV2aG9zdAE=\n-----END OPENSSH PRIVATE KEY-----\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.gitleaks.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "description": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "peekOfCode": "def to_result_sarif(path: str, lineno: int, colno: int, rule_id: str, message: str):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,\n                    },\n                    \"region\": {",
-        "detail": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "description": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "peekOfCode": "def main(argv):\n    output_json = json.load(sys.stdin)\n    errors = output_json.get(\"errors\", [])\n    results = []\n    for error in errors:\n        rule = error.get(\"rule\", \"\")\n        message = error.get(\"message\", \"\")\n        location = error.get(\"location\")\n        if location:\n            path = location.get(\"file\", \"\")",
-        "detail": ".trunk.plugins.trunk.linters.graphql-schema-linter.parse",
-        "documentation": {}
-    },
-    {
-        "label": "try_find_string_in_file",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "description": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "peekOfCode": "def try_find_string_in_file(filename, search_string):\n    with open(filename, \"r\") as f:\n        for i, line in enumerate(f):\n            index = line.find(search_string)\n            if index != -1:\n                return i + 1, index + 1\n    return 0, 0\ndef to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):",
-        "detail": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "description": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "description": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "peekOfCode": "def main(argv):\n    parser = argparse.ArgumentParser(description=\"Parse output of markdown-link-check\")\n    parser.add_argument(\"--target\", dest=\"target\")\n    args = parser.parse_args()\n    results = []\n    # Line numbers are not reported out of the tool right now - so we regex parse the output to extract issue codes\n    for line in sys.stdin:\n        parse_reg = \"\\s*(\\[.*\\])\\s(.*)→.*Status:\\s*(\\d*)(.*)\"\n        filename = args.target\n        parse_result = re.fullmatch(parse_reg, line, flags=re.DOTALL)",
-        "detail": ".trunk.plugins.trunk.linters.markdown-link-check.parse",
-        "documentation": {}
-    },
-    {
-        "label": "greeting",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "peekOfCode": "def greeting(name: str) -> str:\n    return \"Hello \" + name\ndef printer() -> None:\n    print(\"Hello\")\ngreeting(3)\ngreeting(b\"Alice\")\na = printer()\nc: str = 4\nfrom source import Bar\ndef bad_foo(bar: Bar) -> str:",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "printer",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "peekOfCode": "def printer() -> None:\n    print(\"Hello\")\ngreeting(3)\ngreeting(b\"Alice\")\na = printer()\nc: str = 4\nfrom source import Bar\ndef bad_foo(bar: Bar) -> str:\n  return bar.a + bar.b",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "bad_foo",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "peekOfCode": "def bad_foo(bar: Bar) -> str:\n  return bar.a + bar.b",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "a",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "peekOfCode": "a = printer()\nc: str = 4\nfrom source import Bar\ndef bad_foo(bar: Bar) -> str:\n  return bar.a + bar.b",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.basic",
-        "documentation": {}
-    },
-    {
-        "label": "Bar",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "peekOfCode": "class Bar:\n  a: int\n  b: int\ndef bad_function() -> int:\n  print(\"returns nothing\")",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "documentation": {}
-    },
-    {
-        "label": "bad_function",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "description": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "peekOfCode": "def bad_function() -> int:\n  print(\"returns nothing\")",
-        "detail": ".trunk.plugins.trunk.linters.mypy.test_data.source",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.nancy.parse",
-        "description": ".trunk.plugins.trunk.linters.nancy.parse",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.nancy.parse",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.nancy.parse",
-        "description": ".trunk.plugins.trunk.linters.nancy.parse",
-        "peekOfCode": "def main(argv):\n    results = []\n    nancy_output = json.load(sys.stdin)\n    for vuln_entry in nancy_output.get(\"vulnerable\", []):\n        for vuln in vuln_entry.get(\"Vulnerabilities\", []):\n            results.append(\n                to_result_sarif(\n                    \".\",\n                    0,\n                    0,",
-        "detail": ".trunk.plugins.trunk.linters.nancy.parse",
-        "documentation": {}
-    },
-    {
-        "label": "get_sarif_severity",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "def get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"database_specific\" not in vuln:\n        return DEFAULT_SARIF_SEVERITY\n    vuln_metadata = vuln[\"database_specific\"]\n    if \"severity\" not in vuln_metadata:\n        return DEFAULT_SARIF_SEVERITY\n    severity = vuln_metadata[\"severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)\ndef to_result_sarif(",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "def to_result_sarif(\n    path: str, lineno: int, vuln_id: str, description: str, severity: str\n):\n    return {\n        \"level\": severity,\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "join_common_sets",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "def join_common_sets(lst):\n    init_len = 0\n    final_len = 1\n    while init_len != final_len:\n        init_len = len(lst)\n        ret = []\n        for s in lst:\n            unique = True\n            for stored_set in ret:\n                if len(stored_set.intersection(s)) > 0:",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "get_preferred_alias",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "def get_preferred_alias(aliases):\n    for rx in PREFERRED_ORDER:\n        found_aliases = sorted(alias for alias in aliases if re.match(rx, alias))\n        if len(found_aliases) > 0:\n            return found_aliases[0]\n    return sorted(aliases)[0]\ndef main(argv):\n    try:\n        # On Windows, Unicode characters in the osv-scanner output cause json parsing errors. Filter them out since we don't care about their fields.\n        if sys.platform == \"win32\":",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "def main(argv):\n    try:\n        # On Windows, Unicode characters in the osv-scanner output cause json parsing errors. Filter them out since we don't care about their fields.\n        if sys.platform == \"win32\":\n            filtered_stdin = \"\".join(i for i in sys.stdin.read() if ord(i) < 256)\n            osv_json = json.loads(filtered_stdin)\n        else:\n            osv_json = json.load(sys.stdin)\n    except json.decoder.JSONDecodeError as err:\n        if str(err) == \"Expecting value: line 1 column 1 (char 0)\":",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "SARIF_SEVERITY_BY_OSV_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "SARIF_SEVERITY_BY_OSV_SEVERITY = {\n    \"CRITICAL\": \"error\",\n    \"HIGH\": \"error\",\n    \"MODERATE\": \"warning\",\n    \"MEDIUM\": \"warning\",\n    \"LOW\": \"note\",\n}\nDEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_SARIF_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "DEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"database_specific\" not in vuln:\n        return DEFAULT_SARIF_SEVERITY\n    vuln_metadata = vuln[\"database_specific\"]\n    if \"severity\" not in vuln_metadata:\n        return DEFAULT_SARIF_SEVERITY\n    severity = vuln_metadata[\"severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "PREFERRED_ORDER",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "peekOfCode": "PREFERRED_ORDER = [\"GHSA-.*\", \"CVE-.*\", \"PYSEC-.*\"]\ndef get_preferred_alias(aliases):\n    for rx in PREFERRED_ORDER:\n        found_aliases = sorted(alias for alias in aliases if re.match(rx, alias))\n        if len(found_aliases) > 0:\n            return found_aliases[0]\n    return sorted(aliases)[0]\ndef main(argv):\n    try:\n        # On Windows, Unicode characters in the osv-scanner output cause json parsing errors. Filter them out since we don't care about their fields.",
-        "detail": ".trunk.plugins.trunk.linters.osv-scanner.osv_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.phpstan.phpstan_parser",
-        "description": ".trunk.plugins.trunk.linters.phpstan.phpstan_parser",
-        "peekOfCode": "def main():\n    phpstan_json = json.loads(sys.stdin.read())\n    results = []\n    for file_name in phpstan_json[\"files\"]:\n        file_result = phpstan_json[\"files\"][file_name]\n        for result in file_result[\"messages\"]:\n            result = {\n                # We do not have a ruleId\n                \"message\": {\n                    \"text\": result[\"message\"],",
-        "detail": ".trunk.plugins.trunk.linters.phpstan.phpstan_parser",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "peekOfCode": "def to_result_sarif(path: str, description: str, line: int = 0, column: int = 0):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,\n                    },\n                    \"region\": {",
-        "detail": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "peekOfCode": "def main(argv):\n    if len(argv) < 2:\n        print(\"Usage: trivy_to_sarif.py <exit_code>)\")\n        sys.exit(1)\n    if argv[1] == \"0\":\n        results = []\n        sarif = {\n            \"$schema\": \"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json\",\n            \"version\": \"2.1.0\",\n            \"runs\": [{\"results\": results}],",
-        "detail": ".trunk.plugins.trunk.linters.prettier.prettier_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "shift",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "peekOfCode": "shift = 3\nchoice = raw_input(\"would you like to encode or decode?\")\nword = raw_input(\"Please enter text\")\nletters = string.ascii_letters + string.punctuation + string.digits\nencoded = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "choice",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "peekOfCode": "choice = raw_input(\"would you like to encode or decode?\")\nword = raw_input(\"Please enter text\")\nletters = string.ascii_letters + string.punctuation + string.digits\nencoded = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "word",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "peekOfCode": "word = raw_input(\"Please enter text\")\nletters = string.ascii_letters + string.punctuation + string.digits\nencoded = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "letters",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "peekOfCode": "letters = string.ascii_letters + string.punctuation + string.digits\nencoded = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "encoded",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "peekOfCode": "encoded = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "foo",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.pylint.test_data.severity",
-        "description": ".trunk.plugins.trunk.linters.pylint.test_data.severity",
-        "peekOfCode": "def foo():\n    return \"bar\"",
-        "detail": ".trunk.plugins.trunk.linters.pylint.test_data.severity",
-        "documentation": {}
-    },
-    {
-        "label": "A",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "class A:\n    def method1(self) -> None:\n        self.x = 1\n    def method2(self) -> None:\n        self.x = \"\" # Mypy treats this as an error because `x` is implicitly declared as `int`\na = A()\nreveal_type(a.x)\na.x = \"\" # Pyright allows this because the type of `x` is `int | str`\na.x = 3.0 # Pyright treats this as an error because the type of `x` is `int | str`\nclass A:",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "A",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "class A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z) # pyright shows error, mypy shows no error\nclass Color(Enum):\n    RED = 1",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "Color",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "class Color(Enum):\n    RED = 1\n    BLUE = 2\ndef is_red(color: Color) -> bool:\n    if color == Color.RED:\n        return True\n    elif color == Color.BLUE:\n        return False\n    # mypy reports error: Missing return statement\ndef func(val: int | None):",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "wrong_type",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "def wrong_type(x: int) -> str:\n    return x  # error: Incompatible return value type (got \"int\", expected \"str\")\nclass A:\n    def method1(self) -> None:\n        self.x = 1\n    def method2(self) -> None:\n        self.x = \"\" # Mypy treats this as an error because `x` is implicitly declared as `int`\na = A()\nreveal_type(a.x)\na.x = \"\" # Pyright allows this because the type of `x` is `int | str`",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "is_red",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "def is_red(color: Color) -> bool:\n    if color == Color.RED:\n        return True\n    elif color == Color.BLUE:\n        return False\n    # mypy reports error: Missing return statement\ndef func(val: int | None):\n    if val is not None:\n        def inner_1() -> None:\n            reveal_type(val)",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "func",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "def func(val: int | None):\n    if val is not None:\n        def inner_1() -> None:\n            reveal_type(val)\n            print(val + 1)  # mypy produces a false positive error here\n        inner_2 = lambda: reveal_type(val) + 1\n        inner_1()\n        inner_2()",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "a = A()\nreveal_type(a.x)\na.x = \"\" # Pyright allows this because the type of `x` is `int | str`\na.x = 3.0 # Pyright treats this as an error because the type of `x` is `int | str`\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a.x",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "a.x = \"\" # Pyright allows this because the type of `x` is `int | str`\na.x = 3.0 # Pyright treats this as an error because the type of `x` is `int | str`\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z) # pyright shows error, mypy shows no error",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a.x",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "peekOfCode": "a.x = 3.0 # Pyright treats this as an error because the type of `x` is `int | str`\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z) # pyright shows error, mypy shows no error\nclass Color(Enum):",
-        "detail": ".trunk.plugins.trunk.linters.pyright.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "results",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "peekOfCode": "results = []\nfor result in json.load(sys.stdin)[\"generalDiagnostics\"]:\n    parse = {\n        \"level\": result[\"severity\"] if result[\"severity\"] != \"information\" else \"note\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": result[\"file\"],\n                    },",
-        "detail": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "sarif",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "peekOfCode": "sarif = {\n    \"$schema\": \"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json\",\n    \"version\": \"2.1.0\",\n    \"runs\": [{\"results\": results}],\n}\nprint(json.dumps(sarif, indent=2))",
-        "detail": ".trunk.plugins.trunk.linters.pyright.pyright_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "description": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "description": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "peekOfCode": "def main(argv):\n    results = []\n    content_json = sys.stdin.read()\n    content = json.loads(content_json)\n    for file_content in content:\n        messages = file_content.get(\"messages\", [])\n        if messages:\n            for msg in messages:\n                results.append(\n                    to_result_sarif(",
-        "detail": ".trunk.plugins.trunk.linters.remark-lint.parse",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.renovate.parse",
-        "description": ".trunk.plugins.trunk.linters.renovate.parse",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.renovate.parse",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.renovate.parse",
-        "description": ".trunk.plugins.trunk.linters.renovate.parse",
-        "peekOfCode": "def main(argv):\n    results = []\n    content = sys.stdin.read()\n    parse_reg = \"(.*WARN:.*could not be parsed)(.*)\"\n    error_section = content.find('\"errors\": [')\n    parse_result = re.fullmatch(parse_reg, content, flags=re.DOTALL)\n    if parse_result:\n        warn_section = parse_result.group(2)\n        json_content = \"{\" + warn_section + \"}\"\n        error_output = json.loads(json_content)",
-        "detail": ".trunk.plugins.trunk.linters.renovate.parse",
-        "documentation": {}
-    },
-    {
-        "label": "map_severity",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "peekOfCode": "def map_severity(severity):\n    if severity in [\"convention\", \"refactor\", \"info\"]:\n        return \"note\"\n    if severity in [\"warning\"]:\n        return \"warning\"\n    if severity in [\"error\", \"fatal\"]:\n        return \"error\"\n    return \"none\"\nresults = []\nfor file in json.load(sys.stdin)[\"files\"]:",
-        "detail": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "results",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "peekOfCode": "results = []\nfor file in json.load(sys.stdin)[\"files\"]:\n    for offense in file[\"offenses\"]:\n        parse = {\n            \"level\": map_severity(offense[\"severity\"]),\n            \"locations\": [\n                {\n                    \"physicalLocation\": {\n                        \"artifactLocation\": {\n                            \"uri\": file[\"path\"],",
-        "detail": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "sarif",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "peekOfCode": "sarif = {\n    \"$schema\": \"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json\",\n    \"version\": \"2.1.0\",\n    \"runs\": [{\"results\": results}],\n}\nprint(json.dumps(sarif, indent=2))",
-        "detail": ".trunk.plugins.trunk.linters.rubocop.rubocop_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "NoDocstring",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "peekOfCode": "class NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1\nclass Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'",
-        "detail": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "Globe",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "peekOfCode": "class Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'",
-        "detail": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\n# trunk-ignore(ruff/F401)\nimport json\nclass NoDocstring(object):\n    def __init__(self, arg1):",
-        "detail": ".trunk.plugins.trunk.linters.ruff.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "f",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.test_data.syntax.in",
-        "description": ".trunk.plugins.trunk.linters.ruff.test_data.syntax.in",
-        "peekOfCode": "def f(): {",
-        "detail": ".trunk.plugins.trunk.linters.ruff.test_data.syntax.in",
-        "documentation": {}
-    },
-    {
-        "label": "get_region",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "peekOfCode": "def get_region(entry, column_offset=0):\n    location = entry[\"location\"]\n    region = {\n        \"startColumn\": location[\"column\"] + column_offset,\n        \"startLine\": location[\"row\"],\n    }\n    if \"end_location\" in entry:\n        end_location = entry[\"end_location\"]\n        region[\"endColumn\"] = end_location[\"column\"] + column_offset\n        region[\"endLine\"] = end_location[\"row\"]",
-        "detail": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "results",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "peekOfCode": "results = []\ndef get_region(entry, column_offset=0):\n    location = entry[\"location\"]\n    region = {\n        \"startColumn\": location[\"column\"] + column_offset,\n        \"startLine\": location[\"row\"],\n    }\n    if \"end_location\" in entry:\n        end_location = entry[\"end_location\"]\n        region[\"endColumn\"] = end_location[\"column\"] + column_offset",
-        "detail": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "ruff_column_index",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "peekOfCode": "ruff_column_index = 1\nif len(sys.argv) > 1:\n    ruff_column_index = int(sys.argv[1])\nfor result in json.load(sys.stdin):\n    # As of ruff v0.0.260, some autofixable diagnostics may appear redundantly\n    if \"location\" not in result:\n        continue\n    filepath = result[\"filename\"]\n    # Ruff will set code to null for syntax errors\n    rule_id = result[\"code\"] or \"E999\"",
-        "detail": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "sarif",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "peekOfCode": "sarif = {\n    \"$schema\": \"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json\",\n    \"version\": \"2.1.0\",\n    \"runs\": [{\"results\": results}],\n}\nprint(json.dumps(sarif, indent=2))",
-        "detail": ".trunk.plugins.trunk.linters.ruff.ruff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "unvalidated_value",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.semgrep.test_data.request",
-        "description": ".trunk.plugins.trunk.linters.semgrep.test_data.request",
-        "peekOfCode": "def unvalidated_value(request):\n    value = request.GET.get('something')\n    function = globals().get(value)\n    if function:\n        return function(request)",
-        "detail": ".trunk.plugins.trunk.linters.semgrep.test_data.request",
-        "documentation": {}
-    },
-    {
-        "label": "test",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "peekOfCode": "def test():\n  substitution = \"hello %s\" % test\n  my_list = List()\n  try:\n    pass\n  except Exception:\n    raise Exception(\"test\")",
-        "detail": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "test",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "peekOfCode": "test = \"world\"\ndef test():\n  substitution = \"hello %s\" % test\n  my_list = List()\n  try:\n    pass\n  except Exception:\n    raise Exception(\"test\")",
-        "detail": ".trunk.plugins.trunk.linters.sourcery.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "peekOfCode": "def to_result_sarif(\n    path: str,\n    start_line_number: int,\n    start_column_number: int,\n    end_line_number: Optional[int],\n    end_column_number: Optional[int],\n    rule_id: str,\n    message: str,\n):\n    region = {",
-        "detail": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "peekOfCode": "def main(argv):\n    sqlfluff_json = json.load(sys.stdin)\n    results = []\n    for result in sqlfluff_json:\n        filepath = result[\"filepath\"]\n        for violation in result[\"violations\"]:\n            # In sqlfluff 3.0.0, line_no/line_pos replaced with start_*/end_*\n            start_line_number = violation.get(\"start_line_no\", violation.get(\"line_no\"))\n            start_column_number = violation.get(\n                \"start_line_pos\", violation.get(\"line_pos\")",
-        "detail": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.terrascan.sarif_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.terrascan.sarif_to_sarif",
-        "peekOfCode": "def main(argv):\n    input_sarif = json.load(sys.stdin)\n    # strip \"file:\" from the beginning of each value in the 'file' field in the 'location' object in sarif format\n    for run in input_sarif[\"runs\"]:\n        for result in run[\"results\"]:\n            for location in result[\"locations\"]:\n                location[\"physicalLocation\"][\"artifactLocation\"][\"uri\"] = location[\n                    \"physicalLocation\"\n                ][\"artifactLocation\"][\"uri\"][5:]\n    print(json.dumps(input_sarif, indent=2))",
-        "detail": ".trunk.plugins.trunk.linters.terrascan.sarif_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.tfsec.parse",
-        "description": ".trunk.plugins.trunk.linters.tfsec.parse",
-        "peekOfCode": "def main():\n    original_input = sys.stdin.read()\n    try:\n        index = original_input.index(\"{\")\n        print(original_input[index:])\n    except ValueError:\n        print(original_input)\nif __name__ == \"__main__\":\n    main()",
-        "detail": ".trunk.plugins.trunk.linters.tfsec.parse",
-        "documentation": {}
-    },
-    {
-        "label": "aws_access_key_id",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "description": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "peekOfCode": "aws_access_key_id = \"AKIAXYZDQCEN4EXAMPLE\"\naws_secret_access_key = \"Tg0pz8Jii8hkLx4+PnUisM8GmKs3a2DK+EXAMPLE\"\n# The below keys are copied from https://github.com/dustin-decker/secretsandstuff\ngithub_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = \"\"\"\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu",
-        "detail": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "documentation": {}
-    },
-    {
-        "label": "aws_secret_access_key",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "description": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "peekOfCode": "aws_secret_access_key = \"Tg0pz8Jii8hkLx4+PnUisM8GmKs3a2DK+EXAMPLE\"\n# The below keys are copied from https://github.com/dustin-decker/secretsandstuff\ngithub_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = \"\"\"\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF",
-        "detail": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "documentation": {}
-    },
-    {
-        "label": "github_secret",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "description": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "peekOfCode": "github_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = \"\"\"\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH",
-        "detail": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "documentation": {}
-    },
-    {
-        "label": "basic_auth",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "description": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "peekOfCode": "basic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = \"\"\"\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH\nNT7eP19eVf4dCreibxUmRUaob5DEoHEk8WrxjKWIYUuLeD6AfcW6oXyRU2Yy8Vrt6SqFl5",
-        "detail": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "documentation": {}
-    },
-    {
-        "label": "priv_key",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "description": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "peekOfCode": "priv_key = \"\"\"\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH\nNT7eP19eVf4dCreibxUmRUaob5DEoHEk8WrxjKWIYUuLeD6AfcW6oXyRU2Yy8Vrt6SqFl5\nWAi47VMFTkDZYS/eCvG53q9UBHpCj7Qvb0vSkCZXBvBIhlw193F3PX4WvO1IXsMwvQ1D1X",
-        "detail": ".trunk.plugins.trunk.linters.trivy.test_data.secrets",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "peekOfCode": "def to_result_sarif(path: str, vuln_id: str, description: str, line: int = 0):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,\n                    },\n                    \"region\": {",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "peekOfCode": "def main(argv):\n    trivy_json = json.load(sys.stdin)\n    path = trivy_json[\"ArtifactName\"]\n    results = []\n    for result in trivy_json.get(\"Results\", []):\n        if \"Misconfigurations\" not in result:\n            continue\n        for vuln in result[\"Misconfigurations\"]:\n            vuln_id = vuln[\"ID\"]\n            message = vuln[\"Message\"]",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_config_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "get_sarif_severity",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "peekOfCode": "def get_sarif_severity(secret) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"Severity\" not in secret:\n        return DEFAULT_SARIF_SEVERITY\n    severity = secret[\"Severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)\ndef to_result_sarif(path: str, severity: str, code: str, description: str, lineno: int):\n    return {\n        \"level\": severity,\n        \"locations\": [",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "peekOfCode": "def to_result_sarif(path: str, severity: str, code: str, description: str, lineno: int):\n    return {\n        \"level\": severity,\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,\n                    },\n                    \"region\": {",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "peekOfCode": "def main(argv):\n    trivy_json = json.load(sys.stdin)\n    results = []\n    for result in trivy_json.get(\"Results\", []):\n        path = trivy_json[\"ArtifactName\"]\n        for secret in result.get(\"Secrets\", []):\n            code = secret[\"RuleID\"]\n            description = secret[\"Title\"]\n            lineno = secret.get(\"StartLine\", 0)\n            results.append(",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "SARIF_SEVERITY_BY_OSV_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "peekOfCode": "SARIF_SEVERITY_BY_OSV_SEVERITY = {\n    \"CRITICAL\": \"error\",\n    \"HIGH\": \"error\",\n    \"MODERATE\": \"warning\",\n    \"MEDIUM\": \"warning\",\n    \"LOW\": \"note\",\n}\nDEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(secret) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_SARIF_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "peekOfCode": "DEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(secret) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"Severity\" not in secret:\n        return DEFAULT_SARIF_SEVERITY\n    severity = secret[\"Severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)\ndef to_result_sarif(path: str, severity: str, code: str, description: str, lineno: int):\n    return {\n        \"level\": severity,",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_secret_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "get_sarif_severity",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "peekOfCode": "def get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"Severity\" not in vuln:\n        return DEFAULT_SARIF_SEVERITY\n    severity = vuln[\"Severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)\ndef to_result_sarif(\n    path: str, severity: str, vuln_id: str, description: str, lineno: int\n):\n    return {",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "peekOfCode": "def to_result_sarif(\n    path: str, severity: str, vuln_id: str, description: str, lineno: int\n):\n    return {\n        \"level\": severity,\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "peekOfCode": "def main(argv):\n    trivy_json = json.load(sys.stdin)\n    results = []\n    lockfiles = {}\n    for result in trivy_json.get(\"Results\", []):\n        for vuln in result.get(\"Vulnerabilities\", []):\n            pkg_name = vuln[\"PkgName\"]\n            path = trivy_json[\"ArtifactName\"]\n            vuln_id = vuln[\"VulnerabilityID\"]\n            description = vuln[\"Title\"]",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "SARIF_SEVERITY_BY_OSV_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "peekOfCode": "SARIF_SEVERITY_BY_OSV_SEVERITY = {\n    \"CRITICAL\": \"error\",\n    \"HIGH\": \"error\",\n    \"MODERATE\": \"warning\",\n    \"MEDIUM\": \"warning\",\n    \"LOW\": \"note\",\n}\nDEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_SARIF_SEVERITY",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "peekOfCode": "DEFAULT_SARIF_SEVERITY = \"error\"\ndef get_sarif_severity(vuln) -> str:\n    \"\"\"Get the SARIF severity appropriate for a given OSV vulnerability entry.\"\"\"\n    if \"Severity\" not in vuln:\n        return DEFAULT_SARIF_SEVERITY\n    severity = vuln[\"Severity\"].upper()\n    return SARIF_SEVERITY_BY_OSV_SEVERITY.get(severity, DEFAULT_SARIF_SEVERITY)\ndef to_result_sarif(\n    path: str, severity: str, vuln_id: str, description: str, lineno: int\n):",
-        "detail": ".trunk.plugins.trunk.linters.trivy.trivy_fs_vuln_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "aws_access_key_id",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "peekOfCode": "aws_access_key_id = \"AKIAXYZDQCEN4EXAMPLE\"\naws_secret_access_key = \"Tg0pz8Jii8hkLx4+PnUisM8GmKs3a2DK+EXAMPLE\"\n# The below keys are copied from https://github.com/dustin-decker/secretsandstuff\ngithub_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = '''\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "documentation": {}
-    },
-    {
-        "label": "aws_secret_access_key",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "peekOfCode": "aws_secret_access_key = \"Tg0pz8Jii8hkLx4+PnUisM8GmKs3a2DK+EXAMPLE\"\n# The below keys are copied from https://github.com/dustin-decker/secretsandstuff\ngithub_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = '''\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "documentation": {}
-    },
-    {
-        "label": "github_secret",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "peekOfCode": "github_secret = \"369963c1434c377428ca8531fbc46c0c43d037a0\"\nbasic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = '''\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "documentation": {}
-    },
-    {
-        "label": "basic_auth",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "peekOfCode": "basic_auth = \"https://admin:admin@the-internet.herokuapp.com/basic_auth\"\npriv_key = '''\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH\nNT7eP19eVf4dCreibxUmRUaob5DEoHEk8WrxjKWIYUuLeD6AfcW6oXyRU2Yy8Vrt6SqFl5",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "documentation": {}
-    },
-    {
-        "label": "priv_key",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "peekOfCode": "priv_key = '''\n-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAjNIZuun\nxgLkM8KuzfmQuRAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDe3Al0EMPz\nutVNk5DixaYrGMK56RqUoqGBinke6SWVWmqom1lBcJWzor6HlnMRPPr7YCEsJKL4IpuVwu\ninRa5kdtNTyM7yyQTSR2xXCS0fUItNuq8pUktsH8VUggpMeew8hJv7rFA7tnIg3UXCl6iF\nOLZKbDA5aa24idpcD8b1I9/RzTOB1fu0of5xd9vgODzGw5JvHQSJ0FaA42aNBMGwrDhDB3\nsgnRNdWf6NNIh8KpXXMKJADf3klsyn6He8L2bPMp8a4wwys2YB35p5zQ0JURovsdewlOxH\nNT7eP19eVf4dCreibxUmRUaob5DEoHEk8WrxjKWIYUuLeD6AfcW6oXyRU2Yy8Vrt6SqFl5\nWAi47VMFTkDZYS/eCvG53q9UBHpCj7Qvb0vSkCZXBvBIhlw193F3PX4WvO1IXsMwvQ1D1X",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.test_data.secrets.in",
-        "documentation": {}
-    },
-    {
-        "label": "to_result_sarif",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "def to_result_sarif(path: str, line_number: int, vuln_id: str, description: str):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,\n                    },\n                    \"region\": {",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "sliding_window",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "def sliding_window(iterable, n):\n    # sliding_window('ABCDEFG', 4) --> ABCD BCDE CDEF DEFG\n    it = iter(iterable)\n    window = collections.deque(islice(it, n - 1), maxlen=n)\n    for x in it:\n        window.append(x)\n        yield tuple(window)\nsecret_lineno_cache = {}\nfile_cache = {}\ndef find_line_number(secret, path):",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "find_line_number",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "def find_line_number(secret, path):\n    if path not in file_cache:\n        file_cache[path] = open(path).readlines()\n    if secret not in secret_lineno_cache:\n        secret_lineno_cache[secret] = []\n    secret_length = len(secret.splitlines())\n    lines = file_cache[path]\n    for lineno, window in enumerate(sliding_window(lines, secret_length), 1):\n        # trufflehog can report the same secret multiple times\n        # if it truly appears multiple times, then we want to log different lines for each issue",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "def main(argv):\n    results = []\n    for line in sys.stdin.readlines():\n        vuln_json = json.loads(line)\n        # trufflehog doesn't have vuln IDs\n        # this is the name of the detector that found the error (e.g. AWS, Github, PrivateKey)\n        vuln_id = vuln_json[\"DetectorName\"]\n        # There also isn't description of the error aside from the raw secret, the redacted secret,\n        # and the detector that found it.\n        #",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "secret_lineno_cache",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "secret_lineno_cache = {}\nfile_cache = {}\ndef find_line_number(secret, path):\n    if path not in file_cache:\n        file_cache[path] = open(path).readlines()\n    if secret not in secret_lineno_cache:\n        secret_lineno_cache[secret] = []\n    secret_length = len(secret.splitlines())\n    lines = file_cache[path]\n    for lineno, window in enumerate(sliding_window(lines, secret_length), 1):",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "file_cache",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "description": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "peekOfCode": "file_cache = {}\ndef find_line_number(secret, path):\n    if path not in file_cache:\n        file_cache[path] = open(path).readlines()\n    if secret not in secret_lineno_cache:\n        secret_lineno_cache[secret] = []\n    secret_length = len(secret.splitlines())\n    lines = file_cache[path]\n    for lineno, window in enumerate(sliding_window(lines, secret_length), 1):\n        # trufflehog can report the same secret multiple times",
-        "detail": ".trunk.plugins.trunk.linters.trufflehog.trufflehog_to_sarif",
-        "documentation": {}
-    },
-    {
-        "label": "A",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "class A:\n    def method1(self) -> None:\n        self.x = 1\n    def method2(self) -> None:\n        self.x = \"\"\na = A()\nreveal_type(a.x)\na.x = \"\"\na.x = 3.0\nclass A:",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "A",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "class A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z)\nclass Color(Enum):\n    RED = 1",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "Color",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "class Color(Enum):\n    RED = 1\n    BLUE = 2\ndef is_red(color: Color) -> bool:\n    if color == Color.RED:\n        return True\n    elif color == Color.BLUE:\n        return False\ndef func(val: int | None):\n    if val is not None:",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "wrong_type",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "def wrong_type(x: int) -> str:\n    return x  # error: Incompatible return value type (got \"int\", expected \"str\")\nclass A:\n    def method1(self) -> None:\n        self.x = 1\n    def method2(self) -> None:\n        self.x = \"\"\na = A()\nreveal_type(a.x)\na.x = \"\"",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "is_red",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "def is_red(color: Color) -> bool:\n    if color == Color.RED:\n        return True\n    elif color == Color.BLUE:\n        return False\ndef func(val: int | None):\n    if val is not None:\n        def inner_1() -> None:\n            reveal_type(val)\n            print(val + 1)",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "func",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "def func(val: int | None):\n    if val is not None:\n        def inner_1() -> None:\n            reveal_type(val)\n            print(val + 1)\n        inner_2 = lambda: reveal_type(val) + 1\n        inner_1()\n        inner_2()",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "a = A()\nreveal_type(a.x)\na.x = \"\"\na.x = 3.0\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a.x",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "a.x = \"\"\na.x = 3.0\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z)",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "a.x",
-        "kind": 5,
-        "importPath": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "peekOfCode": "a.x = 3.0\nclass A:\n    x: int = 0 # Regular class variable\n    y: ClassVar[int] = 0 # Pure class variable\n    def __init__(self):\n        self.z = 0 # Pure instance variable\nprint(A.x)\nprint(A.y)\nprint(A.z)\nclass Color(Enum):",
-        "detail": ".trunk.plugins.trunk.linters.ty.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "NoDocstring",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "peekOfCode": "class NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1\nclass Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n#whitespace below vvv\n  #A malindented comment\nif __name__ == \"__main__\" :\n      a=4+1",
-        "detail": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "Globe",
-        "kind": 6,
-        "importPath": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "peekOfCode": "class Globe(object):\n    def __init__(self):\n        self.shape = 'spheroid'\n#whitespace below vvv\n  #A malindented comment\nif __name__ == \"__main__\" :\n      a=4+1\n      b=( 2*7 )\n      c = [1,\n           2,",
-        "detail": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "description": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\n# trunk-ignore(flake8/F401): this will trigger a warning to verify that the config is applied\nclass NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1",
-        "detail": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
+        "label": "AsyncMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
         "documentation": {}
     },
     {
@@ -1946,12 +979,57 @@
         "documentation": {}
     },
     {
+        "label": "InfrastructureAgent",
+        "kind": 6,
+        "importPath": "src.memory_gate.agents.infrastructure_agent",
+        "description": "src.memory_gate.agents.infrastructure_agent",
+        "peekOfCode": "class InfrastructureAgent(BaseMemoryEnabledAgent):\n    \"\"\"\n    An agent specialized in diagnosing and suggesting solutions for\n    infrastructure-related tasks and issues.\n    \"\"\"\n    def __init__(self, memory_gateway: MemoryGateway[LearningContext]) -> None:\n        super().__init__(\n            agent_name=\"InfraTroubleshooterAgent\",\n            domain=AgentDomain.INFRASTRUCTURE,\n            memory_gateway=memory_gateway,",
+        "detail": "src.memory_gate.agents.infrastructure_agent",
+        "documentation": {}
+    },
+    {
         "label": "InMemoryKnowledgeStore",
         "kind": 6,
         "importPath": "src.memory_gate.storage.in_memory",
         "description": "src.memory_gate.storage.in_memory",
-        "peekOfCode": "class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):\n    \"\"\"An in-memory implementation of the KnowledgeStore protocol.\"\"\"\n    def __init__(self) -> None:\n        self._store: Dict[str, LearningContext] = {}\n    async def store_experience(self, key: str, experience: LearningContext) -> None:\n        \"\"\"Stores a learning experience in the in-memory dictionary.\"\"\"\n        self._store[key] = experience\n    async def retrieve_context(self, query: str, limit: int = 10) -> List[LearningContext]:\n        \"\"\"Retrieves relevant context from the in-memory store.\"\"\"\n        # This is a naive implementation for demonstration purposes.",
+        "peekOfCode": "class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):\n    \"\"\"An in-memory implementation of the KnowledgeStore protocol.\"\"\"\n    def __init__(self) -> None:\n        self._store: Dict[str, LearningContext] = {}\n    async def store_experience(self, key: str, experience: LearningContext) -> None:\n        \"\"\"Stores a learning experience in the in-memory dictionary.\"\"\"\n        self._store[key] = experience\n    async def retrieve_context(\n        self, query: str, limit: int = 10\n    ) -> List[LearningContext]:",
         "detail": "src.memory_gate.storage.in_memory",
+        "documentation": {}
+    },
+    {
+        "label": "VectorMemoryStore",
+        "kind": 6,
+        "importPath": "src.memory_gate.storage.vector_store",
+        "description": "src.memory_gate.storage.vector_store",
+        "peekOfCode": "class VectorMemoryStore(KnowledgeStore[LearningContext]):\n    \"\"\"\n    Production vector storage with ChromaDB backend.\n    Implements the KnowledgeStore protocol for LearningContext.\n    \"\"\"\n    def __init__(\n        self,\n        collection_name: str = \"memory_gate_default_collection\",\n        embedding_model_name: str = \"all-MiniLM-L6-v2\",\n        persist_directory: Optional[str] = \"./data/chromadb_store\",",
+        "detail": "src.memory_gate.storage.vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "AgentDomain",
+        "kind": 6,
+        "importPath": "src.memory_gate.agent_interface",
+        "description": "src.memory_gate.agent_interface",
+        "peekOfCode": "class AgentDomain(Enum):\n    \"\"\"Supported agent domains for categorizing memories and tasks.\"\"\"\n    INFRASTRUCTURE = \"infrastructure\"\n    CODE_REVIEW = \"code_review\"\n    DEPLOYMENT = \"deployment\"\n    INCIDENT_RESPONSE = \"incident_response\"\n    GENERAL = \"general\"  # Default or non-specific domain\nclass BaseMemoryEnabledAgent:\n    \"\"\"\n    Base class for AI agents enhanced with memory capabilities.",
+        "detail": "src.memory_gate.agent_interface",
+        "documentation": {}
+    },
+    {
+        "label": "BaseMemoryEnabledAgent",
+        "kind": 6,
+        "importPath": "src.memory_gate.agent_interface",
+        "description": "src.memory_gate.agent_interface",
+        "peekOfCode": "class BaseMemoryEnabledAgent:\n    \"\"\"\n    Base class for AI agents enhanced with memory capabilities.\n    It provides a common framework for interacting with the MemoryGateway.\n    \"\"\"\n    def __init__(\n        self,\n        agent_name: str,\n        domain: AgentDomain,\n        memory_gateway: MemoryGateway[LearningContext],",
+        "detail": "src.memory_gate.agent_interface",
+        "documentation": {}
+    },
+    {
+        "label": "SimpleEchoAgent",
+        "kind": 6,
+        "importPath": "src.memory_gate.agent_interface",
+        "description": "src.memory_gate.agent_interface",
+        "peekOfCode": "class SimpleEchoAgent(BaseMemoryEnabledAgent):\n    \"\"\"A simple agent that echoes the task input and any retrieved memories.\"\"\"\n    def __init__(self, memory_gateway: MemoryGateway[LearningContext]) -> None:\n        super().__init__(\n            agent_name=\"EchoAgent\",\n            domain=AgentDomain.GENERAL,\n            memory_gateway=memory_gateway,\n        )\n    async def _execute_task(\n        self, enhanced_context: Dict[str, Any]",
+        "detail": "src.memory_gate.agent_interface",
         "documentation": {}
     },
     {
@@ -1959,8 +1037,80 @@
         "kind": 6,
         "importPath": "src.memory_gate.consolidation",
         "description": "src.memory_gate.consolidation",
-        "peekOfCode": "class ConsolidationWorker:\n    \"\"\"Background worker for memory consolidation.\"\"\"\n    def __init__(\n        self,\n        store: KnowledgeStore[LearningContext],\n        consolidation_interval: int = 3600  # 1 hour\n    ) -> None:\n        self.store = store\n        self.consolidation_interval = consolidation_interval\n        self._task: Optional[asyncio.Task] = None",
+        "peekOfCode": "class ConsolidationWorker:\n    \"\"\"Background worker for memory consolidation.\"\"\"\n    # Type hint for store, assuming it could be VectorMemoryStore or similar\n    # that has the get_experiences_by_metadata_filter, delete_experience, etc.\n    # Using a more specific type hint here if possible, or checking attributes.\n    store: 'KnowledgeStore[LearningContext] | VectorMemoryStore'\n    def __init__(\n        self,\n        store: KnowledgeStore[LearningContext],\n        consolidation_interval: int = 3600  # 1 hour",
         "detail": "src.memory_gate.consolidation",
+        "documentation": {}
+    },
+    {
+        "label": "PassthroughAdapter",
+        "kind": 6,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "class PassthroughAdapter(MemoryAdapter[LearningContext]):\n    \"\"\"A simple adapter that passes through the context, optionally adjusting importance.\"\"\"\n    async def adapt_knowledge(\n        self, context: LearningContext, feedback: float | None = None\n    ) -> LearningContext:\n        if feedback is not None and 0.0 <= feedback <= 1.0:\n            # Example: average current importance with feedback score\n            context.importance = (context.importance + feedback) / 2.0\n        elif feedback is not None:  # e.g. if feedback can be any score\n            context.importance = feedback  # directly set importance from feedback",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "def main() -> None:\n    loop = asyncio.get_event_loop()\n    # Need to pass consolidation_worker to shutdown_handler.\n    # This is tricky as it's created inside main_async.\n    # A simpler way for now: main_async handles its own cleanup of consolidation_worker on CancelledError.\n    # Or, make consolidation_worker accessible globally or via a class.\n    # For this example, let's rely on main_async's try/except for its own task cleanup.\n    # The signal handler will cancel main_async.\n    # This is a simplified signal handling. For robust production, consider more complex patterns.\n    # The shutdown_handler is not directly used here because main_async is the primary task.",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "METRICS_PORT",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "METRICS_PORT = int(os.getenv(\"METRICS_PORT\", \"8008\"))\nMETRICS_HOST = os.getenv(\"METRICS_HOST\", \"0.0.0.0\")\n# ChromaDB Configuration (used by VectorMemoryStore)\nCHROMA_PERSIST_DIRECTORY = os.getenv(\n    \"CHROMA_PERSIST_DIRECTORY\", \"./data/production_chromadb_store\"\n)\nCHROMA_COLLECTION_NAME = os.getenv(\n    \"CHROMA_COLLECTION_NAME\", \"memory_gate_prod_collection\"\n)\n# Ensure the persist directory exists if it's local",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "METRICS_HOST",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "METRICS_HOST = os.getenv(\"METRICS_HOST\", \"0.0.0.0\")\n# ChromaDB Configuration (used by VectorMemoryStore)\nCHROMA_PERSIST_DIRECTORY = os.getenv(\n    \"CHROMA_PERSIST_DIRECTORY\", \"./data/production_chromadb_store\"\n)\nCHROMA_COLLECTION_NAME = os.getenv(\n    \"CHROMA_COLLECTION_NAME\", \"memory_gate_prod_collection\"\n)\n# Ensure the persist directory exists if it's local\nif CHROMA_PERSIST_DIRECTORY.startswith(\"./\") or CHROMA_PERSIST_DIRECTORY.startswith(",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "CHROMA_PERSIST_DIRECTORY",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "CHROMA_PERSIST_DIRECTORY = os.getenv(\n    \"CHROMA_PERSIST_DIRECTORY\", \"./data/production_chromadb_store\"\n)\nCHROMA_COLLECTION_NAME = os.getenv(\n    \"CHROMA_COLLECTION_NAME\", \"memory_gate_prod_collection\"\n)\n# Ensure the persist directory exists if it's local\nif CHROMA_PERSIST_DIRECTORY.startswith(\"./\") or CHROMA_PERSIST_DIRECTORY.startswith(\n    \"/\"\n):",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "CHROMA_COLLECTION_NAME",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "CHROMA_COLLECTION_NAME = os.getenv(\n    \"CHROMA_COLLECTION_NAME\", \"memory_gate_prod_collection\"\n)\n# Ensure the persist directory exists if it's local\nif CHROMA_PERSIST_DIRECTORY.startswith(\"./\") or CHROMA_PERSIST_DIRECTORY.startswith(\n    \"/\"\n):\n    os.makedirs(CHROMA_PERSIST_DIRECTORY, exist_ok=True)\n# Consolidation Worker Configuration\nCONSOLIDATION_ENABLED = os.getenv(\"CONSOLIDATION_ENABLED\", \"true\").lower() == \"true\"",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_ENABLED",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "CONSOLIDATION_ENABLED = os.getenv(\"CONSOLIDATION_ENABLED\", \"true\").lower() == \"true\"\nCONSOLIDATION_INTERVAL_SECONDS = int(\n    os.getenv(\"CONSOLIDATION_INTERVAL_SECONDS\", \"3600\")\n)  # 1 hour\n# Global list to keep track of background tasks for graceful shutdown\nbackground_tasks: List[asyncio.Task[None]] = []\nclass PassthroughAdapter(MemoryAdapter[LearningContext]):\n    \"\"\"A simple adapter that passes through the context, optionally adjusting importance.\"\"\"\n    async def adapt_knowledge(\n        self, context: LearningContext, feedback: float | None = None",
+        "detail": "src.memory_gate.main",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_INTERVAL_SECONDS",
+        "kind": 5,
+        "importPath": "src.memory_gate.main",
+        "description": "src.memory_gate.main",
+        "peekOfCode": "CONSOLIDATION_INTERVAL_SECONDS = int(\n    os.getenv(\"CONSOLIDATION_INTERVAL_SECONDS\", \"3600\")\n)  # 1 hour\n# Global list to keep track of background tasks for graceful shutdown\nbackground_tasks: List[asyncio.Task[None]] = []\nclass PassthroughAdapter(MemoryAdapter[LearningContext]):\n    \"\"\"A simple adapter that passes through the context, optionally adjusting importance.\"\"\"\n    async def adapt_knowledge(\n        self, context: LearningContext, feedback: float | None = None\n    ) -> LearningContext:",
+        "detail": "src.memory_gate.main",
         "documentation": {}
     },
     {
@@ -1968,7 +1118,7 @@
         "kind": 6,
         "importPath": "src.memory_gate.memory_gateway",
         "description": "src.memory_gate.memory_gateway",
-        "peekOfCode": "class MemoryGateway(Generic[T]):\n    \"\"\"Central memory management system.\"\"\"\n    def __init__(\n        self, \n        adapter: MemoryAdapter[T],\n        store: KnowledgeStore[T]\n    ) -> None:\n        self.adapter = adapter\n        self.store = store\n        self._consolidation_task: Optional[asyncio.Task] = None",
+        "peekOfCode": "class MemoryGateway(Generic[T]):\n    \"\"\"Central memory management system.\"\"\"\n    def __init__(self, adapter: MemoryAdapter[T], store: KnowledgeStore[T]) -> None:\n        self.adapter = adapter\n        self.store = store\n        self._consolidation_task: Optional[asyncio.Task[None]] = None\n    async def learn_from_interaction(\n        self, context: T, feedback: Optional[float] = None\n    ) -> T:\n        \"\"\"Process interaction and update knowledge.\"\"\"",
         "detail": "src.memory_gate.memory_gateway",
         "documentation": {}
     },
@@ -1977,7 +1127,7 @@
         "kind": 5,
         "importPath": "src.memory_gate.memory_gateway",
         "description": "src.memory_gate.memory_gateway",
-        "peekOfCode": "T = TypeVar('T')\nclass MemoryGateway(Generic[T]):\n    \"\"\"Central memory management system.\"\"\"\n    def __init__(\n        self, \n        adapter: MemoryAdapter[T],\n        store: KnowledgeStore[T]\n    ) -> None:\n        self.adapter = adapter\n        self.store = store",
+        "peekOfCode": "T = TypeVar(\n    \"T\"\n)  # If T is LearningContext, this is fine. If T can be other things, metrics might need adjustment.\n# For now, assume T is typically LearningContext or similar enough that str(context) is meaningful.\nclass MemoryGateway(Generic[T]):\n    \"\"\"Central memory management system.\"\"\"\n    def __init__(self, adapter: MemoryAdapter[T], store: KnowledgeStore[T]) -> None:\n        self.adapter = adapter\n        self.store = store\n        self._consolidation_task: Optional[asyncio.Task[None]] = None",
         "detail": "src.memory_gate.memory_gateway",
         "documentation": {}
     },
@@ -1986,7 +1136,7 @@
         "kind": 6,
         "importPath": "src.memory_gate.memory_protocols",
         "description": "src.memory_gate.memory_protocols",
-        "peekOfCode": "class MemoryAdapter(Protocol[T]):\n    \"\"\"Protocol for memory adaptation strategies.\"\"\"\n    async def adapt_knowledge(\n        self, \n        context: T, \n        feedback: Optional[float] = None\n    ) -> T:\n        \"\"\"Adapt knowledge based on context and feedback.\"\"\"\n        ...\nclass KnowledgeStore(Protocol[T]):",
+        "peekOfCode": "class MemoryAdapter(Protocol[T]):\n    \"\"\"Protocol for memory adaptation strategies.\"\"\"\n    async def adapt_knowledge(self, context: T, feedback: Optional[float] = None) -> T:\n        \"\"\"Adapt knowledge based on context and feedback.\"\"\"\n        ...\nclass KnowledgeStore(Protocol[T]):\n    \"\"\"Protocol for knowledge persistence.\"\"\"\n    async def store_experience(self, key: str, experience: T) -> None:\n        \"\"\"Store learning experience.\"\"\"\n        ...",
         "detail": "src.memory_gate.memory_protocols",
         "documentation": {}
     },
@@ -1995,7 +1145,7 @@
         "kind": 6,
         "importPath": "src.memory_gate.memory_protocols",
         "description": "src.memory_gate.memory_protocols",
-        "peekOfCode": "class KnowledgeStore(Protocol[T]):\n    \"\"\"Protocol for knowledge persistence.\"\"\"\n    async def store_experience(\n        self, \n        key: str, \n        experience: T\n    ) -> None:\n        \"\"\"Store learning experience.\"\"\"\n        ...\n    async def retrieve_context(",
+        "peekOfCode": "class KnowledgeStore(Protocol[T]):\n    \"\"\"Protocol for knowledge persistence.\"\"\"\n    async def store_experience(self, key: str, experience: T) -> None:\n        \"\"\"Store learning experience.\"\"\"\n        ...\n    async def retrieve_context(\n        self, query: str, limit: int = 10, domain_filter: Optional[str] = None\n    ) -> list[T]:\n        \"\"\"Retrieve relevant context.\"\"\"\n        ...",
         "detail": "src.memory_gate.memory_protocols",
         "documentation": {}
     },
@@ -2013,8 +1163,161 @@
         "kind": 5,
         "importPath": "src.memory_gate.memory_protocols",
         "description": "src.memory_gate.memory_protocols",
-        "peekOfCode": "T = TypeVar('T')\nclass MemoryAdapter(Protocol[T]):\n    \"\"\"Protocol for memory adaptation strategies.\"\"\"\n    async def adapt_knowledge(\n        self, \n        context: T, \n        feedback: Optional[float] = None\n    ) -> T:\n        \"\"\"Adapt knowledge based on context and feedback.\"\"\"\n        ...",
+        "peekOfCode": "T = TypeVar(\"T\")\nclass MemoryAdapter(Protocol[T]):\n    \"\"\"Protocol for memory adaptation strategies.\"\"\"\n    async def adapt_knowledge(self, context: T, feedback: Optional[float] = None) -> T:\n        \"\"\"Adapt knowledge based on context and feedback.\"\"\"\n        ...\nclass KnowledgeStore(Protocol[T]):\n    \"\"\"Protocol for knowledge persistence.\"\"\"\n    async def store_experience(self, key: str, experience: T) -> None:\n        \"\"\"Store learning experience.\"\"\"",
         "detail": "src.memory_gate.memory_protocols",
+        "documentation": {}
+    },
+    {
+        "label": "record_memory_operation",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def record_memory_operation(operation_type: str, success: bool = True) -> None:\n    status = \"success\" if success else \"failure\"\n    MEMORY_OPERATIONS_TOTAL.labels(operation_type=operation_type, status=status).inc()\ndef record_consolidation_run(success: bool = True) -> None:\n    status = \"success\" if success else \"failure\"\n    CONSOLIDATION_RUNS_TOTAL.labels(status=status).inc()\ndef record_consolidation_items_processed(count: int, action: str) -> None:\n    CONSOLIDATION_ITEMS_PROCESSED_TOTAL.labels(action=action).inc(count)\ndef record_agent_task_processed(\n    agent_name: str, agent_domain: str, success: bool = True",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_consolidation_run",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def record_consolidation_run(success: bool = True) -> None:\n    status = \"success\" if success else \"failure\"\n    CONSOLIDATION_RUNS_TOTAL.labels(status=status).inc()\ndef record_consolidation_items_processed(count: int, action: str) -> None:\n    CONSOLIDATION_ITEMS_PROCESSED_TOTAL.labels(action=action).inc(count)\ndef record_agent_task_processed(\n    agent_name: str, agent_domain: str, success: bool = True\n) -> None:\n    status = \"success\" if success else \"failure\"\n    AGENT_TASKS_PROCESSED_TOTAL.labels(",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_consolidation_items_processed",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def record_consolidation_items_processed(count: int, action: str) -> None:\n    CONSOLIDATION_ITEMS_PROCESSED_TOTAL.labels(action=action).inc(count)\ndef record_agent_task_processed(\n    agent_name: str, agent_domain: str, success: bool = True\n) -> None:\n    status = \"success\" if success else \"failure\"\n    AGENT_TASKS_PROCESSED_TOTAL.labels(\n        agent_name=agent_name, agent_domain=agent_domain, status=status\n    ).inc()\ndef record_agent_memory_learned(agent_name: str, agent_domain: str) -> None:",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_agent_task_processed",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def record_agent_task_processed(\n    agent_name: str, agent_domain: str, success: bool = True\n) -> None:\n    status = \"success\" if success else \"failure\"\n    AGENT_TASKS_PROCESSED_TOTAL.labels(\n        agent_name=agent_name, agent_domain=agent_domain, status=status\n    ).inc()\ndef record_agent_memory_learned(agent_name: str, agent_domain: str) -> None:\n    AGENT_MEMORY_LEARNED_TOTAL.labels(\n        agent_name=agent_name, agent_domain=agent_domain",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_agent_memory_learned",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def record_agent_memory_learned(agent_name: str, agent_domain: str) -> None:\n    AGENT_MEMORY_LEARNED_TOTAL.labels(\n        agent_name=agent_name, agent_domain=agent_domain\n    ).inc()\n# --- Utility to start HTTP server for metrics ---\ndef start_metrics_server(port: int = 8008, addr: str = \"0.0.0.0\") -> None:\n    \"\"\"Starts an HTTP server to expose the metrics on /metrics endpoint.\"\"\"\n    try:\n        start_http_server(port, addr=addr, registry=REGISTRY)\n        print(f\"Prometheus metrics server started on port {port}\")",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "start_metrics_server",
+        "kind": 2,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "def start_metrics_server(port: int = 8008, addr: str = \"0.0.0.0\") -> None:\n    \"\"\"Starts an HTTP server to expose the metrics on /metrics endpoint.\"\"\"\n    try:\n        start_http_server(port, addr=addr, registry=REGISTRY)\n        print(f\"Prometheus metrics server started on port {port}\")\n    except Exception as e:\n        print(f\"Error starting Prometheus metrics server: {e}\")\nif __name__ == \"__main__\":\n    # Example usage / simple test\n    start_metrics_server()",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "REGISTRY",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "REGISTRY = CollectorRegistry()\n# --- Define Metrics ---\n# Memory Operations\nMEMORY_OPERATIONS_TOTAL = Counter(\n    \"memory_gate_operations_total\",\n    \"Total number of memory operations.\",\n    [\n        \"operation_type\",\n        \"status\",\n    ],  # e.g., operation_type=\"store_experience\", status=\"success\"",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_OPERATIONS_TOTAL",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "MEMORY_OPERATIONS_TOTAL = Counter(\n    \"memory_gate_operations_total\",\n    \"Total number of memory operations.\",\n    [\n        \"operation_type\",\n        \"status\",\n    ],  # e.g., operation_type=\"store_experience\", status=\"success\"\n    registry=REGISTRY,\n)\nMEMORY_STORE_LATENCY_SECONDS = Histogram(",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_STORE_LATENCY_SECONDS",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "MEMORY_STORE_LATENCY_SECONDS = Histogram(\n    \"memory_gate_store_latency_seconds\",\n    \"Latency of storing experiences in the memory store.\",\n    [\"store_type\"],  # e.g., store_type=\"vector_store\"\n    registry=REGISTRY,\n    buckets=(\n        0.005,\n        0.01,\n        0.025,\n        0.05,",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_RETRIEVAL_LATENCY_SECONDS",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "MEMORY_RETRIEVAL_LATENCY_SECONDS = Histogram(\n    \"memory_gate_retrieval_latency_seconds\",\n    \"Latency of retrieving context from the memory store.\",\n    [\"store_type\"],\n    registry=REGISTRY,\n    buckets=(\n        0.005,\n        0.01,\n        0.025,\n        0.05,",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "MEMORY_ITEMS_COUNT",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "MEMORY_ITEMS_COUNT = Gauge(\n    \"memory_gate_items_count\",\n    \"Number of items currently in the memory store.\",\n    [\"store_type\", \"collection_name\"],\n    registry=REGISTRY,\n)\n# Consolidation Worker Metrics\nCONSOLIDATION_RUNS_TOTAL = Counter(\n    \"memory_gate_consolidation_runs_total\",\n    \"Total number of consolidation runs.\",",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_RUNS_TOTAL",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "CONSOLIDATION_RUNS_TOTAL = Counter(\n    \"memory_gate_consolidation_runs_total\",\n    \"Total number of consolidation runs.\",\n    [\"status\"],  # e.g., status=\"success\", status=\"failure\"\n    registry=REGISTRY,\n)\nCONSOLIDATION_DURATION_SECONDS = Histogram(\n    \"memory_gate_consolidation_duration_seconds\",\n    \"Duration of memory consolidation runs.\",\n    registry=REGISTRY,",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_DURATION_SECONDS",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "CONSOLIDATION_DURATION_SECONDS = Histogram(\n    \"memory_gate_consolidation_duration_seconds\",\n    \"Duration of memory consolidation runs.\",\n    registry=REGISTRY,\n    buckets=(1, 5, 10, 30, 60, 120, 300, 600, 1800, 3600),  # Up to 1 hour\n)\nCONSOLIDATION_ITEMS_PROCESSED_TOTAL = Counter(\n    \"memory_gate_consolidation_items_processed_total\",\n    \"Total number of items processed during consolidation.\",\n    [\"action\"],  # e.g., action=\"deleted\", action=\"merged\", action=\"updated_importance\"",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "CONSOLIDATION_ITEMS_PROCESSED_TOTAL",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "CONSOLIDATION_ITEMS_PROCESSED_TOTAL = Counter(\n    \"memory_gate_consolidation_items_processed_total\",\n    \"Total number of items processed during consolidation.\",\n    [\"action\"],  # e.g., action=\"deleted\", action=\"merged\", action=\"updated_importance\"\n    registry=REGISTRY,\n)\n# Agent Interaction Metrics\nAGENT_TASKS_PROCESSED_TOTAL = Counter(\n    \"memory_gate_agent_tasks_processed_total\",\n    \"Total number of tasks processed by agents.\",",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "AGENT_TASKS_PROCESSED_TOTAL",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "AGENT_TASKS_PROCESSED_TOTAL = Counter(\n    \"memory_gate_agent_tasks_processed_total\",\n    \"Total number of tasks processed by agents.\",\n    [\"agent_name\", \"agent_domain\", \"status\"],  # status=\"success\", \"failure\"\n    registry=REGISTRY,\n)\nAGENT_TASK_DURATION_SECONDS = Histogram(\n    \"memory_gate_agent_task_duration_seconds\",\n    \"Duration of agent task processing.\",\n    [\"agent_name\", \"agent_domain\"],",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "AGENT_TASK_DURATION_SECONDS",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "AGENT_TASK_DURATION_SECONDS = Histogram(\n    \"memory_gate_agent_task_duration_seconds\",\n    \"Duration of agent task processing.\",\n    [\"agent_name\", \"agent_domain\"],\n    registry=REGISTRY,\n    buckets=(0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 30.0),\n)\nAGENT_MEMORY_LEARNED_TOTAL = Counter(\n    \"memory_gate_agent_memory_learned_total\",\n    \"Total number of memories learned by agents.\",",
+        "detail": "src.memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "AGENT_MEMORY_LEARNED_TOTAL",
+        "kind": 5,
+        "importPath": "src.memory_gate.metrics",
+        "description": "src.memory_gate.metrics",
+        "peekOfCode": "AGENT_MEMORY_LEARNED_TOTAL = Counter(\n    \"memory_gate_agent_memory_learned_total\",\n    \"Total number of memories learned by agents.\",\n    [\"agent_name\", \"agent_domain\"],\n    registry=REGISTRY,\n)\n# --- Helper Functions to Update Metrics ---\n# These can be called from relevant parts of the application code.\ndef record_memory_operation(operation_type: str, success: bool = True) -> None:\n    status = \"success\" if success else \"failure\"",
+        "detail": "src.memory_gate.metrics",
         "documentation": {}
     },
     {
@@ -2022,8 +1325,53 @@
         "kind": 2,
         "importPath": "tests.storage.test_in_memory",
         "description": "tests.storage.test_in_memory",
-        "peekOfCode": "def in_memory_store() -> InMemoryKnowledgeStore:\n    \"\"\"Create an in-memory knowledge store.\"\"\"\n    return InMemoryKnowledgeStore()\n@pytest.mark.asyncio\nasync def test_store_and_retrieve(in_memory_store: InMemoryKnowledgeStore) -> None:\n    \"\"\"Test storing and retrieving an experience.\"\"\"\n    context = LearningContext(\n        content=\"Test content\",\n        domain=\"test\",\n        timestamp=datetime.now()",
+        "peekOfCode": "def in_memory_store() -> InMemoryKnowledgeStore:\n    \"\"\"Create an in-memory knowledge store.\"\"\"\n    return InMemoryKnowledgeStore()\n@pytest.mark.asyncio\nasync def test_store_and_retrieve(in_memory_store: InMemoryKnowledgeStore) -> None:\n    \"\"\"Test storing and retrieving an experience.\"\"\"\n    context = LearningContext(\n        content=\"Test content\", domain=\"test\", timestamp=datetime.now()\n    )\n    await in_memory_store.store_experience(\"test_key\", context)",
         "detail": "tests.storage.test_in_memory",
+        "documentation": {}
+    },
+    {
+        "label": "temp_chroma_directory",
+        "kind": 2,
+        "importPath": "tests.storage.test_vector_store",
+        "description": "tests.storage.test_vector_store",
+        "peekOfCode": "def temp_chroma_directory() -> Path:\n    \"\"\"Create a temporary directory for ChromaDB persistence for a test.\"\"\"\n    temp_dir = Path(tempfile.mkdtemp(prefix=\"chroma_test_\"))\n    yield temp_dir\n    # Teardown: remove the directory after the test\n    shutil.rmtree(temp_dir)\n@pytest.fixture\nasync def persistent_vector_store(temp_chroma_directory: Path) -> VectorMemoryStore:\n    \"\"\"Create a VectorMemoryStore with persistence for testing.\"\"\"\n    store = VectorMemoryStore(",
+        "detail": "tests.storage.test_vector_store",
+        "documentation": {}
+    },
+    {
+        "label": "MockMemoryAdapter",
+        "kind": 6,
+        "importPath": "tests.test_agent_integration",
+        "description": "tests.test_agent_integration",
+        "peekOfCode": "class MockMemoryAdapter(MemoryAdapter[LearningContext]):\n    async def adapt_knowledge(\n        self, context: LearningContext, feedback: float | None = None\n    ) -> LearningContext:\n        # Simple pass-through adapter for testing\n        if feedback is not None and 0.0 <= feedback <= 1.0:\n            # Simulate feedback influencing importance if needed\n            context.importance = (context.importance + feedback) / 2\n        return context\n@pytest.fixture",
+        "detail": "tests.test_agent_integration",
+        "documentation": {}
+    },
+    {
+        "label": "echo_agent",
+        "kind": 2,
+        "importPath": "tests.test_agent_integration",
+        "description": "tests.test_agent_integration",
+        "peekOfCode": "def echo_agent(\n    memory_gateway_for_agent: MemoryGateway[LearningContext],\n) -> SimpleEchoAgent:\n    return SimpleEchoAgent(memory_gateway=memory_gateway_for_agent)\n@pytest.fixture\ndef infra_agent(\n    memory_gateway_for_agent: MemoryGateway[LearningContext],\n) -> InfrastructureAgent:\n    return InfrastructureAgent(memory_gateway=memory_gateway_for_agent)\n@pytest.mark.asyncio",
+        "detail": "tests.test_agent_integration",
+        "documentation": {}
+    },
+    {
+        "label": "infra_agent",
+        "kind": 2,
+        "importPath": "tests.test_agent_integration",
+        "description": "tests.test_agent_integration",
+        "peekOfCode": "def infra_agent(\n    memory_gateway_for_agent: MemoryGateway[LearningContext],\n) -> InfrastructureAgent:\n    return InfrastructureAgent(memory_gateway=memory_gateway_for_agent)\n@pytest.mark.asyncio\nasync def test_simple_echo_agent_process_task_and_learn(\n    echo_agent: SimpleEchoAgent,\n    memory_gateway_for_agent: MemoryGateway[LearningContext],\n) -> None:\n    \"\"\"Test SimpleEchoAgent processing a task and storing the interaction.\"\"\"",
+        "detail": "tests.test_agent_integration",
+        "documentation": {}
+    },
+    {
+        "label": "test_base_agent_feedback_placeholder",
+        "kind": 2,
+        "importPath": "tests.test_agent_integration",
+        "description": "tests.test_agent_integration",
+        "peekOfCode": "def test_base_agent_feedback_placeholder(echo_agent: SimpleEchoAgent, capsys) -> None:\n    \"\"\"Test the placeholder feedback mechanism prints expected message.\"\"\"\n    echo_agent.provide_feedback_on_memory(\"some_key\", 0.9, 0.95)\n    captured = capsys.readouterr()\n    assert \"Feedback received for memory 'some_key'\" in captured.out\n    assert \"Actual feedback processing logic needs to be implemented\" in captured.out\n# TODO: Add tests for other DevOps agents once they are implemented.\n# TODO: Add tests for multi-agent memory sharing (e.g., ensuring domain filtering works as expected\n#       when multiple agents populate the same store with memories from different domains).",
+        "detail": "tests.test_agent_integration",
         "documentation": {}
     },
     {
@@ -2031,7 +1379,7 @@
         "kind": 2,
         "importPath": "tests.test_consolidation",
         "description": "tests.test_consolidation",
-        "peekOfCode": "def consolidation_worker() -> ConsolidationWorker:\n    \"\"\"Create a consolidation worker.\"\"\"\n    store = AsyncMock(spec=KnowledgeStore)\n    return ConsolidationWorker(store, consolidation_interval=0.1)\n@pytest.mark.asyncio\nasync def test_consolidation_loop(consolidation_worker: ConsolidationWorker) -> None:\n    \"\"\"Test the consolidation loop.\"\"\"\n    # Mock the perform_consolidation method\n    consolidation_worker._perform_consolidation = AsyncMock()\n    await consolidation_worker.start()",
+        "peekOfCode": "def consolidation_worker(\n    vector_store_for_consolidation: VectorMemoryStore,\n) -> ConsolidationWorker:\n    \"\"\"Create a consolidation worker with a real VectorMemoryStore.\"\"\"\n    # Use a short interval for testing purposes\n    return ConsolidationWorker(\n        vector_store_for_consolidation, consolidation_interval=0.1\n    )\n@pytest.mark.asyncio\nasync def test_consolidation_worker_instantiation(",
         "detail": "tests.test_consolidation",
         "documentation": {}
     },
@@ -2040,7 +1388,7 @@
         "kind": 2,
         "importPath": "tests.test_learning_context",
         "description": "tests.test_learning_context",
-        "peekOfCode": "def test_learning_context_post_init() -> None:\n    \"\"\"Test the __post_init__ method of the LearningContext dataclass.\"\"\"\n    context = LearningContext(\n        content=\"Test content\",\n        domain=\"test\",\n        timestamp=datetime.now()\n    )\n    assert context.metadata == {}",
+        "peekOfCode": "def test_learning_context_post_init() -> None:\n    \"\"\"Test the __post_init__ method of the LearningContext dataclass.\"\"\"\n    context = LearningContext(\n        content=\"Test content\", domain=\"test\", timestamp=datetime.now()\n    )\n    assert context.metadata == {}",
         "detail": "tests.test_learning_context",
         "documentation": {}
     },
@@ -2049,7 +1397,7 @@
         "kind": 2,
         "importPath": "tests.test_memory_gateway",
         "description": "tests.test_memory_gateway",
-        "peekOfCode": "def memory_gateway() -> MemoryGateway[LearningContext]:\n    \"\"\"Create a test memory gateway.\"\"\"\n    adapter = AsyncMock(spec=MemoryAdapter)\n    store = AsyncMock(spec=KnowledgeStore)\n    return MemoryGateway(adapter, store)\n@pytest.mark.asyncio\nasync def test_learn_from_interaction(memory_gateway: MemoryGateway[LearningContext]) -> None:\n    \"\"\"Test learning from an interaction.\"\"\"\n    context = LearningContext(\n        content=\"Test learning content\",",
+        "peekOfCode": "def memory_gateway() -> MemoryGateway[LearningContext]:\n    \"\"\"Create a test memory gateway.\"\"\"\n    adapter = AsyncMock(spec=MemoryAdapter)\n    store = AsyncMock(spec=KnowledgeStore)\n    return MemoryGateway(adapter, store)\n@pytest.mark.asyncio\nasync def test_learn_from_interaction(\n    memory_gateway: MemoryGateway[LearningContext],\n) -> None:\n    \"\"\"Test learning from an interaction.\"\"\"",
         "detail": "tests.test_memory_gateway",
         "documentation": {}
     }
