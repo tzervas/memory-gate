@@ -106,8 +106,7 @@ async def main_async() -> None:
     echo_agent = SimpleEchoAgent(memory_gateway)
     infra_agent = InfrastructureAgent(memory_gateway)
     print(
-        f"Example agents initialized: {echo_agent.agent_name}, "
-        f"{infra_agent.agent_name}"
+        f"Example agents initialized: {echo_agent.agent_name}, {infra_agent.agent_name}"
     )
 
     # --- Example Agent Usage (optional, for testing if run directly) ---
