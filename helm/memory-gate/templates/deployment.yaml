@@ -1,0 +1,121 @@
+{{- /* Using StatefulSet for persistent storage with ChromaDB */}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "memory-gate.fullname" . }}
+  labels:
+    {{- include "memory-gate.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "memory-gate.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "memory-gate.fullname" . }} # Headless service for StatefulSet
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "memory-gate.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "memory-gate.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz # TODO: Implement health check endpoint in the application
+          #     port: http
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readyz # TODO: Implement readiness endpoint in the application
+          #     port: http
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: MEMORY_GATE_LOG_LEVEL
+              value: {{ .Values.application.logLevel | quote }}
+            - name: CHROMA_PERSIST_DIRECTORY
+              value: {{ .Values.application.chroma.persistDirectory | quote }}
+            - name: CHROMA_COLLECTION_NAME
+              value: {{ .Values.application.chroma.collectionName | quote }}
+            - name: CONSOLIDATION_ENABLED
+              value: {{ .Values.application.consolidation.enabled | quote }}
+            - name: CONSOLIDATION_INTERVAL_SECONDS
+              value: {{ .Values.application.consolidation.intervalSeconds | quote }}
+            {{- if .Values.tracing.enabled }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ .Values.tracing.OTLP_ENDPOINT | quote }}
+            - name: OTEL_SERVICE_NAME
+              value: {{ .Values.tracing.SERVICE_NAME | default (include "memory-gate.fullname" .) | quote }}
+            - name: OTEL_TRACES_SAMPLER
+              value: "parentbased_traceidratio"
+            - name: OTEL_TRACES_SAMPLER_ARG
+              value: {{ .Values.tracing.SAMPLING_RATIO | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- end }}
+            # - name: config-volume # Example for mounting config from ConfigMap
+            #   mountPath: /app/config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # volumes: # Example for mounting config from ConfigMap
+      #   - name: config-volume
+      #     configMap:
+      #       name: {{ include "memory-gate.fullname" . }}-config
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ {{ .Values.persistence.accessMode | quote }} ]
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+        {{- if .Values.persistence.storageClass }}
+        {{- if (eq "-" .Values.persistence.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
+        {{- end }}
+        {{- end }}
+  {{- end }}
