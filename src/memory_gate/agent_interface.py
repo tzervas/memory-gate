@@ -1,4 +1,5 @@
 """Agent interface and base classes for memory-enabled AI agents in MemoryGate."""
+
 from typing import Any, Optional, Tuple, List, Dict
 import asyncio
 from enum import Enum
@@ -108,7 +109,9 @@ class BaseMemoryEnabledAgent:
                 self.agent_name, self.domain.value, success=False
             )
             print(f"Agent {self.agent_name} failed to execute task '{task_input}': {e}")
-        except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
+        except (
+            Exception
+        ) as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
             task_failed_exception = e
             result_str = f"Unexpected error processing task: {e}"
             confidence = 0.0
@@ -126,9 +129,7 @@ class BaseMemoryEnabledAgent:
                 f"Result: {result_str}"
             )
             if task_failed_exception:
-                interaction_summary += (
-                    f"\nFailureReason: {str(task_failed_exception)}"
-                )
+                interaction_summary += f"\nFailureReason: {str(task_failed_exception)}"
 
             learning_ctx = LearningContext(
                 content=interaction_summary,

@@ -1,6 +1,7 @@
 """Main entrypoint for MemoryGate: initializes storage, memory gateway, agents, and metrics server.
 Handles graceful shutdown and background task management.
 """
+
 import asyncio
 import os
 from typing import List, Optional
@@ -165,6 +166,7 @@ async def shutdown_handler(
 
     # Properly stop the event loop after all cleanup
     loop.stop()
+
 
 def main() -> None:
     """Entrypoint for running the MemoryGate application and event loop."""
