@@ -3,7 +3,7 @@ docs/dmll_for_ai_frameworks.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.py[codz]
 *$py.class
 
 # C extensions

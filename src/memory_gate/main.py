@@ -1,6 +1,9 @@
+"""Main entrypoint for MemoryGate: initializes storage, memory gateway, agents, and metrics server.
+Handles graceful shutdown and background task management.
+"""
 import asyncio
 import os
-from typing import List
+from typing import List, Optional
 
 from memory_gate.memory_protocols import LearningContext, MemoryAdapter
 from memory_gate.storage.vector_store import VectorMemoryStore
@@ -62,7 +65,8 @@ async def main_async() -> None:
 
     # 1. Initialize Storage
     print(
-        f"Initializing VectorMemoryStore with ChromaDB: directory='{CHROMA_PERSIST_DIRECTORY}', collection='{CHROMA_COLLECTION_NAME}'"
+        f"Initializing VectorMemoryStore with ChromaDB: directory='"
+        f"{CHROMA_PERSIST_DIRECTORY}', collection='{CHROMA_COLLECTION_NAME}'"
     )
     knowledge_store = VectorMemoryStore(
         collection_name=CHROMA_COLLECTION_NAME,
@@ -95,12 +99,14 @@ async def main_async() -> None:
         print("ConsolidationWorker is disabled.")
 
     # 5. Initialize Agents (example)
-    # In a real scenario, agents might be managed differently (e.g., separate processes, dynamically loaded)
+    # In a real scenario, agents might be managed differently (e.g., separate processes,
+    # dynamically loaded)
     # For now, we can instantiate them to show they can use the gateway.
     echo_agent = SimpleEchoAgent(memory_gateway)
     infra_agent = InfrastructureAgent(memory_gateway)
     print(
-        f"Example agents initialized: {echo_agent.agent_name}, {infra_agent.agent_name}"
+        f"Example agents initialized: {echo_agent.agent_name}, "
+        f"{infra_agent.agent_name}"
     )
 
     # --- Example Agent Usage (optional, for testing if run directly) ---
@@ -132,6 +138,10 @@ async def main_async() -> None:
 async def shutdown_handler(
     loop: asyncio.AbstractEventLoop, consolidation_worker: ConsolidationWorker | None
 ) -> None:
+    """
+    Gracefully shuts down background tasks and the consolidation worker, then stops the event
+    loop. Ensures all background tasks are cancelled and awaited before stopping the event loop.
+    """
     print("Initiating graceful shutdown...")
 
     # Cancel all background tasks
@@ -140,44 +150,41 @@ async def shutdown_handler(
             task.cancel()
 
     # Wait for tasks to complete cancellation
-    # Give some time for tasks to clean up
     await asyncio.gather(
         *[task for task in background_tasks if not task.done()], return_exceptions=True
     )
 
     if (
         consolidation_worker
-        and consolidation_worker._task
-        and not consolidation_worker._task.done()
+        and getattr(consolidation_worker, "is_running", lambda: False)()
     ):
         print("Stopping ConsolidationWorker...")
         await consolidation_worker.stop()  # Ensure its specific stop logic is called
 
     print("Background tasks stopped.")
 
-    # Stop the asyncio loop
-    # This might not be necessary if the cancellation of main_async is enough
-    # loop.stop() # This stops the loop immediately, might be too abrupt.
-    # Instead, allow main_async to exit cleanly after its try/except asyncio.CancelledError.
-
+    # Properly stop the event loop after all cleanup
+    loop.stop()
 
 def main() -> None:
+    """Entrypoint for running the MemoryGate application and event loop."""
     loop = asyncio.get_event_loop()
 
     # Need to pass consolidation_worker to shutdown_handler.
     # This is tricky as it's created inside main_async.
-    # A simpler way for now: main_async handles its own cleanup of consolidation_worker on CancelledError.
-    # Or, make consolidation_worker accessible globally or via a class.
+    # A simpler way for now: main_async handles its own cleanup of consolidation_worker on
+    # CancelledError. Or, make consolidation_worker accessible globally or via a class.
     # For this example, let's rely on main_async's try/except for its own task cleanup.
     # The signal handler will cancel main_async.
 
     # This is a simplified signal handling. For robust production, consider more complex patterns.
     # The shutdown_handler is not directly used here because main_async is the primary task.
-    # When main_async is cancelled, its finally block (if any) or except CancelledError should handle cleanup.
+    # When main_async is cancelled, its finally block (if any) or except CancelledError should
+    # handle cleanup.
 
     main_task: Optional[asyncio.Task[None]] = None
     try:
-        main_task = loop.create_task(main_async()) # main_async returns None implicitly
+        main_task = loop.create_task(main_async())  # main_async returns None implicitly
         loop.run_until_complete(main_task)
     except KeyboardInterrupt:
         print("KeyboardInterrupt received. Shutting down...")

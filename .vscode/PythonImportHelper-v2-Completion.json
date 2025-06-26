@@ -196,6 +196,14 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Generic",
         "importPath": "typing",
         "description": "typing",
@@ -614,7 +622,15 @@
         "documentation": {}
     },
     {
-        "label": "\\",
+        "label": "MEMORY_ITEMS_COUNT",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_memory_operation",
         "importPath": "memory_gate.metrics",
         "description": "memory_gate.metrics",
         "isExtraImport": true,
@@ -654,7 +670,15 @@
         "documentation": {}
     },
     {
-        "label": "\\",
+        "label": "record_consolidation_run",
+        "importPath": "memory_gate.metrics",
+        "description": "memory_gate.metrics",
+        "isExtraImport": true,
+        "detail": "memory_gate.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "record_consolidation_items_processed",
         "importPath": "memory_gate.metrics",
         "description": "memory_gate.metrics",
         "isExtraImport": true,
@@ -1037,7 +1061,7 @@
         "kind": 6,
         "importPath": "src.memory_gate.consolidation",
         "description": "src.memory_gate.consolidation",
-        "peekOfCode": "class ConsolidationWorker:\n    \"\"\"Background worker for memory consolidation.\"\"\"\n    # Type hint for store, assuming it could be VectorMemoryStore or similar\n    # that has the get_experiences_by_metadata_filter, delete_experience, etc.\n    # Using a more specific type hint here if possible, or checking attributes.\n    store: 'KnowledgeStore[LearningContext] | VectorMemoryStore'\n    def __init__(\n        self,\n        store: KnowledgeStore[LearningContext],\n        consolidation_interval: int = 3600  # 1 hour",
+        "peekOfCode": "class ConsolidationWorker:\n    \"\"\"Background worker for memory consolidation.\"\"\"\n    # Type hint for store, assuming it could be VectorMemoryStore or similar\n    # that has the get_experiences_by_metadata_filter, delete_experience, etc.\n    # Using a more specific type hint here if possible, or checking attributes.\n    store: \"KnowledgeStore[LearningContext] | VectorMemoryStore\"\n    def __init__(\n        self,\n        store: KnowledgeStore[LearningContext],\n        consolidation_interval: int = 3600,  # 1 hour",
         "detail": "src.memory_gate.consolidation",
         "documentation": {}
     },
@@ -1055,7 +1079,7 @@
         "kind": 2,
         "importPath": "src.memory_gate.main",
         "description": "src.memory_gate.main",
-        "peekOfCode": "def main() -> None:\n    loop = asyncio.get_event_loop()\n    # Need to pass consolidation_worker to shutdown_handler.\n    # This is tricky as it's created inside main_async.\n    # A simpler way for now: main_async handles its own cleanup of consolidation_worker on CancelledError.\n    # Or, make consolidation_worker accessible globally or via a class.\n    # For this example, let's rely on main_async's try/except for its own task cleanup.\n    # The signal handler will cancel main_async.\n    # This is a simplified signal handling. For robust production, consider more complex patterns.\n    # The shutdown_handler is not directly used here because main_async is the primary task.",
+        "peekOfCode": "def main() -> None:\n    \"\"\"Entrypoint for running the MemoryGate application and event loop.\"\"\"\n    loop = asyncio.get_event_loop()\n    # Need to pass consolidation_worker to shutdown_handler.\n    # This is tricky as it's created inside main_async.\n    # A simpler way for now: main_async handles its own cleanup of consolidation_worker on\n    # CancelledError. Or, make consolidation_worker accessible globally or via a class.\n    # For this example, let's rely on main_async's try/except for its own task cleanup.\n    # The signal handler will cancel main_async.\n    # This is a simplified signal handling. For robust production, consider more complex patterns.",
         "detail": "src.memory_gate.main",
         "documentation": {}
     },
