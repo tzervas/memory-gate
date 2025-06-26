@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: memory-gate-dev
+    container_name: memory-gate-app
+    volumes:
+      - .:/app  # Mount current directory to /app in container
+    ports:
+      - "8000:8000" # Forward port 8000 from host to container
+    environment:
+      # Add any environment variables needed for development
+      - PYTHONUNBUFFERED=1
+    # Keep the container running for development
+    # The actual application command will be run inside the container manually or via IDE
+    command: tail -f /dev/null
+    # If you add GPU support to your Dockerfile and have NVIDIA drivers:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+# Example for adding a Redis service later
+#  redis:
+#    image: "redis:alpine"
+#    container_name: memory-gate-redis
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+#
+# volumes:
+#  redis_data:
+#    driver: local

@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "memory-gate.fullname" . }}-config
+  labels:
+    {{- include "memory-gate.labels" . | nindent 4 }}
+data:
+  # Example configuration key-value pairs
+  # These can be mounted as files into the pod or used to set environment variables
+  # For now, most config is directly in deployment.yaml env vars for simplicity
+  LOG_LEVEL: {{ .Values.application.logLevel | quote }}
+  # EXAMPLE_SETTING: "example_value_from_configmap"
+
+  # If you had a configuration file, e.g., config.json or settings.py:
+  # config.json: |
+  #   {
+  #     "chromaPersistDirectory": {{ .Values.application.chroma.persistDirectory | quote }},
+  #     "consolidationInterval": {{ .Values.application.consolidation.intervalSeconds }}
+  #   }
+  # Note: The checksum/config annotation in deployment.yaml will track this ConfigMap for rollout on change.
+---
+# Example: ConfigMap for Grafana Dashboard JSON
+{{- if .Values.grafanaDashboard.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.grafanaDashboard.configMapName | default (printf "%s-dashboard" (include "memory-gate.fullname" .)) }}
+  namespace: {{ .Values.grafanaDashboard.namespace | default .Release.Namespace }}
+  labels:
+    {{- include "memory-gate.labels" . | nindent 4 }}
+    {{- if .Values.grafanaDashboard.labels }}
+    {{- toYaml .Values.grafanaDashboard.labels | nindent 4 }}
+    {{- else }}
+    grafana_dashboard: "1" # Default label for Grafana sidecar to pick up
+    {{- end }}
+data:
+  memory-gate-dashboard.json: |
+    {
+      "__inputs": [],
+      "__requires": [
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "7.0.0"
+        },
+        {
+          "type": "prometheus",
+          "id": "prometheus",
+          "name": "Prometheus",
+          "version": "2.0.0"
+        }
+      ],
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "panels": [
+        {
+          "title": "MemoryGate Application Info",
+          "type": "text",
+          "description": "Placeholder for MemoryGate Grafana Dashboard. Replace with actual panel configurations.",
+          "gridPos": {
+            "h": 3,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "options": {
+            "content": "# MemoryGate Dashboard\n\nThis is a placeholder dashboard. You should define panels based on metrics exposed by the MemoryGate application via Prometheus.\n\n**Key Metrics to Monitor:**\n\n*   Memory operations latency (store, retrieve)\n*   Number of items in memory store\n*   Consolidation task activity (runs, errors, items processed)\n*   API request rates and error rates\n*   Resource utilization (CPU, Memory, GPU if applicable)",
+            "mode": "markdown"
+          }
+        }
+        // Add more panels here based on exposed Prometheus metrics
+      ],
+      "refresh": "10s",
+      "schemaVersion": 27,
+      "style": "dark",
+      "tags": ["memory-gate", "ai"],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "MemoryGate Overview",
+      "uid": {{ printf "%s-dashboard" (include "memory-gate.fullname" .) | sha256sum | substr 0 10 | quote }},
+      "version": 1
+    }
+{{- end }}

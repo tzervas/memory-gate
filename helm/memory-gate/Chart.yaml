@@ -1,0 +1,34 @@
+apiVersion: v2
+name: memory-gate
+description: A Helm chart for deploying the MemoryGate application.
+type: application
+version: 0.1.0 # Chart version
+appVersion: "0.1.0" # Application version this chart deploys
+
+keywords:
+  - ai
+  - memory
+  - learning
+  - devops
+
+home: https://github.com/tzervas/memory-gate # Replace with actual project URL if different
+
+maintainers:
+  - name: Tyler Zervas
+    email: tz-dev@vectorweight.com # Replace with actual maintainer info
+    url: https://github.com/tzervas # Replace
+
+# Dependencies can be added here if needed (e.g., for Redis, a sub-chart for ChromaDB if not embedded)
+# dependencies:
+#   - name: redis
+#     version: "17.x.x"
+#     repository: "https://charts.bitnami.com/bitnami"
+#     condition: redis.enabled
+#   - name: chromadb # If a community chart for ChromaDB exists and is suitable
+#     version: "0.x.x"
+#     repository: "https://url.to/chromadb/chart"
+#     condition: chromadb.enabled
+# (Assuming for now ChromaDB is either part of the application pod or managed externally)
+
+# Icon URL for the chart (optional)
+# icon: https://example.com/memory-gate-icon.png

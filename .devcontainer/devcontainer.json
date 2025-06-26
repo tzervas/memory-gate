@@ -1,0 +1,47 @@
+{
+    "name": "MemoryGate Dev Environment",
+    "image": "mcr.microsoft.com/devcontainers/python:0-3.12-bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "upgradePackages": true
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/cuda:1": {
+            "installCudnn": true
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python",
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.formatting.provider": "black",
+                "python.linting.mypyEnabled": true,
+                "python.linting.enabled": true,
+                "editor.formatOnSave": true,
+                "files.associations": {
+                    "*.tf": "terraform"
+                }
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "njpwerner.autodocstring",
+                "ms-azuretools.vscode-docker",
+                "github.copilot",
+                "hashicorp.terraform"
+            ]
+        }
+    },
+    "postCreateCommand": "uv pip install --system -e .[dev,gpu,storage]",
+    "runArgs": [
+        "--gpus=all"
+    ],
+    "forwardPorts": [
+        8000
+    ]
+}

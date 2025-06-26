@@ -22,7 +22,7 @@
 
 ### System Components
 
-```
+```markdown
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Agent Layer   │    │  Memory Gateway  │    │ Storage Layer   │
 │                 │    │                  │    │                 │
@@ -124,7 +124,7 @@ class MemoryGateway(Generic[T]):
 
 **Priority**: High | **Effort**: 40 hours | **Risk**: Low
 
-#### Tasks
+#### P1 Tasks
 
 1. **Project Setup**
    - Initialize UV project with Python 3.12+
@@ -207,11 +207,11 @@ addopts = [
 ]
 ```
 
-### Phase 2: Storage & Retrieval (Weeks 3-4)
+### Phase 2: Storage & Retrieval (Weeks 3-4) Overview
 
 **Priority**: High | **Effort**: 60 hours | **Risk**: Medium
 
-#### Tasks
+#### P2 Tasks
 
 1. **Vector Storage Implementation**
    - Integrate ChromaDB for vector similarity
@@ -375,11 +375,11 @@ class ConsolidationWorker:
         pass
 ```
 
-### Phase 3: Agent Integration (Weeks 5-6)
+### Phase 3: Agent Integration (Weeks 5-6) Overview
 
 **Priority**: High | **Effort**: 50 hours | **Risk**: Medium
 
-#### Tasks
+#### P3 Tasks
 
 1. **Agent Memory Interface**
    - Create standardized agent memory protocols
@@ -536,11 +536,11 @@ class InfrastructureAgent(MemoryEnabledAgent):
         return result, confidence
 ```
 
-### Phase 4: Production Deployment (Weeks 7-8)
+### Phase 4: Production Deployment (Weeks 7-8) Overview
 
 **Priority**: Medium | **Effort**: 40 hours | **Risk**: Low
 
-#### Tasks
+#### P4 Tasks
 
 1. **Kubernetes Integration**
    - Create Helm charts for deployment
@@ -1012,6 +1012,7 @@ resource "kubernetes_stateful_set" "memory_gate" {
 ## Project Deliverables
 
 ### Phase 1 Deliverables
+
 - [ ] Complete project structure with UV configuration
 - [ ] Core memory protocols and interfaces
 - [ ] Basic in-memory storage implementation
@@ -1020,6 +1021,7 @@ resource "kubernetes_stateful_set" "memory_gate" {
 - [ ] Docker development environment
 
 ### Phase 2 Deliverables
+
 - [ ] ChromaDB integration with persistence
 - [ ] Vector embedding and similarity search
 - [ ] Background consolidation workers
@@ -1027,6 +1029,7 @@ resource "kubernetes_stateful_set" "memory_gate" {
 - [ ] Monitoring and metrics collection
 
 ### Phase 3 Deliverables
+
 - [ ] Agent integration framework
 - [ ] DevOps-specific agent implementations
 - [ ] Multi-agent memory sharing capabilities
@@ -1034,6 +1037,7 @@ resource "kubernetes_stateful_set" "memory_gate" {
 - [ ] Documentation and usage examples
 
 ### Phase 4 Deliverables
+
 - [ ] Production-ready Kubernetes manifests
 - [ ] Helm charts for easy deployment
 - [ ] Terraform infrastructure automation
@@ -1041,6 +1045,7 @@ resource "kubernetes_stateful_set" "memory_gate" {
 - [ ] Security hardening and compliance checks
 
 ### Success Criteria
+
 - [ ] System maintains 99.9% uptime in production
 - [ ] Memory retrieval latency averages <100ms
 - [ ] Agent task completion accuracy improves by 40%
