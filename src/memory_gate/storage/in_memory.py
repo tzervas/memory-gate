@@ -1,24 +1,64 @@
-from typing import Dict, List
+import asyncio
+from typing import Dict, List, Optional
+
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 
 
 class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
-    """An in-memory implementation of the KnowledgeStore protocol."""
+    """
+    Basic in-memory knowledge store using a dictionary.
+    Implements domain filtering and sorting for retrieval.
+    """
 
     def __init__(self) -> None:
-        self._store: Dict[str, LearningContext] = {}
+        self.storage: Dict[str, LearningContext] = {}
+        self._lock = asyncio.Lock()
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
-        """Stores a learning experience in the in-memory dictionary."""
-        self._store[key] = experience
+        """Store learning experience in memory."""
+        async with self._lock:
+            self.storage[key] = experience
 
     async def retrieve_context(
-        self, query: str, limit: int = 10
+        self, query: str, limit: int = 10, domain_filter: Optional[str] = None
     ) -> List[LearningContext]:
-        """Retrieves relevant context from the in-memory store."""
-        # This is a naive implementation for demonstration purposes.
-        # A real implementation would use a more sophisticated search.
-        results = [
-            exp for exp in self._store.values() if query.lower() in exp.content.lower()
-        ]
-        return results[:limit]
+        """
+        Retrieve relevant context from memory.
+        Filters by domain (if provided) and then by naive query string matching in content.
+        Sorts results by importance (descending) and then by timestamp (descending).
+        """
+        async with self._lock:
+            results: List[LearningContext] = []
+
+            candidate_experiences = list(self.storage.values())
+
+            # Filter by domain first if provided
+            if domain_filter:
+                candidate_experiences = [
+                    exp for exp in candidate_experiences if exp.domain == domain_filter
+                ]
+
+            # Then, naive query string matching in content
+            for exp in candidate_experiences:
+                if query.lower() in exp.content.lower():  # Case-insensitive partial match
+                    results.append(exp)
+
+            # Sort by importance (descending) and then by timestamp (descending - newest first)
+            results.sort(key=lambda x: (x.importance, x.timestamp), reverse=True)
+
+            return results[:limit]
+
+    async def get_experience_by_key(self, key: str) -> Optional[LearningContext]:
+        """Retrieve a specific experience by its key (for testing/debugging)."""
+        async with self._lock:
+            return self.storage.get(key)
+
+    async def get_all_experiences(self) -> List[LearningContext]:
+        """Retrieve all experiences (mainly for debugging/testing)."""
+        async with self._lock:
+            return list(self.storage.values())
+
+    async def clear_storage(self) -> None:
+        """Clears all experiences from the store (mainly for testing)."""
+        async with self._lock:
+            self.storage.clear()
