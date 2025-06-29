@@ -45,8 +45,8 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
 
             return results[:limit]
 
-    async def get_experience_by_key(self, key: str) -> Optional[LearningContext]:
-        """Retrieve a specific experience by its key (for testing/debugging)."""
+    async def get_experience_by_id(self, key: str) -> Optional[LearningContext]:
+        """Retrieve a specific experience by its id (for testing/debugging)."""
         async with self._lock:
             return self.storage.get(key)
 
