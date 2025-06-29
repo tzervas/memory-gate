@@ -54,7 +54,7 @@ class MemoryGateway(Generic[T]): # Keep this enhanced definition
     def _generate_key(self, context: T) -> str:
         """Generate unique key for context storage."""
         content_str = str(context)
-        return hashlib.sha256(content_str.encode()).hexdigest()
+        return hashlib.sha256(content_str.encode()).hexdigest()[:16]
 
     def get_context_key(self, context: T) -> str:
         """

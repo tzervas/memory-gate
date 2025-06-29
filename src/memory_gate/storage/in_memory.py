@@ -37,17 +37,16 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
                     exp for exp in candidate_experiences if exp.domain == domain_filter
                 ]
 
-            results.extend(
-                exp
-                for exp in candidate_experiences
-                if query.lower() in exp.content.lower()
-            )
+            for exp in candidate_experiences:
+                if query.lower() in exp.content.lower():
+                    results.append(exp)
+
             results.sort(key=lambda x: (x.importance, x.timestamp), reverse=True)
 
             return results[:limit]
 
-    async def get_experience_by_id(self, key: str) -> Optional[LearningContext]:
-        """Retrieve a specific experience by its id (for testing/debugging)."""
+    async def get_experience_by_key(self, key: str) -> Optional[LearningContext]:
+        """Retrieve a specific experience by its key (for testing/debugging)."""
         async with self._lock:
             return self.storage.get(key)
 
