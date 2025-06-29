@@ -127,13 +127,6 @@ def main() -> None:
                 # Gather remaining tasks, including the cancelled main_task
                 # This might be overly complex for simple CLI; for server it's more relevant
                 pending = asyncio.all_tasks(loop=loop)
-                if pending: # Check if there are any tasks
-                    # Create a future to wait for these tasks, then run loop until it's done
-                    # This is a bit of a hack to ensure cleanup in some scenarios
-                    # More robust shutdown patterns exist (e.g. using signals, dedicated shutdown functions)
-                    # loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
-                    pass # For CLI, simple cancellation is often enough.
-
         print("MemoryGate application finished.")
 
 
