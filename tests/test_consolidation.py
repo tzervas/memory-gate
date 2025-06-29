@@ -9,12 +9,14 @@ from datetime import datetime, timedelta
 
 from memory_gate.storage.vector_store import (
     VectorMemoryStore,
+    VectorMemoryStore,
 )  # Using VectorMemoryStore for concrete tests
+import pytest_asyncio
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def vector_store_for_consolidation(
-    temp_chroma_directory: str,
+    temp_chroma_directory: str, # This fixture comes from conftest.py
 ) -> VectorMemoryStore:
     """Create a VectorMemoryStore instance for consolidation tests, with persistence."""
     return VectorMemoryStore(
@@ -65,6 +67,7 @@ async def test_perform_consolidation_deletes_old_low_importance_items(
 ) -> None:
     """Test that _perform_consolidation correctly deletes old, low-importance items."""
     store = vector_store_for_consolidation
+    await store.clear_all_data_dangerous() # Ensure clean state for this test
     now = datetime.now()
 
     # Item 1: Old and low importance (should be deleted)
@@ -145,7 +148,7 @@ async def test_consolidation_with_empty_store(
     consolidation_worker: ConsolidationWorker,
 ) -> None:
     """Test that consolidation runs without errors on an empty store."""
-    # Store is already empty as it's fresh for this worker
+    await consolidation_worker.store.clear_all_data_dangerous() # Ensure clean state
     try:
         await consolidation_worker._perform_consolidation()
     except Exception as e:
@@ -163,6 +166,7 @@ async def test_consolidation_with_no_matching_items_for_deletion(
 ) -> None:
     """Test consolidation when no items meet deletion criteria."""
     store = vector_store_for_consolidation
+    await store.clear_all_data_dangerous() # Ensure clean state
     now = datetime.now()
 
     # Add items that should NOT be deleted

@@ -279,6 +279,42 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
     # Duplicated get_collection_size was here.
     # Duplicated get_experiences_by_metadata_filter was here.
 
+    async def clear_all_data_dangerous(self) -> None:
+        """
+        Deletes all data in the current collection by deleting and recreating it.
+        Intended for testing purposes. Use with caution.
+        """
+        try:
+            self.client.delete_collection(name=self.collection_name)
+            self.collection = self.client.get_or_create_collection(
+                name=self.collection_name,
+                metadata={"description": "MemoryGate learning storage"} # Re-add metadata
+            )
+            # Reset the metric function for the new collection instance
+            MEMORY_ITEMS_COUNT.labels(store_type="vector_store", collection_name=self.collection_name).set_function(
+                lambda: self.collection.count()
+            )
+            record_memory_operation(operation_type="clear_all_data_dangerous", success=True)
+            print(f"Collection '{self.collection_name}' cleared and recreated.")
+        except Exception as e:
+            record_memory_operation(operation_type="clear_all_data_dangerous", success=False)
+            print(f"Error clearing collection '{self.collection_name}': {e}")
+            # Depending on desired behavior, you might want to try to recreate anyway or raise
+            # For now, if delete fails, try to get_or_create to ensure collection exists.
+            try:
+                self.collection = self.client.get_or_create_collection(
+                    name=self.collection_name,
+                    metadata={"description": "MemoryGate learning storage"}
+                )
+                # Reset metric
+                MEMORY_ITEMS_COUNT.labels(store_type="vector_store", collection_name=self.collection_name).set_function(
+                    lambda: self.collection.count()
+                )
+            except Exception as e_recreate:
+                print(f"Failed to recreate collection '{self.collection_name}' after delete error: {e_recreate}")
+                raise e_recreate # If recreation also fails, then raise
+
+
 # Example of how to use (for testing or direct script execution)
 async def main_test() -> None:
     print("Initializing VectorMemoryStore (in-memory ChromaDB)...")

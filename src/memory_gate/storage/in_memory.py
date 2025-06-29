@@ -32,18 +32,15 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
 
             candidate_experiences = list(self.storage.values())
 
-            # Filter by domain first if provided
             if domain_filter:
                 candidate_experiences = [
                     exp for exp in candidate_experiences if exp.domain == domain_filter
                 ]
 
-            # Then, naive query string matching in content
             for exp in candidate_experiences:
-                if query.lower() in exp.content.lower():  # Case-insensitive partial match
+                if query.lower() in exp.content.lower():
                     results.append(exp)
 
-            # Sort by importance (descending) and then by timestamp (descending - newest first)
             results.sort(key=lambda x: (x.importance, x.timestamp), reverse=True)
 
             return results[:limit]

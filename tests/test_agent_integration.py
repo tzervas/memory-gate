@@ -18,29 +18,33 @@ class MockMemoryAdapter(MemoryAdapter[LearningContext]):
         if feedback is not None and 0.0 <= feedback <= 1.0:
             # Simulate feedback influencing importance if needed
             context.importance = (context.importance + feedback) / 2
-        return context
+        return context # This was the mis-indented line, now correctly part of adapt_knowledge
+
+import pytest_asyncio # Add this import
 
 
-@pytest.fixture
+@pytest_asyncio.fixture # Changed decorator
 async def memory_gateway_for_agent(
-    persistent_vector_store: VectorMemoryStore,
+    persistent_vector_store: VectorMemoryStore, # This comes from conftest.py
 ) -> MemoryGateway[LearningContext]:
     """Create a MemoryGateway with a persistent VectorMemoryStore and MockMemoryAdapter."""
     adapter = MockMemoryAdapter()
     # persistent_vector_store is already a KnowledgeStore[LearningContext]
+    # Ensure persistent_vector_store is awaited if it's an async fixture itself,
+    # but here it's passed as an already resolved value by pytest.
     return MemoryGateway(adapter=adapter, store=persistent_vector_store)
 
 
-@pytest.fixture
-def echo_agent(
-    memory_gateway_for_agent: MemoryGateway[LearningContext],
+@pytest_asyncio.fixture # Changed decorator
+async def echo_agent( # Changed to async def
+    memory_gateway_for_agent: MemoryGateway[LearningContext], # This will be awaited by pytest-asyncio
 ) -> SimpleEchoAgent:
     return SimpleEchoAgent(memory_gateway=memory_gateway_for_agent)
 
 
-@pytest.fixture
-def infra_agent(
-    memory_gateway_for_agent: MemoryGateway[LearningContext],
+@pytest_asyncio.fixture # Changed decorator
+async def infra_agent( # Changed to async def
+    memory_gateway_for_agent: MemoryGateway[LearningContext], # This will be awaited by pytest-asyncio
 ) -> InfrastructureAgent:
     return InfrastructureAgent(memory_gateway=memory_gateway_for_agent)
 

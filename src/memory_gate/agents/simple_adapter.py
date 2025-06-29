@@ -26,17 +26,8 @@ class SimpleMemoryAdapter(MemoryAdapter[LearningContext]):
             context instance, potentially modified.
         """
         if feedback is not None:
-            # Example: Simple averaging of current importance and feedback
-            # Ensure feedback is within a reasonable range if it has specific bounds
-            # For instance, if feedback is a score from 0 to 1:
             if 0.0 <= feedback <= 1.0:
                 context.importance = (context.importance + feedback) / 2.0
             else:
-                # Handle feedback outside expected range, e.g., clamp or log
-                # For this simple adapter, we might just assign it if it's a raw score
                 context.importance = feedback
-
-        # The adapter could do more, like transforming the content,
-        # adding metadata, or categorizing the context based on feedback.
-        # For now, it's a passthrough with optional importance adjustment.
         return context
