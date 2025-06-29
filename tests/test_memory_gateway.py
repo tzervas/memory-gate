@@ -16,48 +16,66 @@ def memory_gateway() -> MemoryGateway[LearningContext]:
 
 
 @pytest.mark.asyncio
-async def test_learn_from_interaction_async_store(
+async def test_learn_from_interaction_returns_context_and_task(
     memory_gateway: MemoryGateway[LearningContext],
 ) -> None:
-    """Test learning from an interaction with asynchronous storage (default)."""
+    """Test learn_from_interaction returns adapted context and a storage task."""
     fixed_timestamp = datetime(2023, 1, 1, 12, 0, 0)
     context = LearningContext(
-        content="Test async learning", domain="test_async", timestamp=fixed_timestamp
+        content="Test interaction learning", domain="test_interaction", timestamp=fixed_timestamp
     )
     feedback_score = 0.8
 
+    # Mock adapter behavior
     memory_gateway.adapter.adapt_knowledge.return_value = context
-    memory_gateway.store.store_experience = AsyncMock()
+    # Mock store_experience to be an awaitable async function
+    mock_store_experience = AsyncMock()
+    memory_gateway.store.store_experience = mock_store_experience
 
-    result = await memory_gateway.learn_from_interaction(context, feedback_score, sync_store=False)
+    adapted_context, storage_task = await memory_gateway.learn_from_interaction(context, feedback_score)
 
+    # Verify adapter was called
     memory_gateway.adapter.adapt_knowledge.assert_called_once_with(context, feedback_score)
-    await asyncio.sleep(0.01)
-    expected_key = memory_gateway._generate_key(context) # Use internal method for verification design
-    memory_gateway.store.store_experience.assert_called_once_with(expected_key, context)
-    assert result == context
+
+    # Assert the returned context is what the adapter returned
+    assert adapted_context == context
+
+    # Assert a task was returned and it's an asyncio.Task
+    assert isinstance(storage_task, asyncio.Task)
+
+    # Allow the task to complete
+    await storage_task
+
+    # Verify store_experience was called by the task
+    expected_key = memory_gateway.get_context_key(context) # Use public method now
+    mock_store_experience.assert_called_once_with(expected_key, context)
 
 
 @pytest.mark.asyncio
-async def test_learn_from_interaction_sync_store(
+async def test_learn_from_interaction_task_actually_stores(
     memory_gateway: MemoryGateway[LearningContext],
 ) -> None:
-    """Test learning from an interaction with synchronous storage."""
-    fixed_timestamp = datetime(2023, 1, 1, 12, 0, 1) # Slightly different timestamp
+    """Test that the task returned by learn_from_interaction correctly stores the data."""
+    fixed_timestamp = datetime(2023, 1, 1, 12, 0, 1)
     context = LearningContext(
-        content="Test sync learning", domain="test_sync", timestamp=fixed_timestamp
+        content="Test storage via task", domain="test_storage_task", timestamp=fixed_timestamp
     )
-    feedback_score = 0.9
 
+    # Real store mock that we can inspect after the task
+    actual_storage_dict = {}
+    async def fake_store_experience(key: str, exp: LearningContext):
+        await asyncio.sleep(0.01) # simulate some io
+        actual_storage_dict[key] = exp
+
+    memory_gateway.store.store_experience = fake_store_experience
     memory_gateway.adapter.adapt_knowledge.return_value = context
-    memory_gateway.store.store_experience = AsyncMock()
 
-    result = await memory_gateway.learn_from_interaction(context, feedback_score, sync_store=True)
+    _, storage_task = await memory_gateway.learn_from_interaction(context)
+    await storage_task # Ensure task completion
 
-    memory_gateway.adapter.adapt_knowledge.assert_called_once_with(context, feedback_score)
-    expected_key = memory_gateway._generate_key(context)
-    memory_gateway.store.store_experience.assert_called_once_with(expected_key, context)
-    assert result == context
+    expected_key = memory_gateway.get_context_key(context)
+    assert expected_key in actual_storage_dict
+    assert actual_storage_dict[expected_key] == context
 
 
 @pytest.mark.asyncio

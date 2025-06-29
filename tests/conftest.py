@@ -3,13 +3,13 @@ import pytest_asyncio
 import shutil
 import tempfile
 from pathlib import Path
+import asyncio # Added for get_event_loop
 
 from memory_gate.storage.vector_store import VectorMemoryStore
-# If LearningContext or other common types are needed for fixture type hints:
 # from memory_gate.memory_protocols import LearningContext
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="module") # Factory can remain module scoped
 def temp_chroma_directory_factory():
     """A factory to create temporary directories for ChromaDB persistence (module-scoped)."""
     created_dirs = []
@@ -23,49 +23,50 @@ def temp_chroma_directory_factory():
     for directory in created_dirs:
         shutil.rmtree(directory)
 
-@pytest.fixture # Reverted to function scope
+@pytest.fixture # Function scope for the actual directory path
 def temp_chroma_directory(temp_chroma_directory_factory) -> Path:
     """Create a function-scoped temporary directory for ChromaDB."""
-    return temp_chroma_directory_factory("chroma_func_") # Use a prefix for clarity
+    return temp_chroma_directory_factory("chroma_func_")
 
 
-@pytest_asyncio.fixture # Reverted to function scope
-async def persistent_vector_store(temp_chroma_directory: Path) -> VectorMemoryStore:
-    """Create a VectorMemoryStore with persistence for testing."""
-    store = VectorMemoryStore(
-        collection_name="test_persistent_collection",
-        persist_directory=str(temp_chroma_directory),
-        embedding_model_name="all-MiniLM-L6-v2",
+def _init_vector_store_sync(collection_name: str, persist_directory: str | None, model_name: str) -> VectorMemoryStore:
+    """Synchronous helper to initialize VectorMemoryStore (used by run_in_executor)."""
+    return VectorMemoryStore(
+        collection_name=collection_name,
+        persist_directory=persist_directory,
+        embedding_model_name=model_name,
     )
-    # Optional: clear data if collection might persist in some unexpected way
-    # await store.clear_all_data() # Assuming such a method exists or implement one
+
+@pytest_asyncio.fixture # Function scope
+async def persistent_vector_store(temp_chroma_directory: Path) -> VectorMemoryStore:
+    """Create a VectorMemoryStore with persistence for testing, initialized in executor."""
+    loop = asyncio.get_event_loop()
+    store = await loop.run_in_executor(
+        None, # Default executor (ThreadPoolExecutor)
+        _init_vector_store_sync, # Callable
+        "test_persistent_collection", # args for _init_vector_store_sync
+        str(temp_chroma_directory),
+        "all-MiniLM-L6-v2"
+    )
+    # If the store has an async clear method that needs awaiting:
+    # await store.clear_all_data_dangerous()
+    # Or, if clearing is sync but should happen after init for safety:
+    # await loop.run_in_executor(None, store.client.delete_collection, store.collection_name)
+    # await loop.run_in_executor(None, setattr, store, 'collection', store.client.get_or_create_collection(store.collection_name))
+    # For now, assuming tests will handle their own specific data setup/cleanup after getting the store.
     return store
 
 
-# Pre-initialize for in_memory_vector_store to separate sync init from async fixture execution
-_pre_in_memory_vector_store = VectorMemoryStore(
-    collection_name="test_in_memory_pre_init_collection",
-    persist_directory=None,
-    embedding_model_name="all-MiniLM-L6-v2",
-)
-
-@pytest_asyncio.fixture # Reverted to function scope
+@pytest_asyncio.fixture # Function scope
 async def in_memory_vector_store() -> VectorMemoryStore:
-    """Create an in-memory VectorMemoryStore for testing (no persistence)."""
-    # Here, we would ideally clear the state of _pre_in_memory_vector_store
-    # For now, tests using it must be aware it might share state if not cleared in tests.
-    # Or, we re-initialize it here, which defeats the purpose of pre-initialization.
-    # Let's try returning the pre-initialized one directly for diagnostics.
-    # This means tests using this fixture will share the same instance if not careful.
-    # A better pre-init would involve a factory or ensuring clear_all_data_dangerous is called.
-    # For diagnostic purposes:
-    # await _pre_in_memory_vector_store.clear_all_data_dangerous() # if clear method is async and works
-    # This pre-initialization was problematic. Reverting to standard fixture for now.
-    # Tests will need to manage clearing this if it's shared or use it carefully.
-    # For function scope, this should be fine as it's recreated.
-    store = VectorMemoryStore(
-        collection_name="test_in_memory_collection", # Use a distinct name per call if needed
-        persist_directory=None,
-        embedding_model_name="all-MiniLM-L6-v2",
+    """Create an in-memory VectorMemoryStore for testing, initialized in executor."""
+    loop = asyncio.get_event_loop()
+    store = await loop.run_in_executor(
+        None,
+        _init_vector_store_sync,
+        "test_in_memory_collection",
+        None, # No persistence
+        "all-MiniLM-L6-v2"
     )
+    # Similar clearing considerations as above if needed.
     return store

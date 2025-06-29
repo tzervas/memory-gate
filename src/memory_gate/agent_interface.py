@@ -1,5 +1,3 @@
-"""Agent interface and base classes for memory-enabled AI agents in MemoryGate."""
-
 from typing import Any, Optional, Tuple, List, Dict
 import asyncio
 from enum import Enum
@@ -70,10 +68,8 @@ class BaseMemoryEnabledAgent:
 
         Args:
             task_input: The primary input or query for the task.
-            task_specific_context: Optional dictionary with additional context for the task \
-                execution.
-            store_interaction_memory: If True, the interaction and its result are stored as a \
-                memory.
+            task_specific_context: Optional dictionary with additional context for the task execution.
+            store_interaction_memory: If True, the interaction and its result are stored as a memory.
 
         Returns:
             A tuple containing the task's result (string) and a confidence score (float).
@@ -101,7 +97,7 @@ class BaseMemoryEnabledAgent:
             record_agent_task_processed(
                 self.agent_name, self.domain.value, success=True
             )
-        except (RuntimeError, ValueError, KeyError, TypeError) as e:
+        except Exception as e:
             task_failed_exception = e
             result_str = f"Error processing task: {e}"
             confidence = 0.0  # No confidence if task execution failed
@@ -109,23 +105,13 @@ class BaseMemoryEnabledAgent:
                 self.agent_name, self.domain.value, success=False
             )
             print(f"Agent {self.agent_name} failed to execute task '{task_input}': {e}")
-        except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
-            task_failed_exception = e
-            result_str = f"Unexpected error processing task: {e}"
-            confidence = 0.0
-            record_agent_task_processed(
-                self.agent_name, self.domain.value, success=False
-            )
-            print(f"Agent {self.agent_name} encountered an unexpected error: {e}")
+            # Optionally re-raise, or handle to allow learning about the failure if desired
 
         # 4. Learn from this interaction (optional)
         if store_interaction_memory:
             # Even if the task failed, we might want to record the failure event.
             # The content of the learned memory should reflect the outcome.
-            interaction_summary = (
-                f"Agent: {self.agent_name}\nDomain: {self.domain.value}\nTask: {task_input}\n"
-                f"Result: {result_str}"
-            )
+            interaction_summary = f"Agent: {self.agent_name}\nDomain: {self.domain.value}\nTask: {task_input}\nResult: {result_str}"
             if task_failed_exception:
                 interaction_summary += f"\nFailureReason: {str(task_failed_exception)}"
 
@@ -139,9 +125,9 @@ class BaseMemoryEnabledAgent:
                     "interaction_id": str(self._interaction_count),
                     "retrieved_memories_count": str(len(relevant_memories)),
                     "task_input_length": str(len(task_input)),
-                    "task_execution_status": (
-                        "success" if task_failed_exception is None else "failure"
-                    ),
+                    "task_execution_status": "success"
+                    if task_failed_exception is None
+                    else "failure",
                 },
             )
             try:
@@ -149,16 +135,12 @@ class BaseMemoryEnabledAgent:
                     learning_ctx, feedback=confidence
                 )
                 record_agent_memory_learned(self.agent_name, self.domain.value)
-            except (RuntimeError, ValueError, KeyError, TypeError) as learn_e:
+            except Exception as learn_e:
+                # This means learning the interaction itself failed.
                 print(
-                    f"Agent {self.agent_name} failed to learn from interaction: "
-                    f"{learn_e}"
+                    f"Agent {self.agent_name} failed to learn from interaction: {learn_e}"
                 )
-            except Exception as learn_e:  # pylint: disable=broad-except
-                print(
-                    f"Agent {self.agent_name} encountered an unexpected error during "
-                    f"learning: {learn_e}"
-                )
+                # This failure is not tracked by AGENT_MEMORY_LEARNED_TOTAL yet, could add a status label.
 
         self._interaction_count += 1
 
@@ -246,12 +228,10 @@ class BaseMemoryEnabledAgent:
         # like `update_memory_importance(key, new_importance)` or
         # `record_feedback(key, score)`.
         print(
-            f"Feedback received for memory '{memory_key}': score={feedback_score}, "
-            f"new_importance={new_importance}"
+            f"Feedback received for memory '{memory_key}': score={feedback_score}, new_importance={new_importance}"
         )
         print(
-            "Note: Actual feedback processing logic needs to be implemented in "
-            "MemoryGateway/KnowledgeStore."
+            "Note: Actual feedback processing logic needs to be implemented in MemoryGateway/KnowledgeStore."
         )
         # Example: self.memory_gateway.update_experience_importance(memory_key, new_importance)
 

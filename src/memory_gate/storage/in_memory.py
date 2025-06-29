@@ -37,11 +37,10 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
                     exp for exp in candidate_experiences if exp.domain == domain_filter
                 ]
 
-            results.extend(
-                exp
-                for exp in candidate_experiences
-                if query.lower() in exp.content.lower()
-            )
+            for exp in candidate_experiences:
+                if query.lower() in exp.content.lower():
+                    results.append(exp)
+
             results.sort(key=lambda x: (x.importance, x.timestamp), reverse=True)
 
             return results[:limit]

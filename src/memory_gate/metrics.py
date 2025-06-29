@@ -1,4 +1,4 @@
-from prometheus_client import (  # type: ignore[import-not-found]
+from prometheus_client import ( # type: ignore[import-not-found]
     Counter,
     Gauge,
     Histogram,

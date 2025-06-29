@@ -10,8 +10,11 @@ async def cli_store_experience(gateway: MemoryGateway[LearningContext], args: ar
     metadata = {}
     if args.metadata:
         for item in args.metadata:
-            key, value = item.split('=', 1)
-            metadata[key] = value
+            try:
+                key, value = item.split('=', 1)
+                metadata[key] = value
+            except ValueError:
+                print(f"Warning: Malformed metadata item '{item}' ignored. Expected format: key=value")
 
     context = LearningContext(
         content=args.content,
@@ -20,8 +23,11 @@ async def cli_store_experience(gateway: MemoryGateway[LearningContext], args: ar
         importance=args.importance,
         metadata=metadata
     )
-    # Call with sync_store=True for CLI to ensure operation completes.
-    adapted_context = await gateway.learn_from_interaction(context, args.feedback, sync_store=True)
+    # learn_from_interaction now returns (adapted_context, storage_task)
+    adapted_context, storage_task = await gateway.learn_from_interaction(context, args.feedback)
+
+    # Await the storage task to ensure completion for CLI
+    await storage_task
 
     # Use the public method to get the key
     key = gateway.get_context_key(adapted_context)
