@@ -9,6 +9,9 @@ from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import MEMORY_STORE_LATENCY_SECONDS, MEMORY_RETRIEVAL_LATENCY_SECONDS, \
                                 MEMORY_ITEMS_COUNT, record_memory_operation
 
+import os # Moved import to top level
+import torch # Moved import to top level
+
 class VectorMemoryStore(KnowledgeStore[LearningContext]):
     """
     Production vector storage with ChromaDB backend.
@@ -21,6 +24,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         embedding_model_name: str = "all-MiniLM-L6-v2",
         persist_directory: Optional[str] = "./data/chromadb_store",
         chroma_settings: Optional[Dict[str, Any]] = None,
+        device: Optional[str] = None, # New device parameter
     ) -> None:
         """
         Initializes the VectorMemoryStore.
@@ -30,12 +34,23 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             embedding_model_name: Name of the sentence-transformer model for embeddings.
             persist_directory: Directory to persist ChromaDB data. If None, uses in-memory.
             chroma_settings: Additional settings for ChromaDB client.
+            device: The device to run the embedding model on (e.g., "cpu", "cuda").
+                    If None, it checks env var MEMORY_GATE_EMBEDDING_DEVICE, then CUDA availability, then defaults to "cpu".
         """
         self.collection_name = collection_name
-        # Explicitly set device to 'cpu' for SentenceTransformer
-        # This can avoid issues with 'meta' device tensors if model loading is tricky.
-        # If GPU is available and desired, this could be configured.
-        self.embedding_model = SentenceTransformer(embedding_model_name, device='cpu')
+
+        # Determine effective device
+        if device is None:
+            device = os.environ.get("MEMORY_GATE_EMBEDDING_DEVICE")
+            if device is None:
+                effective_device = "cuda" if torch.cuda.is_available() else "cpu"
+            else:
+                effective_device = device
+        else:
+            effective_device = device
+
+        print(f"VectorMemoryStore: Using embedding device: {effective_device}")
+        self.embedding_model = SentenceTransformer(embedding_model_name, device=effective_device)
 
         if persist_directory:
             self.client = chromadb.PersistentClient(
