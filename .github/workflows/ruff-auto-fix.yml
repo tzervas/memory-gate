@@ -1,0 +1,89 @@
+name: Automated Ruff Fixes
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'bugfix/**'
+      # Add other branches you want this to run on, e.g., 'develop'
+      # Avoid running directly on 'main' without careful consideration
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  # Required for peter-evans/create-pull-request to create PRs
+  contents: write
+  pull-requests: write
+
+jobs:
+  ruff-fix-and-pr:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]' # Avoid loops with bot commits
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # Fetch full history to allow proper branch creation from the commit's base
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }} # Checkout the head of the branch for push events
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' # Match your project's Python version
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Add uv to PATH
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Configure uv
+        run: $HOME/.cargo/bin/uv venv --python $(which python) .venv # Create venv
+
+      - name: Install dependencies
+        run: |
+          source .venv/bin/activate
+          uv pip install --system -e .[dev] # Installs Ruff from dev dependencies
+
+      - name: Run ruff to apply fixes
+        run: |
+          source .venv/bin/activate
+          ruff check . --fix --exit-zero-even-if-changed
+          # Or, for stricter formatting:
+          # ruff format .
+          # ruff check . --fix --exit-zero-even-if-changed
+        # The --exit-zero-even-if-changed flag is important:
+        # it ensures that the workflow step doesn't fail if ruff makes changes.
+
+      - name: Create Pull Request if changes were made
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "style: Apply automated Ruff fixes"
+          # Create a new branch for the PR from the current commit's branch
+          # Branch name includes the original branch name to avoid collisions
+          branch: "ruff-fixes/${{ github.ref_name }}"
+          base: ${{ github.ref_name }} # PR against the branch the workflow ran on
+          title: "Automated Ruff Fixes for ${{ github.ref_name }}"
+          body: |
+            Automated `ruff check --fix` has been applied to this branch.
+            Please review the changes and merge if they are acceptable.
+          labels: automated-pr, style, ruff
+          # If you want the branch to be deleted after the PR is merged/closed:
+          delete-branch: true
+          # Assign PR to the actor who triggered the workflow (e.g., pushed the commit)
+          assignees: ${{ github.actor }}
+          # Add reviewers if desired
+          # reviewers: user1,team:my-team
+        # This step will only run if there are changes to commit.
+        # The create-pull-request action handles checking for diffs.
+        id: cpr # Give the step an ID to check its output if needed
+
+      - name: Output PR URL
+        if: steps.cpr.outputs.pull-request-url != ''
+        run: echo "Pull Request URL: ${{ steps.cpr.outputs.pull-request-url }}"
+
+      - name: Notify if no changes were made
+        if: steps.cpr.outputs.pull-request-url == ''
+        run: echo "No changes made by ruff, or no PR created."

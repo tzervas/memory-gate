@@ -1,47 +1,15 @@
 import pytest
 from datetime import datetime
-import shutil
-import tempfile
-from pathlib import Path
+import shutil # Keep if other fixtures in this file might need it, otherwise remove.
+import tempfile # Keep if other fixtures in this file might need it, otherwise remove.
+from pathlib import Path # Keep if other fixtures in this file might need it, otherwise remove.
+import pytest_asyncio # Keep if other async fixtures remain, otherwise remove.
 
 from memory_gate.memory_protocols import LearningContext
 from memory_gate.storage.vector_store import VectorMemoryStore
 
-
-@pytest.fixture
-def temp_chroma_directory() -> Path:
-    """Create a temporary directory for ChromaDB persistence for a test."""
-    temp_dir = Path(tempfile.mkdtemp(prefix="chroma_test_"))
-    yield temp_dir
-    # Teardown: remove the directory after the test
-    shutil.rmtree(temp_dir)
-
-
-@pytest.fixture
-async def persistent_vector_store(temp_chroma_directory: Path) -> VectorMemoryStore:
-    """Create a VectorMemoryStore with persistence for testing."""
-    store = VectorMemoryStore(
-        collection_name="test_persistent_collection",
-        persist_directory=str(temp_chroma_directory),
-        # Use a fast, small embedding model for tests if available, or stick to default
-        embedding_model_name="all-MiniLM-L6-v2",  # Ensure this model is pulled or use a mock
-    )
-    # Clear the collection before each test if it somehow persists across test runs in memory model
-    # For PersistentClient, get_or_create_collection handles this.
-    # If needed, could add: store.client.delete_collection(store.collection_name)
-    # store.collection = store.client.get_or_create_collection(store.collection_name)
-    return store
-
-
-@pytest.fixture
-async def in_memory_vector_store() -> VectorMemoryStore:
-    """Create an in-memory VectorMemoryStore for testing."""
-    store = VectorMemoryStore(
-        collection_name="test_in_memory_collection",
-        persist_directory=None,  # In-memory
-        embedding_model_name="all-MiniLM-L6-v2",
-    )
-    return store
+# Fixtures `temp_chroma_directory`, `persistent_vector_store`,
+# and `in_memory_vector_store` are now in tests/conftest.py
 
 
 @pytest.mark.asyncio

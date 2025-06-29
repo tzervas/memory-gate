@@ -1,18 +1,15 @@
 import asyncio
+import hashlib
 from typing import Generic, TypeVar, Optional
 
 from memory_gate.memory_protocols import MemoryAdapter, KnowledgeStore
-from memory_gate.metrics import (
-    record_memory_operation,
-)  # Assuming this is a general operation counter
+from memory_gate.metrics import record_memory_operation
 
-T = TypeVar(
-    "T"
-)  # If T is LearningContext, this is fine. If T can be other things, metrics might need adjustment.
-# For now, assume T is typically LearningContext or similar enough that str(context) is meaningful.
+T = TypeVar("T")
 
+from typing import Generic, TypeVar, Optional, Tuple # Keep this one
 
-class MemoryGateway(Generic[T]):
+class MemoryGateway(Generic[T]): # Keep this enhanced definition
     """Central memory management system."""
 
     def __init__(self, adapter: MemoryAdapter[T], store: KnowledgeStore[T]) -> None:
@@ -22,34 +19,46 @@ class MemoryGateway(Generic[T]):
 
     async def learn_from_interaction(
         self, context: T, feedback: Optional[float] = None
-    ) -> T:
-        """Process interaction and update knowledge."""
+    ) -> Tuple[T, asyncio.Task[None]]:
+        """
+        Process interaction, update knowledge, and return adapted context and storage task.
+
+        Args:
+            context: The learning context or data to process.
+            feedback: Optional feedback score for adaptation.
+
+        Returns:
+            A tuple containing the adapted context and the asyncio.Task for the storage operation.
+        """
         try:
-            # The adapter might have its own metrics if it becomes complex
             adapted_context = await self.adapter.adapt_knowledge(context, feedback)
-
-            # Async storage to prevent blocking
             key = self._generate_key(adapted_context)
-            # The actual store_experience in VectorMemoryStore now handles its own detailed metrics
-            # Here, we might record a higher-level "gateway_learn_operation" if desired,
-            # but for now, VectorMemoryStore's metrics are quite thorough.
-            asyncio.create_task(self.store.store_experience(key, adapted_context))
 
-            # Record a successful learn operation at the gateway level
+            # Always create a task for storage. The caller can choose to await it.
+            storage_task = asyncio.create_task(self.store.store_experience(key, adapted_context))
+
             record_memory_operation(
                 operation_type="gateway_learn_interaction", success=True
             )
-            return adapted_context
+            return adapted_context, storage_task
         except Exception as e:
+            # If exception occurs before task creation, task won't exist.
+            # If it occurs during task creation (unlikely for create_task itself),
+            # it's a different scenario. Assume exceptions are from adapt_knowledge or _generate_key.
             record_memory_operation(
                 operation_type="gateway_learn_interaction", success=False
             )
             print(f"Error in MemoryGateway learn_from_interaction: {e}")
-            raise  # Re-raise for now
+            raise
 
     def _generate_key(self, context: T) -> str:
         """Generate unique key for context storage."""
-        import hashlib
-
         content_str = str(context)
         return hashlib.sha256(content_str.encode()).hexdigest()[:16]
+
+    def get_context_key(self, context: T) -> str:
+        """
+        Generates and returns a unique key for the given context.
+        This is a public wrapper around the internal _generate_key method.
+        """
+        return self._generate_key(context)

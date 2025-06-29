@@ -1,27 +1,17 @@
 import asyncio
 from typing import Optional
 
-from memory_gate.memory_protocols import (
-    KnowledgeStore,
-    LearningContext,
-)  # Keep LearningContext if used by type hints
-from memory_gate.metrics import (
-    CONSOLIDATION_DURATION_SECONDS,
-    record_consolidation_run,
-    record_consolidation_items_processed,
-)
+from memory_gate.memory_protocols import KnowledgeStore, LearningContext # Keep LearningContext if used by type hints
+from memory_gate.metrics import CONSOLIDATION_DURATION_SECONDS, \
+                                record_consolidation_run, \
+                                record_consolidation_items_processed
 
 # Need to import timedelta and List for the new code
-from datetime import datetime, timedelta  # datetime needed for logging timestamps
+from datetime import datetime, timedelta # datetime needed for logging timestamps
 from typing import TYPE_CHECKING
 
-if (
-    TYPE_CHECKING
-):  # To avoid circular import issues if KnowledgeStore methods return specific types
-    from memory_gate.storage.vector_store import (
-        VectorMemoryStore,
-    )  # Or a more generic store type
-
+if TYPE_CHECKING: # To avoid circular import issues if KnowledgeStore methods return specific types
+    from memory_gate.storage.vector_store import VectorMemoryStore # Or a more generic store type
 
 class ConsolidationWorker:
     """Background worker for memory consolidation."""
@@ -29,12 +19,12 @@ class ConsolidationWorker:
     # Type hint for store, assuming it could be VectorMemoryStore or similar
     # that has the get_experiences_by_metadata_filter, delete_experience, etc.
     # Using a more specific type hint here if possible, or checking attributes.
-    store: "KnowledgeStore[LearningContext] | VectorMemoryStore"
+    store: 'KnowledgeStore[LearningContext] | VectorMemoryStore'
 
     def __init__(
         self,
         store: KnowledgeStore[LearningContext],
-        consolidation_interval: int = 3600,  # 1 hour
+        consolidation_interval: int = 3600  # 1 hour
     ) -> None:
         self.store = store
         self.consolidation_interval = consolidation_interval
@@ -69,20 +59,14 @@ class ConsolidationWorker:
     async def _perform_consolidation(self) -> None:
         """Perform memory consolidation operations."""
         print(f"[{datetime.now()}] Starting memory consolidation cycle...")
-        record_consolidation_run(
-            success=True
-        )  # Mark start of a run, assume success until exception
+        record_consolidation_run(success=True) # Mark start of a run, assume success until exception
 
         try:
             with CONSOLIDATION_DURATION_SECONDS.time():
-                if (
-                    not hasattr(self.store, "get_experiences_by_metadata_filter")
-                    or not hasattr(self.store, "delete_experience")
-                    or not hasattr(self.store, "store_experience")
-                ):  # Or update_experience
-                    print(
-                        "Store does not support required methods for consolidation. Skipping."
-                    )
+                if not hasattr(self.store, 'get_experiences_by_metadata_filter') or \
+                   not hasattr(self.store, 'delete_experience') or \
+                   not hasattr(self.store, 'store_experience'): # Or update_experience
+                    print("Store does not support required methods for consolidation. Skipping.")
                     # Consider this a failed run for metrics if essential methods are missing
                     # However, record_consolidation_run was already called with success=True.
                     # This logic might need refinement: either check earlier or update status.
@@ -143,9 +127,7 @@ class ConsolidationWorker:
                     # This part of the code highlights a design dependency.
                     # For the sake of progress, I'll write pseudo-logic for deletion.
 
-                    print(
-                        f"Consolidation: Querying for items with importance < {low_importance_threshold}. Batch offset: {offset}"
-                    )
+                    print(f"Consolidation: Querying for items with importance < {low_importance_threshold}. Batch offset: {offset}")
                     # This part needs `VectorMemoryStore.get_experiences_by_metadata_filter` to also return IDs/keys.
                     # Let's simulate this for now.
                     # contexts_to_check = await self.store.get_experiences_by_metadata_filter(
@@ -162,58 +144,40 @@ class ConsolidationWorker:
                     # as expected across all backing DBs for Chroma unless they are stored as numbers (e.g., epoch).
                     # We will filter by importance directly in the DB, and by age in Python code after retrieval.
 
-                    items_to_check = (
-                        await self.store.get_experiences_by_metadata_filter(
-                            metadata_filter={
-                                "importance": {"$lt": low_importance_threshold}
-                            },
-                            limit=batch_size,
-                            offset=offset,
-                        )
+                    items_to_check = await self.store.get_experiences_by_metadata_filter(
+                        metadata_filter={"importance": {"$lt": low_importance_threshold}},
+                        limit=batch_size,
+                        offset=offset
                     )
 
                     if not items_to_check:
-                        print(
-                            "Consolidation: No more items with low importance to check in this batch."
-                        )
-                        break  # No more items found with low importance
+                        print("Consolidation: No more items with low importance to check in this batch.")
+                        break # No more items found with low importance
 
                     items_deleted_in_batch = 0
                     for key, context in items_to_check:
                         processed_count += 1
                         # Now, filter by age
                         if context.timestamp < cutoff_date:
-                            print(
-                                f"Consolidation: Deleting old, low-importance memory. Key: {key}, Importance: {context.importance}, Timestamp: {context.timestamp}"
-                            )
+                            print(f"Consolidation: Deleting old, low-importance memory. Key: {key}, Importance: {context.importance}, Timestamp: {context.timestamp}")
                             await self.store.delete_experience(key)
-                            record_consolidation_items_processed(
-                                1, action="deleted_low_importance_old"
-                            )
+                            record_consolidation_items_processed(1, action="deleted_low_importance_old")
                             items_deleted_in_batch += 1
 
-                    print(
-                        f"Consolidation: Batch processed. Checked: {len(items_to_check)}, Deleted: {items_deleted_in_batch}"
-                    )
+                    print(f"Consolidation: Batch processed. Checked: {len(items_to_check)}, Deleted: {items_deleted_in_batch}")
 
                     if len(items_to_check) < batch_size:
                         # Fetched less than batch size, so probably no more items matching initial filter
-                        print(
-                            "Consolidation: Fetched less than batch size, assuming no more low-importance items."
-                        )
+                        print("Consolidation: Fetched less than batch size, assuming no more low-importance items.")
                         break
 
                     offset += batch_size
                     # Safety break for very large number of low-importance items during testing
-                    if (
-                        offset > 10 * batch_size
-                    ):  # Process max 1000 items per cycle for safety
+                    if offset > 10 * batch_size : # Process max 1000 items per cycle for safety
                         print("Consolidation: Reached processing limit for this cycle.")
                         break
 
-                print(
-                    f"Consolidation: Finished checking for low-importance/old memories. Total processed candidates: {processed_count}"
-                )
+                print(f"Consolidation: Finished checking for low-importance/old memories. Total processed candidates: {processed_count}")
 
                 # 2. Placeholder for merging similar experiences
                 # This is a complex task involving semantic similarity checks, content merging,
@@ -230,24 +194,18 @@ class ConsolidationWorker:
                 # Example:
                 #   - For memories not accessed recently, slightly decrease importance.
                 #   - This requires tracking access times or having a reinforcement mechanism.
-                print(
-                    "Consolidation: Placeholder for updating importance scores (e.g., decay)."
-                )
+                print("Consolidation: Placeholder for updating importance scores (e.g., decay).")
 
                 # 4. Monitoring and Metrics Collection (Basic)
                 # More advanced metrics will be added in Phase 4 with Prometheus.
                 # For now, log basic stats.
                 # The MEMORY_ITEMS_COUNT gauge in VectorMemoryStore handles collection size metric automatically.
                 # So, no direct metric update for size here, but logging is fine.
-                if hasattr(self.store, "get_collection_size"):
-                    current_size = self.store.get_collection_size()  # For logging
-                    print(
-                        f"Consolidation: Current collection size after cycle: {current_size}."
-                    )
+                if hasattr(self.store, 'get_collection_size'):
+                    current_size = self.store.get_collection_size() # For logging
+                    print(f"Consolidation: Current collection size after cycle: {current_size}.")
 
-                print(
-                    f"[{datetime.now()}] Memory consolidation cycle finished successfully."
-                )
+                print(f"[{datetime.now()}] Memory consolidation cycle finished successfully.")
 
         except Exception as e:
             # Record failed consolidation run
@@ -293,7 +251,6 @@ class ConsolidationWorker:
             # CONSOLIDATION_FAILURES_TOTAL.inc() # Call this in except block.
             # This is cleaner. I'll add this to metrics.py later if requested.
             # For now, logging the failure.
-            pass  # Error already logged
-
+            pass # Error already logged
 
 # Need to import timedelta and List for the new code
