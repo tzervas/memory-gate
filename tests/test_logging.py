@@ -219,11 +219,9 @@ async def test_consolidation_logging(
         )
     ]
 
-    assert len(matching_records) >= 1, (
-        f"Expected {log_level} log with pattern '{expected_pattern}' not found. "
-        f"Description: {description}. "
-        f"Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
-    )
+    assert (
+        matching_records
+    ), f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
 
 
 @pytest.mark.parametrize(
