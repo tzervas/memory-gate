@@ -400,7 +400,7 @@ async def test_agent_task_execution_logging_scenarios(
         ]
 
         assert (
-            len(matching_logs) >= 1
+            matching_logs
         ), f"Expected {expected_level} log with '{expected_message}' not found for {exception.__class__.__name__}"
 
 
