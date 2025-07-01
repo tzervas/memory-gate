@@ -429,7 +429,7 @@ async def test_consolidation_loop_error_logging(
         if record.levelname == "ERROR"
         and "consolidation loop" in record.message.lower()
     ]
-    assert len(loop_error_logs) >= 1, "Expected consolidation loop error log not found"
+    assert loop_error_logs, "Expected consolidation loop error log not found"
 
 
 # Integration test to ensure logging works across component interactions
