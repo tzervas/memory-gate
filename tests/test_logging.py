@@ -370,9 +370,9 @@ async def test_agent_task_execution_logging_scenarios(
     assert confidence > 0, "Expected successful task execution"
 
     # Explicitly assert that no warning or error logs are present for successful execution
-    assert not any(record.levelno >= logging.WARNING for record in caplog.records), (
-        "No warning or error logs should be present during successful learning"
-    )
+    assert all(
+        record.levelno < logging.WARNING for record in caplog.records
+    ), "No warning or error logs should be present during successful learning"
 
     # Clear logs for next test
     caplog.clear()
