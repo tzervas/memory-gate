@@ -113,7 +113,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         loop = asyncio.get_event_loop()
         # SentenceTransformer.encode is CPU-bound, run in executor
         embedding = await loop.run_in_executor(None, self.embedding_model.encode, text)
-        return cast("list[float]", embedding.tolist())
+        return cast(list[float], embedding.tolist())
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """
