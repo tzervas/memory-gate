@@ -251,7 +251,7 @@ class ConsolidationWorker:
 
         except Exception as e:
             # Record failed consolidation run
-            logger.exception("Error during consolidation cycle: %s", e)
+            logger.exception("Error during consolidation cycle")
             # The CONSOLIDATION_RUNS_TOTAL was already incremented with success=True.
             # This is a limitation of the current simple record_consolidation_run.
             # A more robust approach would be to have distinct success/failure counters
