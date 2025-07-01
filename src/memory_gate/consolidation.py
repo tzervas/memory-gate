@@ -73,7 +73,7 @@ class ConsolidationWorker:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                logger.exception("Error during consolidation loop: %s", e)
+                logger.exception("Error during consolidation loop")
                 await asyncio.sleep(60)  # Wait 1 minute before retry
 
     async def _perform_consolidation(self) -> None:
