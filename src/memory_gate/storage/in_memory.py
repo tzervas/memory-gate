@@ -12,12 +12,14 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
         self._store[key] = experience
 
     async def retrieve_context(
-        self, query: str, limit: int = 10
+        self, query: str, limit: int = 10, domain_filter: str | None = None
     ) -> list[LearningContext]:
         """Retrieves relevant context from the in-memory store."""
         # This is a naive implementation for demonstration purposes.
         # A real implementation would use a more sophisticated search.
         results = [
-            exp for exp in self._store.values() if query.lower() in exp.content.lower()
+            exp for exp in self._store.values() 
+            if query.lower() in exp.content.lower() and 
+            (domain_filter is None or exp.domain == domain_filter)
         ]
         return results[:limit]

@@ -1,0 +1,111 @@
+# Pre-commit configuration for memory-gate project
+# This configuration includes ruff, black, mypy, and isort hooks
+# aligned with the project's pyproject.toml settings
+
+repos:
+  # Ruff - Fast Python linter and formatter (replaces flake8, isort, and more)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.0
+    hooks:
+      # Ruff linter with safe auto-fixes enabled
+      - id: ruff
+        name: ruff-lint
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi, jupyter]
+        require_serial: false
+      
+      # Ruff formatter (replaces black for consistent formatting)
+      - id: ruff-format
+        name: ruff-format
+        types_or: [python, pyi, jupyter]
+        require_serial: false
+
+  # Black - Python code formatter (keeping as additional check for consistency)
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        name: black-check
+        args: [--check, --diff]
+        language_version: python3.12
+        types: [python]
+
+  # isort - Import sorting (disabled since ruff handles it)
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 5.13.2
+  #   hooks:
+  #     - id: isort
+  #       name: isort-check
+  #       args: [--check-only, --diff]
+  #       types: [python]
+
+  # MyPy - Static type checker with strict mode
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        name: mypy-strict
+        args: [--strict, --show-error-codes]
+        language_version: python3.12
+        types: [python]
+        # Include additional dependencies that mypy needs for checking
+        additional_dependencies: [
+          "pydantic>=2.0.0",
+          "numpy>=1.24.0",
+          "prometheus-client>=0.19.0",
+          "pytest>=8.0.0",
+          "types-redis",
+        ]
+        # Exclude files that are known to have import issues
+        exclude: ^(build/|dist/|\.venv/|venv/|\.eggs/|.*\.egg-info/)
+
+  # Additional quality checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # Check for merge conflicts
+      - id: check-merge-conflict
+      
+      # Check YAML files
+      - id: check-yaml
+        args: [--unsafe]  # Allow custom YAML tags
+      
+      # Check for large files (>500KB)
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      
+      # Ensure files end with newline
+      - id: end-of-file-fixer
+        types: [python]
+      
+      # Remove trailing whitespace
+      - id: trailing-whitespace
+        types: [python]
+      
+      # Check for private key files
+      - id: detect-private-key
+      
+      # Check for AWS credentials
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+
+  # Security checks with bandit
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.10
+    hooks:
+      - id: bandit
+        name: bandit-security-check
+        args: [-c, pyproject.toml]
+        types: [python]
+        # Skip test files as they often use assert and other testing patterns
+        exclude: ^tests/
+
+# Global pre-commit configuration
+default_language_version:
+  python: python3.12
+
+# Fail fast - stop running hooks after first failure
+fail_fast: false
+
+# Repository-wide settings
+minimum_pre_commit_version: "3.0.0"

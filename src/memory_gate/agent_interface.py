@@ -13,6 +13,14 @@ from memory_gate.metrics import (
     record_agent_task_processed,
 )
 
+# Error message constants
+ERROR_MSG_EMPTY_AGENT_NAME = "Agent name cannot be empty."
+ERROR_MSG_INVALID_AGENT_DOMAIN = "Invalid agent domain."
+ERROR_MSG_INVALID_MEMORY_GATEWAY = "Invalid memory_gateway instance."
+ERROR_MSG_TASK_PROCESSING_ERROR = "Error processing task: {error}"
+ERROR_MSG_UNEXPECTED_TASK_ERROR = "Unexpected error processing task: {error}"
+ERROR_MSG_SUBCLASS_MUST_IMPLEMENT = "Subclasses must implement the _execute_task method."
+
 
 class AgentDomain(Enum):
     """Supported agent domains for categorizing memories and tasks."""
@@ -47,11 +55,11 @@ class BaseMemoryEnabledAgent:
             retrieval_limit: Default number of memories to retrieve for context.
         """
         if not agent_name:
-            raise ValueError("Agent name cannot be empty.")
+            raise ValueError(ERROR_MSG_EMPTY_AGENT_NAME)
         if not isinstance(domain, AgentDomain):
-            raise ValueError("Invalid agent domain.")
+            raise ValueError(ERROR_MSG_INVALID_AGENT_DOMAIN)
         if not isinstance(memory_gateway, MemoryGateway):
-            raise ValueError("Invalid memory_gateway instance.")
+            raise ValueError(ERROR_MSG_INVALID_MEMORY_GATEWAY)
 
         self.agent_name = agent_name
         self.domain = domain
@@ -92,7 +100,9 @@ class BaseMemoryEnabledAgent:
 
         # 3. Execute the task using the enhanced context
         # Subclasses must implement _execute_task
-        task_failed_exception = None
+        task_failed_exception: (
+            RuntimeError | ValueError | KeyError | TypeError | Exception | None
+        ) = None
         try:
             with AGENT_TASK_DURATION_SECONDS.labels(
                 agent_name=self.agent_name, agent_domain=self.domain.value
@@ -103,27 +113,27 @@ class BaseMemoryEnabledAgent:
             )
         except (RuntimeError, ValueError, KeyError, TypeError) as e:
             task_failed_exception = e
-            result_str = f"Error processing task: {e}"
+            result_str = ERROR_MSG_TASK_PROCESSING_ERROR.format(error=e)
             confidence = 0.0  # No confidence if task execution failed
             record_agent_task_processed(
                 self.agent_name, self.domain.value, success=False
             )
-            print(f"Agent {self.agent_name} failed to execute task '{task_input}': {e}")
         except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
             task_failed_exception = e
-            result_str = f"Unexpected error processing task: {e}"
+            result_str = ERROR_MSG_UNEXPECTED_TASK_ERROR.format(error=e)
             confidence = 0.0
             record_agent_task_processed(
                 self.agent_name, self.domain.value, success=False
             )
-            print(f"Agent {self.agent_name} encountered an unexpected error: {e}")
 
         # 4. Learn from this interaction (optional)
         if store_interaction_memory:
             # Even if the task failed, we might want to record the failure event.
             # The content of the learned memory should reflect the outcome.
             interaction_summary = (
-                f"Agent: {self.agent_name}\nDomain: {self.domain.value}\nTask: {task_input}\n"
+                f"Agent: {self.agent_name}\n"
+                f"Domain: {self.domain.value}\n"
+                f"Task: {task_input}\n"
                 f"Result: {result_str}"
             )
             if task_failed_exception:
@@ -133,7 +143,8 @@ class BaseMemoryEnabledAgent:
                 content=interaction_summary,
                 domain=self.domain.value,  # Storing with agent's primary domain
                 timestamp=datetime.now(),
-                importance=confidence,  # Confidence from task execution, or 0.0 for failure
+                # Confidence from task execution, or 0.0 for failure
+                importance=confidence,
                 metadata={
                     "agent_name": self.agent_name,
                     "interaction_id": str(self._interaction_count),
@@ -149,22 +160,16 @@ class BaseMemoryEnabledAgent:
                     learning_ctx, feedback=confidence
                 )
                 record_agent_memory_learned(self.agent_name, self.domain.value)
-            except (RuntimeError, ValueError, KeyError, TypeError) as learn_e:
-                print(
-                    f"Agent {self.agent_name} failed to learn from interaction: "
-                    f"{learn_e}"
-                )
-            except Exception as learn_e:  # pylint: disable=broad-except
-                print(
-                    f"Agent {self.agent_name} encountered an unexpected error during "
-                    f"learning: {learn_e}"
-                )
+            except (RuntimeError, ValueError, KeyError, TypeError):
+                pass
+            except Exception:  # pylint: disable=broad-except
+                pass
 
         self._interaction_count += 1
 
         if task_failed_exception and not store_interaction_memory:
-            # If task failed and we are not storing the interaction, re-raise the original exception
-            # so the caller is aware of the task failure directly.
+            # If task failed and we are not storing the interaction,
+            # re-raise the original exception so the caller is aware.
             raise task_failed_exception
 
         return result_str, confidence
@@ -224,7 +229,7 @@ class BaseMemoryEnabledAgent:
         Returns:
             A tuple containing the task's result (string) and a confidence score (float).
         """
-        raise NotImplementedError("Subclasses must implement the _execute_task method.")
+        raise NotImplementedError(ERROR_MSG_SUBCLASS_MUST_IMPLEMENT)
 
     def provide_feedback_on_memory(
         self,
@@ -245,14 +250,6 @@ class BaseMemoryEnabledAgent:
         # This functionality would require methods in MemoryGateway/KnowledgeStore
         # like `update_memory_importance(key, new_importance)` or
         # `record_feedback(key, score)`.
-        print(
-            f"Feedback received for memory '{memory_key}': score={feedback_score}, "
-            f"new_importance={new_importance}"
-        )
-        print(
-            "Note: Actual feedback processing logic needs to be implemented in "
-            "MemoryGateway/KnowledgeStore."
-        )
         # Example: self.memory_gateway.update_experience_importance(memory_key, new_importance)
 
 

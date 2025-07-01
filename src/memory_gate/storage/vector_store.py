@@ -4,11 +4,11 @@ from datetime import datetime
 import logging
 from typing import Any, cast
 
-import chromadb  # type: ignore[import-not-found]
-from chromadb.config import Settings  # type: ignore[import-not-found]
+import chromadb
+from chromadb.config import Settings
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
-from sentence_transformers import SentenceTransformer  # type: ignore[import-not-found]
+from sentence_transformers import SentenceTransformer
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import (
@@ -20,6 +20,10 @@ from memory_gate.metrics import (
 
 # Configure logging
 logger = logging.getLogger(__name__)
+
+# Error message constants
+ERROR_MSG_CHROMADB_INIT_FAILED = "Failed to initialize ChromaDB client: {error}"
+ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED = "Failed to initialize embedding model: {error}"
 
 
 @dataclass
@@ -48,13 +52,23 @@ class VectorStoreConfig:
 class VectorStoreError(Exception):
     """Base exception for VectorMemoryStore errors."""
 
+    def __init__(self, message: str, *args: object) -> None:
+        super().__init__(message, *args)
+        self.message = message
+
 
 class VectorStoreInitError(VectorStoreError):
     """Raised when VectorMemoryStore initialization fails."""
 
+    def __init__(self, message: str, *args: object) -> None:
+        super().__init__(message, *args)
+
 
 class VectorStoreOperationError(VectorStoreError):
     """Raised when a VectorMemoryStore operation fails."""
+
+    def __init__(self, message: str, *args: object) -> None:
+        super().__init__(message, *args)
 
 
 class VectorMemoryStore(KnowledgeStore[LearningContext]):
@@ -96,18 +110,16 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     )
                 )
         except Exception as e:
-            raise VectorStoreInitError(
-                f"Failed to initialize ChromaDB client: {e}"
-            ) from e
+            msg = ERROR_MSG_CHROMADB_INIT_FAILED.format(error=e)
+            raise VectorStoreInitError(msg) from e
 
         try:
             self.embedding_model = SentenceTransformer(
                 self.config.embedding_model_name, device=self.config.embedding_device
             )
         except Exception as e:
-            raise VectorStoreInitError(
-                f"Failed to initialize embedding model: {e}"
-            ) from e
+            msg = ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED.format(error=e)
+            raise VectorStoreInitError(msg) from e
 
         self.collection = self.client.get_or_create_collection(
             name=self.config.collection_name,
@@ -154,10 +166,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     metadatas=[metadata_to_store],
                 )
             record_memory_operation(operation_type="store_experience", success=True)
-        except Exception as e:
+        except Exception:
             record_memory_operation(operation_type="store_experience", success=False)
             # Optionally re-raise the exception or handle it
-            print(f"Error storing experience {key}: {e}")
             raise  # Re-raise for now
 
     async def retrieve_context(
@@ -233,9 +244,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     )
             record_memory_operation(operation_type="retrieve_context", success=True)
             return contexts
-        except Exception as e:
+        except Exception:
             record_memory_operation(operation_type="retrieve_context", success=False)
-            print(f"Error retrieving context for query '{query}': {e}")
             raise  # Re-raise for now
 
     async def get_experience_by_id(self, key: str) -> LearningContext | None:
@@ -272,11 +282,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             )
             record_memory_operation(operation_type="get_experience_by_id", success=True)
             return lc
-        except Exception as e:
+        except Exception:
             record_memory_operation(
                 operation_type="get_experience_by_id", success=False
             )
-            print(f"Error retrieving experience by ID '{key}': {e}")
             raise
 
     async def delete_experience(self, key: str) -> None:
@@ -285,9 +294,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             # No specific latency metric for delete, but count as an operation
             self.collection.delete(ids=[key])
             record_memory_operation(operation_type="delete_experience", success=True)
-        except Exception as e:
+        except Exception:
             record_memory_operation(operation_type="delete_experience", success=False)
-            print(f"Error deleting experience '{key}': {e}")
             raise
 
     def get_collection_size(self) -> int:
@@ -349,9 +357,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 operation_type="get_experiences_by_metadata_filter", success=True
             )
             return items
-        except Exception as e:
+        except Exception:
             record_memory_operation(
                 operation_type="get_experiences_by_metadata_filter", success=False
             )
-            print(f"Error in get_experiences_by_metadata_filter: {e}")
             raise  # Re-raise for now

@@ -3,6 +3,7 @@ Handles graceful shutdown and background task management.
 """
 
 import asyncio
+import logging
 import os
 
 from memory_gate.agent_interface import SimpleEchoAgent
@@ -11,7 +12,7 @@ from memory_gate.consolidation import ConsolidationWorker
 from memory_gate.memory_gateway import MemoryGateway
 from memory_gate.memory_protocols import LearningContext, MemoryAdapter
 from memory_gate.metrics import start_metrics_server
-from memory_gate.storage.vector_store import VectorMemoryStore
+from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
 
 # --- Configuration ---
 # These could be loaded from environment variables, config files, etc.
@@ -29,9 +30,7 @@ CHROMA_COLLECTION_NAME = os.getenv(
     "CHROMA_COLLECTION_NAME", "memory_gate_prod_collection"
 )
 # Ensure the persist directory exists if it's local
-if CHROMA_PERSIST_DIRECTORY.startswith("./") or CHROMA_PERSIST_DIRECTORY.startswith(
-    "/"
-):
+if CHROMA_PERSIST_DIRECTORY.startswith(("./", "/")):
     os.makedirs(CHROMA_PERSIST_DIRECTORY, exist_ok=True)
 
 
@@ -43,6 +42,9 @@ CONSOLIDATION_INTERVAL_SECONDS = int(
 
 # Global list to keep track of background tasks for graceful shutdown
 background_tasks: list[asyncio.Task[None]] = []
+
+# Initialize module-level logger
+logger = logging.getLogger(__name__)
 
 
 class PassthroughAdapter(MemoryAdapter[LearningContext]):
@@ -61,32 +63,34 @@ class PassthroughAdapter(MemoryAdapter[LearningContext]):
 
 async def main_async() -> None:
     """Initializes and starts the MemoryGate components."""
-    print("Initializing MemoryGate System...")
+    logger.info("Initializing MemoryGate System...")
 
     # 1. Initialize Storage
-    print(
-        f"Initializing VectorMemoryStore with ChromaDB: directory='"
-        f"{CHROMA_PERSIST_DIRECTORY}', collection='{CHROMA_COLLECTION_NAME}'"
+    logger.info(
+        "Initializing VectorMemoryStore with ChromaDB: directory='%s', collection='%s'",
+        CHROMA_PERSIST_DIRECTORY, CHROMA_COLLECTION_NAME
     )
-    knowledge_store = VectorMemoryStore(
+    vector_config = VectorStoreConfig(
         collection_name=CHROMA_COLLECTION_NAME,
         persist_directory=CHROMA_PERSIST_DIRECTORY,
     )
+    knowledge_store = VectorMemoryStore(config=vector_config)
     # Test storage (optional, for quick verification during startup)
-    # print(f"Initial collection size: {knowledge_store.get_collection_size()}")
+    # logger.debug("Initial collection size: %s", knowledge_store.get_collection_size())
 
     # 2. Initialize Memory Adapter
     memory_adapter = PassthroughAdapter()
 
     # 3. Initialize Memory Gateway
     memory_gateway = MemoryGateway(adapter=memory_adapter, store=knowledge_store)
-    print("MemoryGateway initialized.")
+    logger.info("MemoryGateway initialized.")
 
     # 4. Initialize and Start Consolidation Worker (if enabled)
     consolidation_worker = None
     if CONSOLIDATION_ENABLED:
-        print(
-            f"Initializing ConsolidationWorker with interval {CONSOLIDATION_INTERVAL_SECONDS}s."
+        logger.info(
+            "Initializing ConsolidationWorker with interval %ds.",
+            CONSOLIDATION_INTERVAL_SECONDS
         )
         consolidation_worker = ConsolidationWorker(
             store=knowledge_store,  # ConsolidationWorker expects a store that can provide keys
@@ -94,9 +98,9 @@ async def main_async() -> None:
         )
         consolidation_task = asyncio.create_task(consolidation_worker.start())
         background_tasks.append(consolidation_task)
-        print("ConsolidationWorker started.")
+        logger.info("ConsolidationWorker started.")
     else:
-        print("ConsolidationWorker is disabled.")
+        logger.info("ConsolidationWorker is disabled.")
 
     # 5. Initialize Agents (example)
     # In a real scenario, agents might be managed differently (e.g., separate processes,
@@ -104,26 +108,27 @@ async def main_async() -> None:
     # For now, we can instantiate them to show they can use the gateway.
     echo_agent = SimpleEchoAgent(memory_gateway)
     infra_agent = InfrastructureAgent(memory_gateway)
-    print(
-        f"Example agents initialized: {echo_agent.agent_name}, {infra_agent.agent_name}"
+    logger.info(
+        "Example agents initialized: %s, %s",
+        echo_agent.agent_name, infra_agent.agent_name
     )
 
     # --- Example Agent Usage (optional, for testing if run directly) ---
     # This part would typically be driven by external events or an API
     # For a K8s service, the app would just run and wait for API calls or other triggers.
     # if __name__ == "__main__": # or some dev mode flag
-    #     print("\n--- Running example agent interaction ---")
+    #     logger.info("Running example agent interaction")
     #     task_result, confidence = await infra_agent.process_task(
     #         "The main application server is reporting high CPU usage after the last deployment."
     #     )
-    #     print(f"InfraAgent Task Result:\n{task_result}\nConfidence: {confidence:.2f}")
-    #     print("--- Example agent interaction finished ---\n")
+    #     logger.info("InfraAgent Task Result:\n%s\nConfidence: %.2f", task_result, confidence)
+    #     logger.info("Example agent interaction finished")
 
     # 6. Start Prometheus Metrics Server
-    print(f"Starting Prometheus metrics server on {METRICS_HOST}:{METRICS_PORT}...")
+    logger.info("Starting Prometheus metrics server on %s:%d...", METRICS_HOST, METRICS_PORT)
     start_metrics_server(port=METRICS_PORT, addr=METRICS_HOST)
 
-    print("\nMemoryGate System is running. Press Ctrl+C to exit.")
+    logger.info("MemoryGate System is running. Press Ctrl+C to exit.")
 
     # Keep the main coroutine alive. In a real app, this might be an API server loop.
     # For now, just wait until cancellation.
@@ -131,7 +136,7 @@ async def main_async() -> None:
         while True:
             await asyncio.sleep(3600)  # Sleep for a long time, or handle other tasks
     except asyncio.CancelledError:
-        print("Main task cancelled. Shutting down...")
+        logger.info("Main task cancelled. Shutting down...")
 
 
 async def shutdown_handler(
@@ -141,7 +146,7 @@ async def shutdown_handler(
     Gracefully shuts down background tasks and the consolidation worker, then stops the event
     loop. Ensures all background tasks are cancelled and awaited before stopping the event loop.
     """
-    print("Initiating graceful shutdown...")
+    logger.info("Initiating graceful shutdown...")
 
     # Cancel all background tasks
     for task in background_tasks:
@@ -157,10 +162,10 @@ async def shutdown_handler(
         consolidation_worker
         and getattr(consolidation_worker, "is_running", lambda: False)()
     ):
-        print("Stopping ConsolidationWorker...")
+        logger.info("Stopping ConsolidationWorker...")
         await consolidation_worker.stop()  # Ensure its specific stop logic is called
 
-    print("Background tasks stopped.")
+    logger.info("Background tasks stopped.")
 
     # Properly stop the event loop after all cleanup
     loop.stop()
@@ -187,7 +192,7 @@ def main() -> None:
         main_task = loop.create_task(main_async())  # main_async returns None implicitly
         loop.run_until_complete(main_task)
     except KeyboardInterrupt:
-        print("KeyboardInterrupt received. Shutting down...")
+        logger.info("KeyboardInterrupt received. Shutting down...")
     finally:
         if main_task and not main_task.done():
             main_task.cancel()
@@ -198,10 +203,10 @@ def main() -> None:
             # A more robust shutdown for tasks created within main_async:
             # main_async should catch CancelledError and await its own created tasks.
             # For now, cancelling main_task and letting its internal structure handle it.
-            print("Main task cancellation requested.")
+            logger.info("Main task cancellation requested.")
             # Allow some time for cleanup within main_async's CancelledError block
             # This is still a bit simplistic.
             # loop.run_until_complete(asyncio.sleep(1)) # Not ideal here.
 
         # Additional cleanup for other resources if necessary
-        print("MemoryGate application stopped.")
+        logger.info("MemoryGate application stopped.")

@@ -44,8 +44,9 @@ def malformed_json_file(metrics_file: str) -> str:
 def mock_io_error(monkeypatch: pytest.MonkeyPatch) -> None:
     """Mock file operations to raise IOError."""
 
-    def mock_open(*args, **kwargs):  # noqa: ANN202, ARG001
-        raise OSError("Mock I/O error")
+    def mock_open(*args, **kwargs):  # noqa: ARG001
+        msg = "Mock I/O error"
+        raise OSError(msg)
 
     monkeypatch.setattr("builtins.open", mock_open)
 
@@ -188,8 +189,9 @@ class TestMetricsErrorHandling:
         Path(metrics_file).write_text('[{"test": "data"}]')
 
         # Then mock open to raise IOError
-        def mock_open(*args, **kwargs):  # noqa: ANN202, ARG001
-            raise OSError("Mock I/O error")
+        def mock_open(*args, **kwargs):  # noqa: ARG001
+            msg = "Mock I/O error"
+            raise OSError(msg)
 
         monkeypatch.setattr("builtins.open", mock_open)
 
