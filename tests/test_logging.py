@@ -296,7 +296,7 @@ async def test_shutdown_handler_logging(caplog: pytest.LogCaptureFixture) -> Non
         for record in caplog.records
         if record.levelname == "INFO" and "graceful shutdown" in record.message.lower()
     ]
-    assert len(shutdown_logs) >= 1, "Expected shutdown initiation log not found"
+    assert shutdown_logs, "Expected shutdown initiation log not found"
 
     # Check for worker stop log
     worker_stop_logs = [
@@ -305,7 +305,7 @@ async def test_shutdown_handler_logging(caplog: pytest.LogCaptureFixture) -> Non
         if record.levelname == "INFO"
         and "stopping consolidationworker" in record.message.lower()
     ]
-    assert len(worker_stop_logs) >= 1, "Expected worker stop log not found"
+    assert worker_stop_logs, "Expected worker stop log not found"
 
     # Check for background tasks stopped log
     tasks_stopped_logs = [
@@ -314,9 +314,7 @@ async def test_shutdown_handler_logging(caplog: pytest.LogCaptureFixture) -> Non
         if record.levelname == "INFO"
         and "background tasks stopped" in record.message.lower()
     ]
-    assert (
-        len(tasks_stopped_logs) >= 1
-    ), "Expected background tasks stopped log not found"
+    assert tasks_stopped_logs, "Expected background tasks stopped log not found"
 
 
 @pytest.mark.asyncio
