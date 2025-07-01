@@ -85,9 +85,10 @@ def pytest_sessionfinish(session, exitstatus):
 def pytest_runtest_call(item):
     """Record individual test timing."""
     start = time.time()
-    yield
+    _outcome = yield  # TODO: Use outcome for future test result analysis and metrics
     duration = time.time() - start
     metrics_recorder.record_timing_metric(f"{item.name}_duration", duration)
+    # Future enhancement: outcome.get_result() can be used for detailed test analysis
 
 
 def pytest_runtest_logreport(report):

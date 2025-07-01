@@ -110,5 +110,34 @@
       "pytest_args": "tests",
       "exit_status": 1
     }
+  },
+  {
+    "timestamp": "2025-06-30T23:55:33.396212",
+    "performance": {
+      "Average Test Duration": {
+        "value": 3.126610040664673,
+        "unit": "seconds"
+      }
+    },
+    "quality": {
+      "Pass Rate": "100.0%",
+      "Total Tests": 1,
+      "Passed Tests": 1,
+      "Failed Tests": 0,
+      "Skipped Tests": 0,
+      "Error Tests": 0
+    },
+    "timing": {
+      "test_initialization_duration": 0.0009984970092773438,
+      "Total Run Time": 3.126610040664673
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Windows",
+      "architecture": "AMD64",
+      "pytest_args": "tests/storage/test_vector_store.py::test_initialization",
+      "exit_status": 1
+    }
   }
 ]
