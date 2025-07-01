@@ -270,11 +270,9 @@ async def test_agent_interface_logging(
         and expected_pattern.lower() in record.message.lower()
     ]
 
-    assert len(matching_records) >= 1, (
-        f"Expected {log_level} log with pattern '{expected_pattern}' not found. "
-        f"Description: {description}. "
-        f"Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
-    )
+    assert (
+        matching_records
+    ), f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
 
 
 @pytest.mark.asyncio
