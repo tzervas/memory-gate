@@ -18,8 +18,9 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
         # This is a naive implementation for demonstration purposes.
         # A real implementation would use a more sophisticated search.
         results = [
-            exp for exp in self._store.values() 
-            if query.lower() in exp.content.lower() and 
-            (domain_filter is None or exp.domain == domain_filter)
+            exp
+            for exp in self._store.values()
+            if query.lower() in exp.content.lower()
+            and (domain_filter is None or exp.domain == domain_filter)
         ]
         return results[:limit]

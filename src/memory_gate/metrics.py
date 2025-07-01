@@ -1,5 +1,4 @@
 import logging
-from typing import Any
 
 from prometheus_client import (
     CollectorRegistry,
@@ -12,7 +11,9 @@ from prometheus_client import (
 logger = logging.getLogger(__name__)
 
 # Error message constants
-ERROR_MSG_PROMETHEUS_SERVER_START_FAILED = "Error starting Prometheus metrics server: {error}"
+ERROR_MSG_PROMETHEUS_SERVER_START_FAILED = (
+    "Error starting Prometheus metrics server: {error}"
+)
 
 # Create a custom registry (optional, but good practice for managing metrics)
 
@@ -164,7 +165,7 @@ def record_agent_memory_learned(agent_name: str, agent_domain: str) -> None:
 
 
 # --- Utility to start HTTP server for metrics ---
-def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
+def start_metrics_server(port: int = 8008, addr: str = "127.0.0.1") -> None:
     """Starts an HTTP server to expose the metrics on /metrics endpoint."""
     try:
         start_http_server(port, addr=addr, registry=REGISTRY)
@@ -177,7 +178,4 @@ def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
 
 def _should_include_exception_info() -> bool:
     """Determine if exception info should be included in logging."""
-    return (
-        hasattr(logger, "isEnabledFor") 
-        and logger.isEnabledFor(logging.DEBUG)
-    )
+    return hasattr(logger, "isEnabledFor") and logger.isEnabledFor(logging.DEBUG)

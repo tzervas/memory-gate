@@ -27,7 +27,9 @@ async def test_initialization(
 ):
     """Test store initialization with different configurations."""
     assert persistent_vector_store.collection is not None
-    assert persistent_vector_store.config.collection_name == "test_persistent_collection"
+    assert (
+        persistent_vector_store.config.collection_name == "test_persistent_collection"
+    )
 
     assert in_memory_vector_store.collection is not None
     assert in_memory_vector_store.config.collection_name == "test_in_memory_collection"

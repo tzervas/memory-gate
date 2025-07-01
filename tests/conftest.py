@@ -1,6 +1,5 @@
 import asyncio
 import gc
-import logging
 from pathlib import Path
 import platform
 import shutil
@@ -8,11 +7,12 @@ import sys
 import tempfile
 import time
 
-from metrics_recorder import MetricsRecorder
 import pytest
 import pytest_asyncio
 
 from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
+
+from .metrics_recorder import MetricsRecorder
 
 # Initialize metrics recorder with configurable display
 metrics_recorder = MetricsRecorder(
