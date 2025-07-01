@@ -1,4 +1,4 @@
-from prometheus_client import (  # type: ignore[import-not-found]
+from prometheus_client import (  # type: ignore[import-untyped]
     Counter,
     Gauge,
     Histogram,
@@ -8,6 +8,10 @@ from prometheus_client import (  # type: ignore[import-not-found]
 import time
 
 # Create a custom registry (optional, but good practice for managing metrics)
+# Using time to log metrics initialization time
+time_started = time.time()
+print(f"Metrics initialized at {time_started}")
+
 # If not using a custom registry, prometheus_client uses a global default registry.
 REGISTRY = CollectorRegistry()
 
@@ -163,5 +167,3 @@ def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
         print(f"Prometheus metrics server started on port {port}")
     except Exception as e:
         print(f"Error starting Prometheus metrics server: {e}")
-
-

@@ -1,7 +1,8 @@
 """This module contains tests for the VectorMemoryStore, covering functionality such as initialization, data persistence, experience lifecycle, and error handling."""
 
+import logging
 from dataclasses import replace
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pytest
 from hypothesis import given, strategies as st, settings, HealthCheck
@@ -9,6 +10,8 @@ from hypothesis.extra.pytz import timezones
 
 from memory_gate.memory_protocols import LearningContext
 from memory_gate.storage.vector_store import VectorMemoryStore
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(params=["persistent_vector_store", "in_memory_vector_store"])
@@ -19,28 +22,22 @@ def vector_store(request):
 
 @pytest.mark.asyncio
 async def test_initialization(
-    persistent_vector_store: VectorMemoryStore, in_memory_vector_store: VectorMemoryStore
+    persistent_vector_store: VectorMemoryStore,
+    in_memory_vector_store: VectorMemoryStore,
 ):
     """Test store initialization with different configurations."""
     assert persistent_vector_store.collection is not None
-    assert (
-        persistent_vector_store.collection_name == "test_persistent_collection"
-    )
+    assert persistent_vector_store.collection_name == "test_persistent_collection"
 
     assert in_memory_vector_store.collection is not None
     assert in_memory_vector_store.collection_name == "test_in_memory_collection"
-
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 @pytest.mark.asyncio
 async def test_store_and_retrieve_single_experience(vector_store: VectorMemoryStore):
     """Test storing and retrieving a single learning experience."""
     logger.info("Starting single experience store and retrieve test")
-    
+
     context = LearningContext(
         content="Test infrastructure issue: high CPU on web-01",
         domain="infrastructure",
@@ -52,7 +49,9 @@ async def test_store_and_retrieve_single_experience(vector_store: VectorMemorySt
 
     logger.info(f"Storing experience with key: {key}")
     await vector_store.store_experience(key, context)
-    logger.info(f"Experience stored. Collection size: {vector_store.get_collection_size()}")
+    logger.info(
+        f"Experience stored. Collection size: {vector_store.get_collection_size()}"
+    )
     assert vector_store.get_collection_size() == 1
 
     logger.info("Retrieving context with similarity search")
@@ -119,8 +118,12 @@ def learning_contexts(draw):
     importance = draw(st.floats(min_value=0.0, max_value=1.0))
     metadata = draw(
         st.dictionaries(
-            keys=st.text(alphabet='abcdefghijklmnopqrstuvwxyz0123456789', min_size=1, max_size=20).filter(lambda x: x not in ['domain', 'timestamp', 'importance']),
-            values=st.text(alphabet='abcdefghijklmnopqrstuvwxyz0123456789', min_size=1, max_size=50),
+            keys=st.text(
+                alphabet="abcdefghijklmnopqrstuvwxyz0123456789", min_size=1, max_size=20
+            ).filter(lambda x: x not in ["domain", "timestamp", "importance"]),
+            values=st.text(
+                alphabet="abcdefghijklmnopqrstuvwxyz0123456789", min_size=1, max_size=50
+            ),
             max_size=5,
         )
     )

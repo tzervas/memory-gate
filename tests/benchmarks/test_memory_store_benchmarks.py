@@ -1,6 +1,5 @@
 """Benchmark tests for memory store performance."""
 
-import asyncio
 import logging
 from datetime import datetime
 from typing import List
@@ -35,7 +34,9 @@ def benchmark_data() -> List[tuple[str, LearningContext]]:
 @pytest.mark.asyncio
 @pytest.mark.timeout(60)  # 60 second timeout for individual benchmark tests
 async def test_store_experience_performance(
-    benchmark, persistent_vector_store: VectorMemoryStore, benchmark_data: List[tuple[str, LearningContext]]
+    benchmark,
+    persistent_vector_store: VectorMemoryStore,
+    benchmark_data: List[tuple[str, LearningContext]],
 ):
     """Benchmark storing experiences."""
     logger.info("Starting store experience performance benchmark")
@@ -63,7 +64,9 @@ async def test_store_experience_performance(
 @pytest.mark.asyncio
 @pytest.mark.timeout(120)  # 2 minute timeout for batch operations
 async def test_batch_store_performance(
-    benchmark, persistent_vector_store: VectorMemoryStore, benchmark_data: List[tuple[str, LearningContext]]
+    benchmark,
+    persistent_vector_store: VectorMemoryStore,
+    benchmark_data: List[tuple[str, LearningContext]],
 ):
     """Benchmark batch storing of experiences."""
     logger.info("Starting batch store performance benchmark")
@@ -74,7 +77,7 @@ async def test_batch_store_performance(
         logger.debug("Starting batch store operation")
         for i, (key, context) in enumerate(benchmark_data[:batch_size]):
             if i % 5 == 0:  # Log progress every 5 items
-                logger.debug(f"Storing item {i+1}/{batch_size}")
+                logger.debug(f"Storing item {i + 1}/{batch_size}")
             await persistent_vector_store.store_experience(key, context)
         logger.debug("Batch store operation completed")
 
@@ -109,8 +112,12 @@ async def test_gpu_embedding_performance(benchmark, temp_chroma_directory):
         logger.warning("Skipping GPU test: PyTorch with CUDA not available")
         pytest.skip("Skipping GPU test: PyTorch with CUDA not available.")
 
-    test_text = "This is a test content for benchmarking GPU embedding generation performance"
-    logger.info(f"Benchmarking embedding generation for text of length: {len(test_text)}")
+    test_text = (
+        "This is a test content for benchmarking GPU embedding generation performance"
+    )
+    logger.info(
+        f"Benchmarking embedding generation for text of length: {len(test_text)}"
+    )
 
     async def generate_gpu_embedding_async():
         logger.debug("Generating embedding...")

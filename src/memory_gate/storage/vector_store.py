@@ -1,14 +1,14 @@
-from typing import Any, List, Optional, Dict, cast, Union
+from typing import Any, List, Optional, Dict, cast
 import asyncio
 import logging
-import os
-from pathlib import Path
 from dataclasses import dataclass
 from datetime import datetime
 
+
 import chromadb  # type: ignore[import-not-found]
 from chromadb.config import Settings  # type: ignore[import-not-found]
-from chromadb.api import Collection  # type: ignore[import-not-found]
+
+# from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer  # type: ignore[import-not-found]
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
@@ -22,10 +22,11 @@ from memory_gate.metrics import (
 # Configure logging
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class VectorStoreConfig:
     """Configuration for VectorMemoryStore.
-    
+
     Args:
         collection_name: Name of the ChromaDB collection to use
         embedding_model_name: Name of the sentence-transformer model for embeddings
@@ -35,6 +36,7 @@ class VectorStoreConfig:
         max_batch_size: Maximum number of items to process in a single batch
         embedding_device: Device to use for embedding generation ('cpu' or 'cuda')
     """
+
     collection_name: str = "memory_gate_default_collection"
     embedding_model_name: str = "all-MiniLM-L6-v2"
     persist_directory: Optional[str] = "./data/chromadb_store"
@@ -43,16 +45,22 @@ class VectorStoreConfig:
     max_batch_size: int = 100
     embedding_device: str = "cpu"  # or "cuda" for GPU support
 
+
 class VectorStoreError(Exception):
     """Base exception for VectorMemoryStore errors."""
+
     pass
+
 
 class VectorStoreInitError(VectorStoreError):
     """Raised when VectorMemoryStore initialization fails."""
+
     pass
+
 
 class VectorStoreOperationError(VectorStoreError):
     """Raised when a VectorMemoryStore operation fails."""
+
     pass
 
 
