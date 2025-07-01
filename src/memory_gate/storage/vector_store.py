@@ -5,7 +5,6 @@ import logging
 from typing import TYPE_CHECKING, Any, cast
 
 import chromadb
-from chromadb.api.types import IncludeEnum
 from chromadb.config import Settings
 
 if TYPE_CHECKING:
@@ -262,9 +261,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     n_results=limit,
                     where=where_clause if where_clause else None,
                     include=[
-                        IncludeEnum.METADATAS,
-                        IncludeEnum.DOCUMENTS,
-                        IncludeEnum.DISTANCES,
+                        "metadatas",
+                        "documents",
+                        "distances",
                     ],
                 )
 
@@ -315,7 +314,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 store_type="vector_store"
             ).time():
                 result = self.collection.get(
-                    ids=[key], include=[IncludeEnum.METADATAS, IncludeEnum.DOCUMENTS]
+                    ids=[key], include=["metadatas", "documents"]
                 )
 
             if not result["ids"] or not result["documents"]:
@@ -324,8 +323,18 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 )  # Success, but not found
                 return None
 
-            doc_content = result["documents"][0]
-            metadata = result["metadatas"][0]
+            # Add safety checks for list access
+            documents = result.get("documents", [])
+            metadatas = result.get("metadatas", [])
+
+            if not documents or not metadatas:
+                record_memory_operation(
+                    operation_type="get_experience_by_id", success=True
+                )
+                return None
+
+            doc_content = documents[0]
+            metadata = metadatas[0]
 
             lc = self._parse_metadata(
                 key, cast("dict[str, str | int | float | bool]", metadata), doc_content
@@ -380,8 +389,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     limit=limit,
                     offset=offset,
                     include=[
-                        IncludeEnum.METADATAS,
-                        IncludeEnum.DOCUMENTS,
+                        "metadatas",
+                        "documents",
                     ],  # IDs are included by default
                 )
 
