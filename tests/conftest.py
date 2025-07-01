@@ -122,10 +122,10 @@ def temp_chroma_directory() -> Path:
     path = tempfile.mkdtemp()
     yield Path(path)
     # HACK: Force cleanup on Windows, which can have file locking issues.
-    if hasattr(sys, "_getframe") and sys.platform == "win32":
-        if sys._getframe(1).f_code.co_name == "finish":
-            gc.collect()
-            time.sleep(1)
+    if hasattr(sys, "_getframe") and sys.platform == "win32" and sys._getframe(1).f_code.co_name == "finish":
+        gc.collect()
+        time.sleep(1)
+
     shutil.rmtree(path, ignore_errors=True)
 
 
