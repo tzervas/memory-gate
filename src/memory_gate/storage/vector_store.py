@@ -2,10 +2,15 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 import logging
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import chromadb
+from chromadb.api.types import IncludeEnum
 from chromadb.config import Settings
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer
@@ -133,6 +138,44 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             lambda: self.collection.count()  # Periodically update with current count
         )
 
+    def _parse_metadata(
+        self, item_id: str, metadata: dict[str, str | int | float | bool], document: str
+    ) -> LearningContext:
+        """
+        Private helper method to convert metadata from ChromaDB to LearningContext.
+
+        Filters out 'domain', 'timestamp', 'importance' from the metadata dict
+        and casts other values to str for LearningContext.metadata.
+        Parses ISO timestamp and importance values.
+
+        Args:
+        item_id: The unique identifier for the experience (used for error reporting)
+        metadata: The raw metadata dict from ChromaDB
+        document: The document content
+
+        Returns:
+            A LearningContext object with properly parsed metadata
+        """
+        # Extract and filter out the special fields, casting remaining to str
+        filtered_metadata: dict[str, str] = {
+            k: str(v)
+            for k, v in metadata.items()
+            if k not in ["domain", "timestamp", "importance"]
+        }
+
+        # Parse the special fields with proper type conversion and defaults
+        domain = str(metadata.get("domain", "unknown"))
+        timestamp = datetime.fromisoformat(str(metadata["timestamp"]))
+        importance = float(metadata.get("importance", 1.0))
+
+        return LearningContext(
+            content=document,
+            domain=domain,
+            timestamp=timestamp,
+            importance=importance,
+            metadata=filtered_metadata,
+        )
+
     async def _generate_embedding(self, text: str) -> list[float]:
         """Generates embedding for a given text using sentence-transformer model."""
         loop = asyncio.get_event_loop()
@@ -159,11 +202,15 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     **(experience.metadata or {}),
                 }
 
+                # Convert embeddings to sequence for ChromaDB
+                embeddings_seq: Sequence[float] = cast("Sequence[float]", embedding)
                 self.collection.upsert(
                     ids=[key],
-                    embeddings=[embedding],
+                    embeddings=[embeddings_seq],
                     documents=[experience.content],
-                    metadatas=[metadata_to_store],
+                    metadatas=[
+                        cast("dict[str, str | int | float | bool]", metadata_to_store)
+                    ],
                 )
             record_memory_operation(operation_type="store_experience", success=True)
         except Exception:
@@ -206,40 +253,53 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     elif metadata_filter:
                         where_clause = metadata_filter
 
+                # Convert query embeddings to sequence for ChromaDB
+                query_embeddings_seq: Sequence[float] = cast(
+                    "Sequence[float]", query_embedding
+                )
                 query_results = self.collection.query(
-                    query_embeddings=[query_embedding],
+                    query_embeddings=[query_embeddings_seq],
                     n_results=limit,
                     where=where_clause if where_clause else None,
-                    include=["metadatas", "documents", "distances"],
+                    include=[
+                        IncludeEnum.METADATAS,
+                        IncludeEnum.DOCUMENTS,
+                        IncludeEnum.DISTANCES,
+                    ],
                 )
 
             contexts: list[LearningContext] = []
+            # Enhanced None-safety guards: check for emptiness before indexing
             if (
-                query_results["ids"] and query_results["ids"][0]
-            ):  # Check if there are any results
+                query_results.get("ids")
+                and query_results["ids"]
+                and len(query_results["ids"]) > 0
+                and query_results["ids"][0]
+                and query_results.get("documents")
+                and query_results["documents"]
+                and len(query_results["documents"]) > 0
+                and query_results["documents"][0]
+                and query_results.get("metadatas")
+                and query_results["metadatas"]
+                and len(query_results["metadatas"]) > 0
+                and query_results["metadatas"][0]
+            ):  # Check if there are any results with comprehensive safety guards
                 for i, doc_content in enumerate(query_results["documents"][0]):
-                    metadata = query_results["metadatas"][0][i]
+                    # Additional safety checks for individual items
+                    if (
+                        i < len(query_results["metadatas"][0])
+                        and i < len(query_results["ids"][0])
+                        and doc_content is not None
+                    ):
+                        metadata = query_results["metadatas"][0][i]
+                        id_value = query_results["ids"][0][i]
 
-                    # Reconstruct original metadata, excluding ChromaDB specific or already mapped fields
-                    original_metadata = {
-                        k: v
-                        for k, v in metadata.items()
-                        if k not in ["domain", "timestamp", "importance"]
-                    }
-
+                if metadata is not None and id_value is not None:
                     contexts.append(
-                        LearningContext(
-                            content=doc_content,
-                            domain=str(
-                                metadata.get("domain", "unknown")
-                            ),  # handle missing domain
-                            timestamp=datetime.fromisoformat(
-                                str(metadata["timestamp"])
-                            ),
-                            importance=float(
-                                metadata.get("importance", 1.0)
-                            ),  # handle missing importance
-                            metadata=original_metadata,
+                        self._parse_metadata(
+                            id_value,
+                            cast("dict[str, str | int | float | bool]", metadata),
+                            doc_content,
                         )
                     )
             record_memory_operation(operation_type="retrieve_context", success=True)
@@ -255,7 +315,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 store_type="vector_store"
             ).time():
                 result = self.collection.get(
-                    ids=[key], include=["metadatas", "documents"]
+                    ids=[key], include=[IncludeEnum.METADATAS, IncludeEnum.DOCUMENTS]
                 )
 
             if not result["ids"] or not result["documents"]:
@@ -267,18 +327,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             doc_content = result["documents"][0]
             metadata = result["metadatas"][0]
 
-            original_metadata = {
-                k: v
-                for k, v in metadata.items()
-                if k not in ["domain", "timestamp", "importance"]
-            }
-
-            lc = LearningContext(
-                content=doc_content,
-                domain=str(metadata.get("domain", "unknown")),
-                timestamp=datetime.fromisoformat(str(metadata["timestamp"])),
-                importance=float(metadata.get("importance", 1.0)),
-                metadata=original_metadata,
+            lc = self._parse_metadata(
+                key, cast("dict[str, str | int | float | bool]", metadata), doc_content
             )
             record_memory_operation(operation_type="get_experience_by_id", success=True)
             return lc
@@ -329,7 +379,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     where=metadata_filter,
                     limit=limit,
                     offset=offset,
-                    include=["metadatas", "documents"],  # IDs are included by default
+                    include=[
+                        IncludeEnum.METADATAS,
+                        IncludeEnum.DOCUMENTS,
+                    ],  # IDs are included by default
                 )
 
             items: list[tuple[str, LearningContext]] = []
@@ -340,17 +393,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     doc_content = results["documents"][i]
                     metadata = results["metadatas"][i]
 
-                    original_metadata = {
-                        k: v
-                        for k, v in metadata.items()
-                        if k not in ["domain", "timestamp", "importance"]
-                    }
-                    context = LearningContext(
-                        content=doc_content,
-                        domain=str(metadata.get("domain", "unknown")),
-                        timestamp=datetime.fromisoformat(str(metadata["timestamp"])),
-                        importance=float(metadata.get("importance", 1.0)),
-                        metadata=original_metadata,
+                    context = self._parse_metadata(
+                        item_id,
+                        cast("dict[str, str | int | float | bool]", metadata),
+                        doc_content,
                     )
                     items.append((item_id, context))
             record_memory_operation(
