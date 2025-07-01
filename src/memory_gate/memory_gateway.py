@@ -39,7 +39,9 @@ class MemoryGateway[T]:
             record_memory_operation(
                 operation_type="gateway_learn_interaction", success=True
             )
-            return adapted_context
+            # Return the adapted context with proper type
+            result: T = adapted_context
+            return result
         except Exception:
             record_memory_operation(
                 operation_type="gateway_learn_interaction", success=False
