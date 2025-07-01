@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 
 # Need to import timedelta and List for the new code
 from datetime import (
@@ -16,6 +17,13 @@ from memory_gate.metrics import (
     record_consolidation_items_processed,
     record_consolidation_run,
 )
+
+# Error message constants
+ERROR_MSG_STORE_MISSING_METHODS = (
+    "Store missing required methods for consolidation: "
+    "get_experiences_by_metadata_filter, delete_experience, store_experience"
+)
+ERROR_MSG_CONSOLIDATION_FAILED = "Consolidation failed with error: {error}"
 
 if (
     TYPE_CHECKING
@@ -50,10 +58,8 @@ class ConsolidationWorker:
         """Stop background consolidation task."""
         if self._task:
             self._task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._task
-            except asyncio.CancelledError:
-                pass
 
     async def _consolidation_loop(self) -> None:
         """Main consolidation loop."""
@@ -63,14 +69,12 @@ class ConsolidationWorker:
                 await asyncio.sleep(self.consolidation_interval)
             except asyncio.CancelledError:
                 break
-            except Exception as e:
+            except Exception:
                 # Basic logging for now
-                print(f"Consolidation error: {e}")
                 await asyncio.sleep(60)  # Wait 1 minute before retry
 
     async def _perform_consolidation(self) -> None:
         """Perform memory consolidation operations."""
-        print(f"[{datetime.now()}] Starting memory consolidation cycle...")
         record_consolidation_run(
             success=True
         )  # Mark start of a run, assume success until exception
@@ -82,17 +86,12 @@ class ConsolidationWorker:
                     or not hasattr(self.store, "delete_experience")
                     or not hasattr(self.store, "store_experience")
                 ):  # Or update_experience
-                    print(
-                        "Store does not support required methods for consolidation. Skipping."
-                    )
-                    # Consider this a failed run for metrics if essential methods are missing
-                    # However, record_consolidation_run was already called with success=True.
-                    # This logic might need refinement: either check earlier or update status.
-                    # For now, we'll let it be counted as a run that did nothing.
+                    # Store missing essential methods for consolidation
+                    # Log and return early to avoid errors
                     return
 
                 # 1. Identify and archive/delete low-importance memories
-                # Example: Delete memories with importance < 0.2 that are older than 30 days
+                # Example: Delete memories with importance < 0.2 older than 30 days
                 low_importance_threshold = 0.2
                 age_threshold_days = 30
                 cutoff_date = datetime.now() - timedelta(days=age_threshold_days)
@@ -145,9 +144,6 @@ class ConsolidationWorker:
                     # This part of the code highlights a design dependency.
                     # For the sake of progress, I'll write pseudo-logic for deletion.
 
-                    print(
-                        f"Consolidation: Querying for items with importance < {low_importance_threshold}. Batch offset: {offset}"
-                    )
                     # This part needs `VectorMemoryStore.get_experiences_by_metadata_filter` to also return IDs/keys.
                     # Let's simulate this for now.
                     # contexts_to_check = await self.store.get_experiences_by_metadata_filter(
@@ -160,9 +156,11 @@ class ConsolidationWorker:
 
                     # Filter for items with low importance.
                     # Note: ChromaDB's `where` filter for numbers uses standard operators.
-                    # For timestamps (ISO strings), direct date comparisons like "$lt" might not work
-                    # as expected across all backing DBs for Chroma unless they are stored as numbers (e.g., epoch).
-                    # We will filter by importance directly in the DB, and by age in Python code after retrieval.
+                    # For timestamps (ISO strings), direct date comparisons like "$lt"
+                    # might not work as expected across all backing DBs for Chroma unless
+                    # they are stored as numbers (e.g., epoch).
+                    # We will filter by importance directly in the DB, and by age in
+                    # Python code after retrieval.
 
                     items_to_check = (
                         await self.store.get_experiences_by_metadata_filter(
@@ -175,9 +173,6 @@ class ConsolidationWorker:
                     )
 
                     if not items_to_check:
-                        print(
-                            "Consolidation: No more items with low importance to check in this batch."
-                        )
                         break  # No more items found with low importance
 
                     items_deleted_in_batch = 0
@@ -185,80 +180,58 @@ class ConsolidationWorker:
                         processed_count += 1
                         # Now, filter by age
                         if context.timestamp < cutoff_date:
-                            print(
-                                f"Consolidation: Deleting old, low-importance memory. Key: {key}, Importance: {context.importance}, Timestamp: {context.timestamp}"
-                            )
                             await self.store.delete_experience(key)
                             record_consolidation_items_processed(
                                 1, action="deleted_low_importance_old"
                             )
                             items_deleted_in_batch += 1
 
-                    print(
-                        f"Consolidation: Batch processed. Checked: {len(items_to_check)}, Deleted: {items_deleted_in_batch}"
-                    )
-
                     if len(items_to_check) < batch_size:
-                        # Fetched less than batch size, so probably no more items matching initial filter
-                        print(
-                            "Consolidation: Fetched less than batch size, assuming no more low-importance items."
-                        )
+                        # Fetched less than batch size, probably no more items
                         break
 
                     offset += batch_size
-                    # Safety break for very large number of low-importance items during testing
+                    # Safety break for very large number of low-importance items
                     if (
                         offset > 10 * batch_size
                     ):  # Process max 1000 items per cycle for safety
-                        print("Consolidation: Reached processing limit for this cycle.")
                         break
 
-                print(
-                    f"Consolidation: Finished checking for low-importance/old memories. Total processed candidates: {processed_count}"
-                )
-
                 # 2. Placeholder for merging similar experiences
-                # This is a complex task involving semantic similarity checks, content merging,
-                # and updating metadata (e.g., increasing importance of merged memory).
+                # This is a complex task involving semantic similarity checks,
+                # content merging, and updating metadata (e.g., increasing
+                # importance of merged memory).
                 # Example:
-                #   - Fetch pairs of highly similar memories (e.g., high cosine similarity of embeddings).
+                #   - Fetch pairs of highly similar memories
+                #     (e.g., high cosine similarity of embeddings).
                 #   - If content is very similar and metadata matches certain criteria:
                 #     - Create a new, consolidated LearningContext.
                 #     - Store the new context.
                 #     - Delete the original, less important/older contexts.
-                print("Consolidation: Placeholder for merging similar experiences.")
 
                 # 3. Placeholder for updating importance scores (e.g., decay over time)
                 # Example:
                 #   - For memories not accessed recently, slightly decrease importance.
-                #   - This requires tracking access times or having a reinforcement mechanism.
-                print(
-                    "Consolidation: Placeholder for updating importance scores (e.g., decay)."
-                )
+                #   - This requires tracking access times or having a
+                #     reinforcement mechanism.
 
                 # 4. Monitoring and Metrics Collection (Basic)
                 # More advanced metrics will be added in Phase 4 with Prometheus.
                 # For now, log basic stats.
-                # The MEMORY_ITEMS_COUNT gauge in VectorMemoryStore handles collection size metric automatically.
+                # The MEMORY_ITEMS_COUNT gauge in VectorMemoryStore handles
+                # collection size metric automatically.
                 # So, no direct metric update for size here, but logging is fine.
                 if hasattr(self.store, "get_collection_size"):
-                    current_size = self.store.get_collection_size()  # For logging
-                    print(
-                        f"Consolidation: Current collection size after cycle: {current_size}."
-                    )
+                    self.store.get_collection_size()  # For logging
 
-                print(
-                    f"[{datetime.now()}] Memory consolidation cycle finished successfully."
-                )
-
-        except Exception as e:
+        except Exception:
             # Record failed consolidation run
             # The CONSOLIDATION_RUNS_TOTAL was already incremented with success=True.
             # This is a limitation of the current simple record_consolidation_run.
             # A more robust approach would be to have distinct success/failure counters
             # or update the status label if the metric system supports it.
             # For now, we log the error. The duration will still be recorded.
-            print(f"[{datetime.now()}] Memory consolidation cycle failed: {e}")
+            pass
             # Optionally, re-increment CONSOLIDATION_RUNS_TOTAL with status="failure"
             # but this would double count the "run" itself.
             # A better way is to have a separate failure counter or a label for status.

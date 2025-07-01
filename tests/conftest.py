@@ -1,5 +1,6 @@
 import asyncio
 import gc
+import logging
 from pathlib import Path
 import platform
 import shutil
@@ -11,7 +12,7 @@ from metrics_recorder import MetricsRecorder
 import pytest
 import pytest_asyncio
 
-from memory_gate.storage.vector_store import VectorMemoryStore
+from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
 
 # Initialize metrics recorder with configurable display
 metrics_recorder = MetricsRecorder(
@@ -138,11 +139,12 @@ async def persistent_vector_store(
     temp_chroma_directory: Path,
 ) -> VectorMemoryStore:
     """Create a VectorMemoryStore with persistence for testing."""
-    store = VectorMemoryStore(
+    config = VectorStoreConfig(
         collection_name="test_persistent_collection",
         persist_directory=str(temp_chroma_directory),
         embedding_model_name="all-MiniLM-L6-v2",
     )
+    store = VectorMemoryStore(config=config)
     yield store
     if hasattr(store, "client") and hasattr(store.client, "stop"):
         store.client.stop()
@@ -155,11 +157,12 @@ async def persistent_vector_store(
 @pytest_asyncio.fixture
 async def in_memory_vector_store() -> VectorMemoryStore:
     """Create an in-memory VectorMemoryStore for testing."""
-    store = VectorMemoryStore(
+    config = VectorStoreConfig(
         collection_name="test_in_memory_collection",
         persist_directory=None,  # In-memory
         embedding_model_name="all-MiniLM-L6-v2",
     )
+    store = VectorMemoryStore(config=config)
     yield store
     if hasattr(store, "client") and hasattr(store.client, "stop"):
         store.client.stop()

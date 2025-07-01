@@ -6,7 +6,7 @@ import logging
 import pytest
 
 from memory_gate.memory_protocols import LearningContext
-from memory_gate.storage.vector_store import VectorMemoryStore
+from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ async def test_store_experience_performance(
     key, context = benchmark_data[0]
     logger.info(f"Benchmarking storage of experience with key: {key}")
 
-    async def store_async():
+    async def store_async() -> None:
         logger.debug("Executing store operation")
         await persistent_vector_store.store_experience(key, context)
         logger.debug("Store operation completed")
@@ -72,7 +72,7 @@ async def test_batch_store_performance(
     batch_size = 10
     logger.info(f"Benchmarking batch storage of {batch_size} experiences")
 
-    async def store_batch_async():
+    async def store_batch_async() -> None:
         logger.debug("Starting batch store operation")
         for i, (key, context) in enumerate(benchmark_data[:batch_size]):
             if i % 5 == 0:  # Log progress every 5 items
@@ -102,10 +102,11 @@ async def test_gpu_embedding_performance(benchmark, temp_chroma_directory):
     # It will be skipped if no GPU is available.
     try:
         logger.info("Initializing VectorMemoryStore for GPU test")
-        store = VectorMemoryStore(
+        config = VectorStoreConfig(
             collection_name="benchmark_gpu_collection",
             persist_directory=str(temp_chroma_directory),
         )
+        store = VectorMemoryStore(config=config)
         logger.info("VectorMemoryStore initialized successfully")
     except ImportError:
         logger.warning("Skipping GPU test: PyTorch with CUDA not available")

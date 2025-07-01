@@ -1,6 +1,7 @@
 import logging
+from typing import Any
 
-from prometheus_client import (  # type: ignore[import-untyped]
+from prometheus_client import (
     CollectorRegistry,
     Counter,
     Gauge,
@@ -9,6 +10,9 @@ from prometheus_client import (  # type: ignore[import-untyped]
 )
 
 logger = logging.getLogger(__name__)
+
+# Error message constants
+ERROR_MSG_PROMETHEUS_SERVER_START_FAILED = "Error starting Prometheus metrics server: {error}"
 
 # Create a custom registry (optional, but good practice for managing metrics)
 
@@ -166,13 +170,14 @@ def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
         start_http_server(port, addr=addr, registry=REGISTRY)
         logger.info("Prometheus metrics server started on %s:%d", addr, port)
     except Exception as e:
-        debug = getattr(logger, "debug", False)
-        exc_info = False
-        # If you have a global debug flag or config, use that instead of logger.debug
-        if hasattr(logger, "isEnabledFor") and logger.isEnabledFor(
-            10
-        ):  # 10 = logging.DEBUG
-            exc_info = True
-        logger.error(
-            "Error starting Prometheus metrics server: %s", e, exc_info=exc_info
-        )
+        exc_info = _should_include_exception_info()
+        error_msg = ERROR_MSG_PROMETHEUS_SERVER_START_FAILED.format(error=e)
+        logger.exception(error_msg, exc_info=exc_info)
+
+
+def _should_include_exception_info() -> bool:
+    """Determine if exception info should be included in logging."""
+    return (
+        hasattr(logger, "isEnabledFor") 
+        and logger.isEnabledFor(logging.DEBUG)
+    )

@@ -23,7 +23,7 @@ class MetricsRecorder:
         self,
         metrics_file: str = "test_metrics.json",
         display_config: dict | None = None,
-    ):
+    ) -> None:
         self.metrics_file = Path(metrics_file)
         self.display_config = {**self.DEFAULT_DISPLAY_CONFIG, **(display_config or {})}
         self.metrics = {
@@ -45,7 +45,8 @@ class MetricsRecorder:
                 max_runs = self.display_config["max_history_runs"]
                 self.previous_runs = self.previous_runs[-max_runs:]
             except (OSError, json.JSONDecodeError) as e:
-                print(f"Warning: Could not load previous metrics: {e}")
+                # Use logging for file operation warnings
+                logging.getLogger(__name__).warning("Could not load previous metrics: %s", e)
                 self.previous_runs = []
         else:
             self.previous_runs = []
@@ -90,7 +91,7 @@ class MetricsRecorder:
                     if isinstance(metric_data, dict)
                     else metric_data
                 )
-                if isinstance(value, (int, float)):
+                if isinstance(value, int | float):
                     values.append(value)
 
         if not values:
@@ -122,7 +123,7 @@ class MetricsRecorder:
                     if isinstance(metric_data, dict)
                     else metric_data
                 )
-                if isinstance(value, (int, float)):
+                if isinstance(value, int | float):
                     values.append(value)
 
         if len(values) < 2:
@@ -154,7 +155,8 @@ class MetricsRecorder:
             with open(self.metrics_file, "w") as file:
                 json.dump(self.previous_runs, file, indent=2)
         except OSError as e:
-            print(f"Warning: Could not save metrics: {e}")
+            # Use logging for file operation warnings
+            logging.getLogger(__name__).warning("Could not save metrics: %s", e)
 
     def format_duration(self, seconds: float) -> str:
         """Format duration in a human-readable way."""
@@ -221,7 +223,9 @@ class MetricsRecorder:
                     trend_symbol = (
                         "📈"
                         if current_vs_avg > 5
-                        else "📉" if current_vs_avg < -5 else "➡️"
+                        else "📉"
+                        if current_vs_avg < -5
+                        else "➡️"
                     )
                     report_sections.append(
                         f"  {trend_symbol} {name}: {self.format_duration(value)} (avg: {self.format_duration(stats['mean'])}, {current_vs_avg:+.1f}%)"
@@ -230,7 +234,7 @@ class MetricsRecorder:
         # Trends
         if self.display_config["show_trends"] and len(self.previous_runs) >= 2:
             report_sections.append("\n📊 TRENDS (last 5 runs):")
-            for name in self.metrics["timing"].keys():
+            for name in self.metrics["timing"]:
                 trend = self.get_trend("timing", name)
                 trend_emoji = {
                     "increasing": "📈",

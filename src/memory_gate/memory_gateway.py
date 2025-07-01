@@ -1,5 +1,5 @@
 import asyncio
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 from memory_gate.memory_protocols import KnowledgeStore, MemoryAdapter
 from memory_gate.metrics import (
@@ -12,7 +12,7 @@ T = TypeVar(
 # For now, assume T is typically LearningContext or similar enough that str(context) is meaningful.
 
 
-class MemoryGateway(Generic[T]):
+class MemoryGateway[T]:
     """Central memory management system."""
 
     def __init__(self, adapter: MemoryAdapter[T], store: KnowledgeStore[T]) -> None:
@@ -40,11 +40,10 @@ class MemoryGateway(Generic[T]):
                 operation_type="gateway_learn_interaction", success=True
             )
             return adapted_context
-        except Exception as e:
+        except Exception:
             record_memory_operation(
                 operation_type="gateway_learn_interaction", success=False
             )
-            print(f"Error in MemoryGateway learn_from_interaction: {e}")
             raise  # Re-raise for now
 
     def _generate_key(self, context: T) -> str:
