@@ -352,7 +352,7 @@ async def test_consolidation_error_logging_scenarios(
         for record in caplog.records
         if record.levelname == "ERROR" and "consolidation" in record.message.lower()
     ]
-    assert len(error_logs) >= 1, "Expected consolidation error log not found"
+    assert error_logs, "Expected consolidation error log not found"
 
 
 @pytest.mark.asyncio
