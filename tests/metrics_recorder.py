@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import logging
 from pathlib import Path
 import statistics
 from typing import Any
@@ -46,7 +47,9 @@ class MetricsRecorder:
                 self.previous_runs = self.previous_runs[-max_runs:]
             except (OSError, json.JSONDecodeError) as e:
                 # Use logging for file operation warnings
-                logging.getLogger(__name__).warning("Could not load previous metrics: %s", e)
+                logging.getLogger(__name__).warning(
+                    "Could not load previous metrics: %s", e
+                )
                 self.previous_runs = []
         else:
             self.previous_runs = []

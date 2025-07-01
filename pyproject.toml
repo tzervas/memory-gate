@@ -317,7 +317,6 @@ ignore = [
     "PLC0415", # Import should be at top-level (acceptable for conditional imports)
     "LOG015",  # info() call on root logger (acceptable in tests)
     "ERA001",  # Found commented-out code (keeping for documentation/future reference)
-    "UP046",   # Generic class uses Generic subclass instead of type parameters (compatibility)
     "E501",    # Line too long (less critical, many are due to comments and strings)
     "ARG002",  # Unused method argument (acceptable in test fixtures and interface methods)
 ]
