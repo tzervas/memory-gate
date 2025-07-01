@@ -1,3 +1,5 @@
+import pytest_asyncio
+
 import pytest
 import asyncio
 from datetime import datetime, timedelta  # Added timedelta here
@@ -21,13 +23,12 @@ class MockMemoryAdapter(MemoryAdapter[LearningContext]):
         return context
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def memory_gateway_for_agent(
     persistent_vector_store: VectorMemoryStore,
 ) -> MemoryGateway[LearningContext]:
     """Create a MemoryGateway with a persistent VectorMemoryStore and MockMemoryAdapter."""
     adapter = MockMemoryAdapter()
-    # persistent_vector_store is already a KnowledgeStore[LearningContext]
     return MemoryGateway(adapter=adapter, store=persistent_vector_store)
 
 

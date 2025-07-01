@@ -1,3 +1,5 @@
+import pytest_asyncio
+
 import pytest
 import asyncio
 from unittest.mock import AsyncMock
@@ -12,7 +14,7 @@ from memory_gate.storage.vector_store import (
 )  # Using VectorMemoryStore for concrete tests
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def vector_store_for_consolidation(
     temp_chroma_directory: str,
 ) -> VectorMemoryStore:
@@ -27,10 +29,9 @@ async def vector_store_for_consolidation(
 def consolidation_worker(
     vector_store_for_consolidation: VectorMemoryStore,
 ) -> ConsolidationWorker:
-    """Create a consolidation worker with a real VectorMemoryStore."""
-    # Use a short interval for testing purposes
+    """Create a ConsolidationWorker instance for testing."""
     return ConsolidationWorker(
-        vector_store_for_consolidation, consolidation_interval=0.1
+        store=vector_store_for_consolidation, consolidation_interval=0.1
     )
 
 

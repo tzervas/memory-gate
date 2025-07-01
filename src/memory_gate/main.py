@@ -206,7 +206,3 @@ def main() -> None:
 
         # Additional cleanup for other resources if necessary
         print("MemoryGate application stopped.")
-
-
-if __name__ == "__main__":
-    main()

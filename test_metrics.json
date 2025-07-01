@@ -1,0 +1,114 @@
+[
+  {
+    "timestamp": "2025-06-30T23:19:08.552577",
+    "performance": {
+      "Average Test Duration": {
+        "value": 1.096962537084307,
+        "unit": "seconds"
+      }
+    },
+    "quality": {
+      "Pass Rate": "100.0%",
+      "Total Tests": 28,
+      "Passed Tests": 28,
+      "Failed Tests": 0,
+      "Skipped Tests": 0,
+      "Error Tests": 0
+    },
+    "timing": {
+      "test_store_experience_performance_duration": 1.1213767528533936,
+      "test_batch_store_performance_duration": 0.34721922874450684,
+      "test_gpu_embedding_performance_duration": 1.0161004066467285,
+      "test_store_and_retrieve_duration": 0.0,
+      "test_retrieve_miss_duration": 0.0,
+      "test_retrieve_limit_duration": 0.0009996891021728516,
+      "test_initialization_duration": 0.0,
+      "test_store_and_retrieve_single_experience[persistent_vector_store]_duration": 0.0604090690612793,
+      "test_store_and_retrieve_single_experience[in_memory_vector_store]_duration": 0.02859973907470703,
+      "test_experience_lifecycle[persistent_vector_store]_duration": 0.07519817352294922,
+      "test_experience_lifecycle[in_memory_vector_store]_duration": 0.028001785278320312,
+      "test_property_based_store_and_retrieve[persistent_vector_store]_duration": 2.8804235458374023,
+      "test_property_based_store_and_retrieve[in_memory_vector_store]_duration": 1.198371171951294,
+      "test_simple_echo_agent_process_task_and_learn_duration": 0.1497056484222412,
+      "test_infra_agent_process_task_no_prior_memory_duration": 0.1961381435394287,
+      "test_infra_agent_uses_relevant_memory_duration": 0.24417495727539062,
+      "test_agent_does_not_learn_if_flagged_duration": 0.14852595329284668,
+      "test_base_agent_feedback_placeholder_duration": 0.0,
+      "test_consolidation_worker_instantiation_duration": 0.0,
+      "test_consolidation_loop_calls_perform_consolidation_duration": 0.264650821685791,
+      "test_perform_consolidation_deletes_old_low_importance_items_duration": 0.1401348114013672,
+      "test_consolidation_with_empty_store_duration": 0.0015017986297607422,
+      "test_consolidation_with_no_matching_items_for_deletion_duration": 0.06916594505310059,
+      "test_learning_context_post_init_duration": 0.0,
+      "test_main_async_initialization_duration": 0.0039997100830078125,
+      "test_shutdown_handler_duration": 0.0019998550415039062,
+      "test_learn_from_interaction_duration": 0.11011719703674316,
+      "test_key_generation_duration": 0.0,
+      "Total Run Time": 30.714951038360596
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Windows",
+      "architecture": "AMD64",
+      "pytest_args": "tests",
+      "exit_status": 1
+    }
+  },
+  {
+    "timestamp": "2025-06-30T23:20:33.233467",
+    "performance": {
+      "Average Test Duration": {
+        "value": 1.0586506298610143,
+        "unit": "seconds"
+      }
+    },
+    "quality": {
+      "Pass Rate": "100.0%",
+      "Total Tests": 28,
+      "Passed Tests": 28,
+      "Failed Tests": 0,
+      "Skipped Tests": 0,
+      "Error Tests": 0
+    },
+    "timing": {
+      "test_store_experience_performance_duration": 1.1197848320007324,
+      "test_batch_store_performance_duration": 0.3403446674346924,
+      "test_gpu_embedding_performance_duration": 0.8995096683502197,
+      "test_store_and_retrieve_duration": 0.0,
+      "test_retrieve_miss_duration": 0.0,
+      "test_retrieve_limit_duration": 0.0,
+      "test_initialization_duration": 0.001001596450805664,
+      "test_store_and_retrieve_single_experience[persistent_vector_store]_duration": 0.06169605255126953,
+      "test_store_and_retrieve_single_experience[in_memory_vector_store]_duration": 0.02801346778869629,
+      "test_experience_lifecycle[persistent_vector_store]_duration": 0.07320570945739746,
+      "test_experience_lifecycle[in_memory_vector_store]_duration": 0.02801227569580078,
+      "test_property_based_store_and_retrieve[persistent_vector_store]_duration": 2.868438482284546,
+      "test_property_based_store_and_retrieve[in_memory_vector_store]_duration": 1.2007787227630615,
+      "test_simple_echo_agent_process_task_and_learn_duration": 0.14212584495544434,
+      "test_infra_agent_process_task_no_prior_memory_duration": 0.1947038173675537,
+      "test_infra_agent_uses_relevant_memory_duration": 0.26593589782714844,
+      "test_agent_does_not_learn_if_flagged_duration": 0.1400301456451416,
+      "test_base_agent_feedback_placeholder_duration": 0.0010035037994384766,
+      "test_consolidation_worker_instantiation_duration": 0.0,
+      "test_consolidation_loop_calls_perform_consolidation_duration": 0.25855183601379395,
+      "test_perform_consolidation_deletes_old_low_importance_items_duration": 0.13811111450195312,
+      "test_consolidation_with_empty_store_duration": 0.003000497817993164,
+      "test_consolidation_with_no_matching_items_for_deletion_duration": 0.06724905967712402,
+      "test_learning_context_post_init_duration": 0.0,
+      "test_main_async_initialization_duration": 0.004002571105957031,
+      "test_shutdown_handler_duration": 0.0009996891021728516,
+      "test_learn_from_interaction_duration": 0.10696864128112793,
+      "test_key_generation_duration": 0.0,
+      "Total Run Time": 29.6422176361084
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Windows",
+      "architecture": "AMD64",
+      "pytest_args": "tests",
+      "exit_status": 1
+    }
+  }
+]
