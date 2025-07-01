@@ -1,5 +1,4 @@
 import logging
-import time
 
 from prometheus_client import (  # type: ignore[import-untyped]
     CollectorRegistry,
@@ -12,9 +11,6 @@ from prometheus_client import (  # type: ignore[import-untyped]
 logger = logging.getLogger(__name__)
 
 # Create a custom registry (optional, but good practice for managing metrics)
-# Using time to log metrics initialization time
-time_started = time.time()
-logger.info("Metrics initialized at %s", time_started)
 
 # If not using a custom registry, prometheus_client uses a global default registry.
 REGISTRY = CollectorRegistry()
@@ -170,4 +166,13 @@ def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
         start_http_server(port, addr=addr, registry=REGISTRY)
         logger.info("Prometheus metrics server started on %s:%d", addr, port)
     except Exception as e:
-        logger.error("Error starting Prometheus metrics server: %s", e, exc_info=True)
+        debug = getattr(logger, "debug", False)
+        exc_info = False
+        # If you have a global debug flag or config, use that instead of logger.debug
+        if hasattr(logger, "isEnabledFor") and logger.isEnabledFor(
+            10
+        ):  # 10 = logging.DEBUG
+            exc_info = True
+        logger.error(
+            "Error starting Prometheus metrics server: %s", e, exc_info=exc_info
+        )

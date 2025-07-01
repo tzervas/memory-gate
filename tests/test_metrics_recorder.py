@@ -126,13 +126,15 @@ class TestMetricsPersistence:
         """Test loading when file doesn't exist."""
         assert recorder.previous_runs == []
 
-    def test_load_malformed_json(self, malformed_json_file: str, capsys: pytest.CaptureFixture) -> None:
+    def test_load_malformed_json(
+        self, malformed_json_file: str, capsys: pytest.CaptureFixture
+    ) -> None:
         """Test graceful handling of malformed JSON with warning verification."""
         recorder = MetricsRecorder(metrics_file=malformed_json_file)
-        
+
         # Verify previous_runs becomes empty
         assert recorder.previous_runs == []
-        
+
         # Verify warning is logged
         captured = capsys.readouterr()
         assert "Warning: Could not load previous metrics:" in captured.out
@@ -161,34 +163,42 @@ class TestMetricsErrorHandling:
     """Test error handling in metrics operations."""
 
     def test_save_io_error(
-        self, populated_recorder: MetricsRecorder, mock_io_error: None, capsys: pytest.CaptureFixture
+        self,
+        populated_recorder: MetricsRecorder,
+        mock_io_error: None,
+        capsys: pytest.CaptureFixture,
     ) -> None:
         """Test graceful handling of save I/O errors with warning verification."""
         # Should not raise exception, just print warning
         populated_recorder.save_metrics()
-        
+
         # Verify warning is logged
         captured = capsys.readouterr()
         assert "Warning: Could not save metrics:" in captured.out
         assert "Mock I/O error" in captured.out
 
-    def test_load_io_error(self, metrics_file: str, capsys: pytest.CaptureFixture, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_load_io_error(
+        self,
+        metrics_file: str,
+        capsys: pytest.CaptureFixture,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         """Test graceful handling of load I/O errors with warning verification."""
         # First create a file so it exists
         Path(metrics_file).write_text('[{"test": "data"}]')
-        
+
         # Then mock open to raise IOError
         def mock_open(*args, **kwargs):  # noqa: ANN202, ARG001
             raise OSError("Mock I/O error")
-        
+
         monkeypatch.setattr("builtins.open", mock_open)
-        
+
         # Now create recorder which should trigger the I/O error
         recorder = MetricsRecorder(metrics_file=metrics_file)
-        
+
         # Verify previous_runs becomes empty
         assert recorder.previous_runs == []
-        
+
         # Verify warning is logged
         captured = capsys.readouterr()
         assert "Warning: Could not load previous metrics:" in captured.out

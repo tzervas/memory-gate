@@ -7,9 +7,7 @@ import pytest_asyncio
 
 from memory_gate.consolidation import ConsolidationWorker
 from memory_gate.memory_protocols import LearningContext
-from memory_gate.storage.vector_store import (
-    VectorMemoryStore,
-)  # Using VectorMemoryStore for concrete tests
+from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
 
 
 @pytest_asyncio.fixture
@@ -17,10 +15,11 @@ async def vector_store_for_consolidation(
     temp_chroma_directory: str,
 ) -> VectorMemoryStore:
     """Create a VectorMemoryStore instance for consolidation tests, with persistence."""
-    return VectorMemoryStore(
+    config = VectorStoreConfig(
         collection_name="consolidation_test_collection",
         persist_directory=temp_chroma_directory,
     )
+    return VectorMemoryStore(config=config)
 
 
 @pytest.fixture

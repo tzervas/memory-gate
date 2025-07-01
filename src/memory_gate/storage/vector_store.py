@@ -65,45 +65,58 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
 
     def __init__(
         self,
-        collection_name: str = "memory_gate_default_collection",
-        embedding_model_name: str = "all-MiniLM-L6-v2",
-        persist_directory: str | None = "./data/chromadb_store",
-        chroma_settings: dict[str, Any] | None = None,
+        config: VectorStoreConfig,
     ) -> None:
         """
         Initializes the VectorMemoryStore.
 
         Args:
-            collection_name: Name of the ChromaDB collection to use.
-            embedding_model_name: Name of the sentence-transformer model for embeddings.
-            persist_directory: Directory to persist ChromaDB data. If None, uses in-memory.
-            chroma_settings: Additional settings for ChromaDB client.
+            config: Configuration object for the vector store.
         """
-        self.collection_name = collection_name
-        self.embedding_model = SentenceTransformer(embedding_model_name)
+        self.config = config
 
-        if persist_directory:
-            self.client = chromadb.PersistentClient(
-                path=persist_directory,
-                settings=Settings(
-                    **(chroma_settings or {"anonymized_telemetry": False})
-                ),
-            )
-        else:
-            self.client = chromadb.Client(
-                settings=Settings(
-                    **(chroma_settings or {"anonymized_telemetry": False})
+        try:
+            if self.config.persist_directory:
+                self.client = chromadb.PersistentClient(
+                    path=self.config.persist_directory,
+                    settings=Settings(
+                        **(
+                            self.config.chroma_settings
+                            or {"anonymized_telemetry": False}
+                        )
+                    ),
                 )
+            else:
+                self.client = chromadb.Client(
+                    settings=Settings(
+                        **(
+                            self.config.chroma_settings
+                            or {"anonymized_telemetry": False}
+                        )
+                    )
+                )
+        except Exception as e:
+            raise VectorStoreInitError(
+                f"Failed to initialize ChromaDB client: {e}"
+            ) from e
+
+        try:
+            self.embedding_model = SentenceTransformer(
+                self.config.embedding_model_name, device=self.config.embedding_device
             )
+        except Exception as e:
+            raise VectorStoreInitError(
+                f"Failed to initialize embedding model: {e}"
+            ) from e
 
         self.collection = self.client.get_or_create_collection(
-            name=self.collection_name,
-            metadata={"description": "MemoryGate learning storage"},
-            # embedding_function is not set here, we generate embeddings manually
+            name=self.config.collection_name,
+            metadata=self.config.collection_metadata
+            or {"description": "MemoryGate learning storage"},
         )
         # Initialize item count gauge
         MEMORY_ITEMS_COUNT.labels(
-            store_type="vector_store", collection_name=self.collection_name
+            store_type="vector_store", collection_name=self.config.collection_name
         ).set_function(
             lambda: self.collection.count()  # Periodically update with current count
         )
@@ -113,7 +126,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         loop = asyncio.get_event_loop()
         # SentenceTransformer.encode is CPU-bound, run in executor
         embedding = await loop.run_in_executor(None, self.embedding_model.encode, text)
-        return cast(list[float], embedding.tolist())
+        return cast("list[float]", embedding.tolist())
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """
@@ -280,7 +293,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
     def get_collection_size(self) -> int:
         """Returns the number of items in the collection."""
         # This is now handled by the MEMORY_ITEMS_COUNT gauge's set_function
-        return cast(int, self.collection.count())
+        return cast("int", self.collection.count())
 
     async def get_experiences_by_metadata_filter(
         self,
