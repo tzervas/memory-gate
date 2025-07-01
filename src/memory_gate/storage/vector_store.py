@@ -1,17 +1,60 @@
-from typing import Any, List, Optional, Dict, cast
 import asyncio
+from dataclasses import dataclass
+from datetime import datetime
+import logging
+from typing import Any, cast
+
 import chromadb  # type: ignore[import-not-found]
 from chromadb.config import Settings  # type: ignore[import-not-found]
+
+# from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer  # type: ignore[import-not-found]
-from datetime import datetime
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import (
-    MEMORY_STORE_LATENCY_SECONDS,
-    MEMORY_RETRIEVAL_LATENCY_SECONDS,
     MEMORY_ITEMS_COUNT,
+    MEMORY_RETRIEVAL_LATENCY_SECONDS,
+    MEMORY_STORE_LATENCY_SECONDS,
     record_memory_operation,
 )
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class VectorStoreConfig:
+    """Configuration for VectorMemoryStore.
+
+    Args:
+        collection_name: Name of the ChromaDB collection to use
+        embedding_model_name: Name of the sentence-transformer model for embeddings
+        persist_directory: Directory to persist ChromaDB data. If None, uses in-memory
+        collection_metadata: Additional metadata for the collection
+        chroma_settings: Additional settings for ChromaDB client
+        max_batch_size: Maximum number of items to process in a single batch
+        embedding_device: Device to use for embedding generation ('cpu' or 'cuda')
+    """
+
+    collection_name: str = "memory_gate_default_collection"
+    embedding_model_name: str = "all-MiniLM-L6-v2"
+    persist_directory: str | None = "./data/chromadb_store"
+    collection_metadata: dict[str, Any] | None = None
+    chroma_settings: dict[str, Any] | None = None
+    max_batch_size: int = 100
+    embedding_device: str = "cpu"  # or "cuda" for GPU support
+
+
+class VectorStoreError(Exception):
+    """Base exception for VectorMemoryStore errors."""
+
+
+class VectorStoreInitError(VectorStoreError):
+    """Raised when VectorMemoryStore initialization fails."""
+
+
+class VectorStoreOperationError(VectorStoreError):
+    """Raised when a VectorMemoryStore operation fails."""
 
 
 class VectorMemoryStore(KnowledgeStore[LearningContext]):
@@ -22,55 +65,68 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
 
     def __init__(
         self,
-        collection_name: str = "memory_gate_default_collection",
-        embedding_model_name: str = "all-MiniLM-L6-v2",
-        persist_directory: Optional[str] = "./data/chromadb_store",
-        chroma_settings: Optional[Dict[str, Any]] = None,
+        config: VectorStoreConfig,
     ) -> None:
         """
         Initializes the VectorMemoryStore.
 
         Args:
-            collection_name: Name of the ChromaDB collection to use.
-            embedding_model_name: Name of the sentence-transformer model for embeddings.
-            persist_directory: Directory to persist ChromaDB data. If None, uses in-memory.
-            chroma_settings: Additional settings for ChromaDB client.
+            config: Configuration object for the vector store.
         """
-        self.collection_name = collection_name
-        self.embedding_model = SentenceTransformer(embedding_model_name)
+        self.config = config
 
-        if persist_directory:
-            self.client = chromadb.PersistentClient(
-                path=persist_directory,
-                settings=Settings(
-                    **(chroma_settings or {"anonymized_telemetry": False})
-                ),
-            )
-        else:
-            self.client = chromadb.Client(
-                settings=Settings(
-                    **(chroma_settings or {"anonymized_telemetry": False})
+        try:
+            if self.config.persist_directory:
+                self.client = chromadb.PersistentClient(
+                    path=self.config.persist_directory,
+                    settings=Settings(
+                        **(
+                            self.config.chroma_settings
+                            or {"anonymized_telemetry": False}
+                        )
+                    ),
                 )
+            else:
+                self.client = chromadb.Client(
+                    settings=Settings(
+                        **(
+                            self.config.chroma_settings
+                            or {"anonymized_telemetry": False}
+                        )
+                    )
+                )
+        except Exception as e:
+            raise VectorStoreInitError(
+                f"Failed to initialize ChromaDB client: {e}"
+            ) from e
+
+        try:
+            self.embedding_model = SentenceTransformer(
+                self.config.embedding_model_name, device=self.config.embedding_device
             )
+        except Exception as e:
+            raise VectorStoreInitError(
+                f"Failed to initialize embedding model: {e}"
+            ) from e
 
         self.collection = self.client.get_or_create_collection(
-            name=self.collection_name,
-            metadata={"description": "MemoryGate learning storage"},
-            # embedding_function is not set here, we generate embeddings manually
+            name=self.config.collection_name,
+            metadata=self.config.collection_metadata
+            or {"description": "MemoryGate learning storage"},
         )
         # Initialize item count gauge
         MEMORY_ITEMS_COUNT.labels(
-            store_type="vector_store", collection_name=self.collection_name
+            store_type="vector_store", collection_name=self.config.collection_name
         ).set_function(
             lambda: self.collection.count()  # Periodically update with current count
         )
 
-    async def _generate_embedding(self, text: str) -> List[float]:
+    async def _generate_embedding(self, text: str) -> list[float]:
         """Generates embedding for a given text using sentence-transformer model."""
         loop = asyncio.get_event_loop()
         # SentenceTransformer.encode is CPU-bound, run in executor
         embedding = await loop.run_in_executor(None, self.embedding_model.encode, text)
-        return cast(List[float], embedding.tolist())
+        return cast("list[float]", embedding.tolist())
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """
@@ -108,9 +164,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         self,
         query: str,
         limit: int = 10,
-        domain_filter: Optional[str] = None,
-        metadata_filter: Optional[Dict[str, Any]] = None,
-    ) -> List[LearningContext]:
+        domain_filter: str | None = None,
+        metadata_filter: dict[str, Any] | None = None,
+    ) -> list[LearningContext]:
         """
         Retrieves relevant context using vector similarity search.
 
@@ -129,7 +185,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             ).time():
                 query_embedding = await self._generate_embedding(query)
 
-                where_clause: Dict[str, Any] = {}
+                where_clause: dict[str, Any] = {}
                 if domain_filter:
                     where_clause["domain"] = domain_filter
 
@@ -146,7 +202,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     include=["metadatas", "documents", "distances"],
                 )
 
-            contexts: List[LearningContext] = []
+            contexts: list[LearningContext] = []
             if (
                 query_results["ids"] and query_results["ids"][0]
             ):  # Check if there are any results
@@ -170,7 +226,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                                 str(metadata["timestamp"])
                             ),
                             importance=float(
-                                str(metadata.get("importance", 1.0))
+                                metadata.get("importance", 1.0)
                             ),  # handle missing importance
                             metadata=original_metadata,
                         )
@@ -182,7 +238,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             print(f"Error retrieving context for query '{query}': {e}")
             raise  # Re-raise for now
 
-    async def get_experience_by_id(self, key: str) -> Optional[LearningContext]:
+    async def get_experience_by_id(self, key: str) -> LearningContext | None:
         """Retrieves a specific experience by its key."""
         try:
             with MEMORY_RETRIEVAL_LATENCY_SECONDS.labels(
@@ -211,7 +267,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 content=doc_content,
                 domain=str(metadata.get("domain", "unknown")),
                 timestamp=datetime.fromisoformat(str(metadata["timestamp"])),
-                importance=float(str(metadata.get("importance", 1.0))),
+                importance=float(metadata.get("importance", 1.0)),
                 metadata=original_metadata,
             )
             record_memory_operation(operation_type="get_experience_by_id", success=True)
@@ -237,14 +293,14 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
     def get_collection_size(self) -> int:
         """Returns the number of items in the collection."""
         # This is now handled by the MEMORY_ITEMS_COUNT gauge's set_function
-        return cast(int, self.collection.count())
+        return cast("int", self.collection.count())
 
     async def get_experiences_by_metadata_filter(
         self,
-        metadata_filter: Dict[str, Any],
+        metadata_filter: dict[str, Any],
         limit: int = 100,  # Default limit to avoid fetching too much
         offset: int = 0,
-    ) -> List[tuple[str, LearningContext]]:
+    ) -> list[tuple[str, LearningContext]]:
         """
         Retrieves experiences (ID and LearningContext) based on a metadata filter.
         Uses ChromaDB's get() method which can filter on metadata.
@@ -268,7 +324,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     include=["metadatas", "documents"],  # IDs are included by default
                 )
 
-            items: List[tuple[str, LearningContext]] = []
+            items: list[tuple[str, LearningContext]] = []
             if (
                 results["ids"] and results["documents"] and results["metadatas"]
             ):  # Ensure all lists are present and non-empty
@@ -285,7 +341,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                         content=doc_content,
                         domain=str(metadata.get("domain", "unknown")),
                         timestamp=datetime.fromisoformat(str(metadata["timestamp"])),
-                        importance=float(str(metadata.get("importance", 1.0))),
+                        importance=float(metadata.get("importance", 1.0)),
                         metadata=original_metadata,
                     )
                     items.append((item_id, context))
@@ -299,95 +355,3 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             )
             print(f"Error in get_experiences_by_metadata_filter: {e}")
             raise  # Re-raise for now
-
-    # The following methods (get_experience_by_id, delete_experience, get_collection_size)
-    # were duplicated in the file content provided by read_files.
-    # I am assuming the version with metrics (earlier in the file) is the correct one.
-    # I will remove the duplicated, non-metric versions if they appear after this fixed method.
-    # This tool does not allow me to delete the duplicated methods directly without another read.
-    # For now, I'm only fixing the identified syntax error location.
-    # The next read_files or grep will confirm if duplicates exist and need removal.
-
-    # Duplicated get_experience_by_id was here in my mental model of the file.
-    # Duplicated delete_experience was here.
-    # Duplicated get_collection_size was here.
-    # Duplicated get_experiences_by_metadata_filter was here.
-
-
-# Example of how to use (for testing or direct script execution)
-async def main_test() -> None:
-    print("Initializing VectorMemoryStore (in-memory ChromaDB)...")
-    # Using persist_directory=None for in-memory for this test
-    vector_store = VectorMemoryStore(
-        collection_name="test_run_collection", persist_directory=None
-    )
-
-    print(f"Initial collection size: {vector_store.get_collection_size()}")
-
-    # Example LearningContext objects
-    context1 = LearningContext(
-        content="User prefers dark mode in applications.",
-        domain="preferences",
-        timestamp=datetime.now(),
-        importance=0.8,
-        metadata={"user_id": "user123", "app_version": "1.2.0"},
-    )
-    context2 = LearningContext(
-        content="Common error in deployment script: file not found.",
-        domain="devops",
-        timestamp=datetime.now(),
-        importance=0.95,
-        metadata={"script_name": "deploy.sh", "error_code": "ENOENT"},
-    )
-    context3 = LearningContext(
-        content="User frequently asks about Python syntax.",
-        domain="support",
-        timestamp=datetime.now(),
-        importance=0.7,
-        metadata={"user_id": "user456", "language": "python"},
-    )
-
-    print("\nStoring experiences...")
-    await vector_store.store_experience("pref_dark_mode", context1)
-    await vector_store.store_experience("devops_error_enoent", context2)
-    await vector_store.store_experience("support_python_syntax", context3)
-
-    print(f"Collection size after storing: {vector_store.get_collection_size()}")
-
-    print("\nRetrieving context for 'python error':")
-    retrieved_contexts = await vector_store.retrieve_context("python error", limit=2)
-    for ctx in retrieved_contexts:
-        print(
-            f"  - Content: {ctx.content}, Domain: {ctx.domain}, Importance: {ctx.importance}, Meta: {ctx.metadata}"
-        )
-
-    print("\nRetrieving context for 'deployment script' with domain 'devops':")
-    retrieved_devops = await vector_store.retrieve_context(
-        "deployment script", limit=1, domain_filter="devops"
-    )
-    for ctx in retrieved_devops:
-        print(
-            f"  - Content: {ctx.content}, Domain: {ctx.domain}, Importance: {ctx.importance}"
-        )
-
-    print("\nRetrieving experience by ID 'pref_dark_mode':")
-    specific_context = await vector_store.get_experience_by_id("pref_dark_mode")
-    if specific_context:
-        print(f"  - Found: {specific_context.content}")
-
-    print("\nDeleting experience 'support_python_syntax'...")
-    await vector_store.delete_experience("support_python_syntax")
-    print(f"Collection size after deletion: {vector_store.get_collection_size()}")
-
-    print("\nAttempting to retrieve deleted experience:")
-    deleted_retrieval = await vector_store.get_experience_by_id("support_python_syntax")
-    print(f"  - Found: {'Yes' if deleted_retrieval else 'No'}")
-
-    print("\nTest finished.")
-
-
-if __name__ == "__main__":
-    # This allows running the file directly for quick tests if needed.
-    # Note: top-level await is Python 3.8+, ensure your environment supports it if you run this directly
-    # or use asyncio.run(main_test())
-    asyncio.run(main_test())

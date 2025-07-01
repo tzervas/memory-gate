@@ -1,6 +1,6 @@
-from typing import Protocol, TypeVar, Optional
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Protocol, TypeVar
 
 T = TypeVar("T")
 
@@ -8,7 +8,7 @@ T = TypeVar("T")
 class MemoryAdapter(Protocol[T]):
     """Protocol for memory adaptation strategies."""
 
-    async def adapt_knowledge(self, context: T, feedback: Optional[float] = None) -> T:
+    async def adapt_knowledge(self, context: T, feedback: float | None = None) -> T:
         """Adapt knowledge based on context and feedback."""
         ...
 
@@ -21,7 +21,7 @@ class KnowledgeStore(Protocol[T]):
         ...
 
     async def retrieve_context(
-        self, query: str, limit: int = 10, domain_filter: Optional[str] = None
+        self, query: str, limit: int = 10, domain_filter: str | None = None
     ) -> list[T]:
         """Retrieve relevant context."""
         ...

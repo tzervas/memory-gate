@@ -1,13 +1,17 @@
-from prometheus_client import (  # type: ignore[import-not-found]
+import logging
+
+from prometheus_client import (  # type: ignore[import-untyped]
+    CollectorRegistry,
     Counter,
     Gauge,
     Histogram,
-    CollectorRegistry,
     start_http_server,
 )
-import time
+
+logger = logging.getLogger(__name__)
 
 # Create a custom registry (optional, but good practice for managing metrics)
+
 # If not using a custom registry, prometheus_client uses a global default registry.
 REGISTRY = CollectorRegistry()
 
@@ -160,43 +164,15 @@ def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
     """Starts an HTTP server to expose the metrics on /metrics endpoint."""
     try:
         start_http_server(port, addr=addr, registry=REGISTRY)
-        print(f"Prometheus metrics server started on port {port}")
+        logger.info("Prometheus metrics server started on %s:%d", addr, port)
     except Exception as e:
-        print(f"Error starting Prometheus metrics server: {e}")
-
-
-if __name__ == "__main__":
-    # Example usage / simple test
-    start_metrics_server()
-    print("Metrics server running. Access /metrics on the specified port.")
-
-    # Simulate some metric updates
-    record_memory_operation("store_experience", success=True)
-    record_memory_operation("retrieve_context", success=True)
-    record_memory_operation("store_experience", success=False)
-
-    with MEMORY_STORE_LATENCY_SECONDS.labels(store_type="vector_store").time():
-        time.sleep(0.05)  # Simulate work
-
-    MEMORY_ITEMS_COUNT.labels(
-        store_type="vector_store", collection_name="test_collection"
-    ).set(123)
-
-    record_consolidation_run(success=True)
-    with CONSOLIDATION_DURATION_SECONDS.time():
-        time.sleep(2)  # Simulate consolidation work
-    record_consolidation_items_processed(5, action="deleted")
-
-    record_agent_task_processed("InfraAgent", "infrastructure", success=True)
-    with AGENT_TASK_DURATION_SECONDS.labels(
-        agent_name="InfraAgent", agent_domain="infrastructure"
-    ).time():
-        time.sleep(0.1)
-    record_agent_memory_learned("InfraAgent", "infrastructure")
-
-    # Keep the main thread alive to keep the metrics server running
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Metrics server shutting down.")
+        debug = getattr(logger, "debug", False)
+        exc_info = False
+        # If you have a global debug flag or config, use that instead of logger.debug
+        if hasattr(logger, "isEnabledFor") and logger.isEnabledFor(
+            10
+        ):  # 10 = logging.DEBUG
+            exc_info = True
+        logger.error(
+            "Error starting Prometheus metrics server: %s", e, exc_info=exc_info
+        )

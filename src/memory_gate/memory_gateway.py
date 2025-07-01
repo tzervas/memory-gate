@@ -1,7 +1,7 @@
 import asyncio
-from typing import Generic, TypeVar, Optional
+from typing import Generic, TypeVar
 
-from memory_gate.memory_protocols import MemoryAdapter, KnowledgeStore
+from memory_gate.memory_protocols import KnowledgeStore, MemoryAdapter
 from memory_gate.metrics import (
     record_memory_operation,
 )  # Assuming this is a general operation counter
@@ -18,10 +18,10 @@ class MemoryGateway(Generic[T]):
     def __init__(self, adapter: MemoryAdapter[T], store: KnowledgeStore[T]) -> None:
         self.adapter = adapter
         self.store = store
-        self._consolidation_task: Optional[asyncio.Task[None]] = None
+        self._consolidation_task: asyncio.Task[None] | None = None
 
     async def learn_from_interaction(
-        self, context: T, feedback: Optional[float] = None
+        self, context: T, feedback: float | None = None
     ) -> T:
         """Process interaction and update knowledge."""
         try:

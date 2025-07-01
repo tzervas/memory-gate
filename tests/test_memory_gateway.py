@@ -1,10 +1,11 @@
 import asyncio
-import pytest
-from unittest.mock import AsyncMock
 from datetime import datetime
+from unittest.mock import AsyncMock
+
+import pytest
 
 from memory_gate.memory_gateway import MemoryGateway
-from memory_gate.memory_protocols import LearningContext, MemoryAdapter, KnowledgeStore
+from memory_gate.memory_protocols import KnowledgeStore, LearningContext, MemoryAdapter
 
 
 @pytest.fixture
@@ -43,10 +44,14 @@ async def test_learn_from_interaction(
 async def test_key_generation(memory_gateway: MemoryGateway[LearningContext]) -> None:
     """Test key generation consistency."""
     context1 = LearningContext(
-        content="identical content", domain="test", timestamp=datetime.now()
+        content="identical content",
+        domain="test",
+        timestamp=datetime(2023, 1, 1, 12, 0, 0),
     )
     context2 = LearningContext(
-        content="identical content", domain="test", timestamp=datetime.now()
+        content="identical content",
+        domain="test",
+        timestamp=datetime(2023, 1, 1, 12, 0, 0),
     )
 
     key1 = memory_gateway._generate_key(context1)

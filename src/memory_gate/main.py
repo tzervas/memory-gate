@@ -4,15 +4,14 @@ Handles graceful shutdown and background task management.
 
 import asyncio
 import os
-from typing import List, Optional
 
-from memory_gate.memory_protocols import LearningContext, MemoryAdapter
-from memory_gate.storage.vector_store import VectorMemoryStore
-from memory_gate.memory_gateway import MemoryGateway
-from memory_gate.consolidation import ConsolidationWorker
 from memory_gate.agent_interface import SimpleEchoAgent
 from memory_gate.agents import InfrastructureAgent
+from memory_gate.consolidation import ConsolidationWorker
+from memory_gate.memory_gateway import MemoryGateway
+from memory_gate.memory_protocols import LearningContext, MemoryAdapter
 from memory_gate.metrics import start_metrics_server
+from memory_gate.storage.vector_store import VectorMemoryStore
 
 # --- Configuration ---
 # These could be loaded from environment variables, config files, etc.
@@ -43,7 +42,7 @@ CONSOLIDATION_INTERVAL_SECONDS = int(
 )  # 1 hour
 
 # Global list to keep track of background tasks for graceful shutdown
-background_tasks: List[asyncio.Task[None]] = []
+background_tasks: list[asyncio.Task[None]] = []
 
 
 class PassthroughAdapter(MemoryAdapter[LearningContext]):
@@ -183,7 +182,7 @@ def main() -> None:
     # When main_async is cancelled, its finally block (if any) or except CancelledError should
     # handle cleanup.
 
-    main_task: Optional[asyncio.Task[None]] = None
+    main_task: asyncio.Task[None] | None = None
     try:
         main_task = loop.create_task(main_async())  # main_async returns None implicitly
         loop.run_until_complete(main_task)
@@ -206,7 +205,3 @@ def main() -> None:
 
         # Additional cleanup for other resources if necessary
         print("MemoryGate application stopped.")
-
-
-if __name__ == "__main__":
-    main()
