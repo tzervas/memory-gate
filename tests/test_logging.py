@@ -155,9 +155,9 @@ async def test_main_module_logging(
         and expected_pattern.lower() in record.message.lower()
     ]
 
-    assert (
-        matching_records
-    ), f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    assert matching_records, (
+        f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    )
 
 
 @pytest.mark.parametrize(
@@ -219,9 +219,9 @@ async def test_consolidation_logging(
         )
     ]
 
-    assert (
-        matching_records
-    ), f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    assert matching_records, (
+        f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    )
 
 
 @pytest.mark.parametrize(
@@ -270,9 +270,9 @@ async def test_agent_interface_logging(
         and expected_pattern.lower() in record.message.lower()
     ]
 
-    assert (
-        matching_records
-    ), f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    assert matching_records, (
+        f"Expected {log_level} log with pattern '{expected_pattern}' not found. Description: {description}. Available {log_level} logs: {[r.message for r in caplog.records if r.levelname.lower() == log_level.lower()]}"
+    )
 
 
 @pytest.mark.asyncio
@@ -368,9 +368,9 @@ async def test_agent_task_execution_logging_scenarios(
     assert confidence > 0, "Expected successful task execution"
 
     # Explicitly assert that no warning or error logs are present for successful execution
-    assert all(
-        record.levelno < logging.WARNING for record in caplog.records
-    ), "No warning or error logs should be present during successful learning"
+    assert all(record.levelno < logging.WARNING for record in caplog.records), (
+        "No warning or error logs should be present during successful learning"
+    )
 
     # Clear logs for next test
     caplog.clear()
@@ -395,9 +395,9 @@ async def test_agent_task_execution_logging_scenarios(
             and expected_message in record.message.lower()
         ]
 
-        assert (
-            matching_logs
-        ), f"Expected {expected_level} log with '{expected_message}' not found for {exception.__class__.__name__}"
+        assert matching_logs, (
+            f"Expected {expected_level} log with '{expected_message}' not found for {exception.__class__.__name__}"
+        )
 
 
 @pytest.mark.asyncio
