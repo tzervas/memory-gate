@@ -280,7 +280,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
     def get_collection_size(self) -> int:
         """Returns the number of items in the collection."""
         # This is now handled by the MEMORY_ITEMS_COUNT gauge's set_function
-        return cast("int", self.collection.count())
+        return cast(int, self.collection.count())
 
     async def get_experiences_by_metadata_filter(
         self,
