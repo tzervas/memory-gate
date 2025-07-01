@@ -3,6 +3,7 @@
 import asyncio
 from datetime import datetime
 from enum import Enum
+import logging
 from typing import Any
 
 from memory_gate.memory_gateway import MemoryGateway
@@ -13,13 +14,17 @@ from memory_gate.metrics import (
     record_agent_task_processed,
 )
 
+logger = logging.getLogger(__name__)
+
 # Error message constants
 ERROR_MSG_EMPTY_AGENT_NAME = "Agent name cannot be empty."
 ERROR_MSG_INVALID_AGENT_DOMAIN = "Invalid agent domain."
 ERROR_MSG_INVALID_MEMORY_GATEWAY = "Invalid memory_gateway instance."
 ERROR_MSG_TASK_PROCESSING_ERROR = "Error processing task: {error}"
 ERROR_MSG_UNEXPECTED_TASK_ERROR = "Unexpected error processing task: {error}"
-ERROR_MSG_SUBCLASS_MUST_IMPLEMENT = "Subclasses must implement the _execute_task method."
+ERROR_MSG_SUBCLASS_MUST_IMPLEMENT = (
+    "Subclasses must implement the _execute_task method."
+)
 
 
 class AgentDomain(Enum):
@@ -118,7 +123,9 @@ class BaseMemoryEnabledAgent:
             record_agent_task_processed(
                 self.agent_name, self.domain.value, success=False
             )
-        except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
+        except (
+            Exception
+        ) as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
             task_failed_exception = e
             result_str = ERROR_MSG_UNEXPECTED_TASK_ERROR.format(error=e)
             confidence = 0.0
@@ -160,10 +167,12 @@ class BaseMemoryEnabledAgent:
                     learning_ctx, feedback=confidence
                 )
                 record_agent_memory_learned(self.agent_name, self.domain.value)
-            except (RuntimeError, ValueError, KeyError, TypeError):
-                pass
-            except Exception:  # pylint: disable=broad-except
-                pass
+            except (RuntimeError, ValueError, KeyError, TypeError) as e:
+                logger.warning("Learning failed for agent %s: %s", self.agent_name, e)
+            except Exception as e:  # pylint: disable=broad-except
+                logger.error(
+                    "Critical learning failure for agent %s: %s", self.agent_name, e
+                )
 
         self._interaction_count += 1
 

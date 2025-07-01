@@ -165,7 +165,7 @@ def record_agent_memory_learned(agent_name: str, agent_domain: str) -> None:
 
 
 # --- Utility to start HTTP server for metrics ---
-def start_metrics_server(port: int = 8008, addr: str = "0.0.0.0") -> None:
+def start_metrics_server(port: int = 8008, addr: str = "127.0.0.1") -> None:
     """Starts an HTTP server to expose the metrics on /metrics endpoint."""
     try:
         start_http_server(port, addr=addr, registry=REGISTRY)

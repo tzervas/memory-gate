@@ -23,11 +23,11 @@ class MetricsRecorder:
     def __init__(
         self,
         metrics_file: str = "test_metrics.json",
-        display_config: dict | None = None,
+        display_config: dict[str, Any] | None = None,
     ) -> None:
         self.metrics_file = Path(metrics_file)
         self.display_config = {**self.DEFAULT_DISPLAY_CONFIG, **(display_config or {})}
-        self.metrics = {
+        self.metrics: dict[str, Any] = {
             "performance": {},
             "quality": {},
             "timing": {},
@@ -36,7 +36,7 @@ class MetricsRecorder:
         }
         self.load_previous_metrics()
 
-    def load_previous_metrics(self):
+    def load_previous_metrics(self) -> None:
         """Load previous test run metrics from file."""
         if self.metrics_file.exists():
             try:
@@ -54,19 +54,21 @@ class MetricsRecorder:
         else:
             self.previous_runs = []
 
-    def record_performance_metric(self, name: str, value: float, unit: str = "seconds"):
+    def record_performance_metric(
+        self, name: str, value: float, unit: str = "seconds"
+    ) -> None:
         """Record a performance-related metric."""
         self.metrics["performance"][name] = {"value": value, "unit": unit}
 
-    def record_quality_metric(self, name: str, value: Any):
+    def record_quality_metric(self, name: str, value: Any) -> None:
         """Record a quality-related metric."""
         self.metrics["quality"][name] = value
 
-    def record_timing_metric(self, name: str, value: float):
+    def record_timing_metric(self, name: str, value: float) -> None:
         """Record a timing-related metric."""
         self.metrics["timing"][name] = value
 
-    def record_error(self, test_name: str, error_type: str, message: str):
+    def record_error(self, test_name: str, error_type: str, message: str) -> None:
         """Record an error that occurred during testing."""
         self.metrics["errors"].append(
             {
@@ -77,7 +79,7 @@ class MetricsRecorder:
             }
         )
 
-    def record_metadata(self, key: str, value: Any):
+    def record_metadata(self, key: str, value: Any) -> None:
         """Record metadata about the test run."""
         self.metrics["metadata"][key] = value
 
@@ -145,7 +147,7 @@ class MetricsRecorder:
             return "stable"
         return "increasing" if slope > 0 else "decreasing"
 
-    def save_metrics(self):
+    def save_metrics(self) -> None:
         """Save current metrics to file."""
         current_run = {"timestamp": datetime.now().isoformat(), **self.metrics}
         self.previous_runs.append(current_run)
@@ -226,9 +228,7 @@ class MetricsRecorder:
                     trend_symbol = (
                         "📈"
                         if current_vs_avg > 5
-                        else "📉"
-                        if current_vs_avg < -5
-                        else "➡️"
+                        else "📉" if current_vs_avg < -5 else "➡️"
                     )
                     report_sections.append(
                         f"  {trend_symbol} {name}: {self.format_duration(value)} (avg: {self.format_duration(stats['mean'])}, {current_vs_avg:+.1f}%)"
@@ -257,7 +257,7 @@ class MetricsRecorder:
 
         return "\n".join(report_sections)
 
-    def toggle_display_config(self, **kwargs):
+    def toggle_display_config(self, **kwargs: Any) -> None:
         """Update display configuration."""
         self.display_config.update(kwargs)
 
@@ -272,9 +272,9 @@ class MetricsRecorder:
             )
 
         # Error count
-        summary["error_count"] = len(self.metrics["errors"])
+        summary["error_count"] = str(len(self.metrics["errors"]))
 
         # Quality metrics count
-        summary["quality_metrics_count"] = len(self.metrics["quality"])
+        summary["quality_metrics_count"] = str(len(self.metrics["quality"]))
 
         return summary

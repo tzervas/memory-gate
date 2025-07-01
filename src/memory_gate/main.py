@@ -20,7 +20,7 @@ from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfi
 
 # Metrics Server Configuration
 METRICS_PORT = int(os.getenv("METRICS_PORT", "8008"))
-METRICS_HOST = os.getenv("METRICS_HOST", "0.0.0.0")
+METRICS_HOST = os.getenv("METRICS_HOST", "127.0.0.1")
 
 # ChromaDB Configuration (used by VectorMemoryStore)
 CHROMA_PERSIST_DIRECTORY = os.getenv(
@@ -68,7 +68,8 @@ async def main_async() -> None:
     # 1. Initialize Storage
     logger.info(
         "Initializing VectorMemoryStore with ChromaDB: directory='%s', collection='%s'",
-        CHROMA_PERSIST_DIRECTORY, CHROMA_COLLECTION_NAME
+        CHROMA_PERSIST_DIRECTORY,
+        CHROMA_COLLECTION_NAME,
     )
     vector_config = VectorStoreConfig(
         collection_name=CHROMA_COLLECTION_NAME,
@@ -90,7 +91,7 @@ async def main_async() -> None:
     if CONSOLIDATION_ENABLED:
         logger.info(
             "Initializing ConsolidationWorker with interval %ds.",
-            CONSOLIDATION_INTERVAL_SECONDS
+            CONSOLIDATION_INTERVAL_SECONDS,
         )
         consolidation_worker = ConsolidationWorker(
             store=knowledge_store,  # ConsolidationWorker expects a store that can provide keys
@@ -110,7 +111,8 @@ async def main_async() -> None:
     infra_agent = InfrastructureAgent(memory_gateway)
     logger.info(
         "Example agents initialized: %s, %s",
-        echo_agent.agent_name, infra_agent.agent_name
+        echo_agent.agent_name,
+        infra_agent.agent_name,
     )
 
     # --- Example Agent Usage (optional, for testing if run directly) ---
@@ -125,7 +127,9 @@ async def main_async() -> None:
     #     logger.info("Example agent interaction finished")
 
     # 6. Start Prometheus Metrics Server
-    logger.info("Starting Prometheus metrics server on %s:%d...", METRICS_HOST, METRICS_PORT)
+    logger.info(
+        "Starting Prometheus metrics server on %s:%d...", METRICS_HOST, METRICS_PORT
+    )
     start_metrics_server(port=METRICS_PORT, addr=METRICS_HOST)
 
     logger.info("MemoryGate System is running. Press Ctrl+C to exit.")

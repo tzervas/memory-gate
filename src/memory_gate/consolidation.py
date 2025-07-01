@@ -6,6 +6,7 @@ from datetime import (
     datetime,  # datetime needed for logging timestamps
     timedelta,
 )
+import logging
 from typing import TYPE_CHECKING
 
 from memory_gate.memory_protocols import (  # Keep LearningContext if used by type hints
@@ -17,6 +18,8 @@ from memory_gate.metrics import (
     record_consolidation_items_processed,
     record_consolidation_run,
 )
+
+logger = logging.getLogger(__name__)
 
 # Error message constants
 ERROR_MSG_STORE_MISSING_METHODS = (
@@ -69,12 +72,16 @@ class ConsolidationWorker:
                 await asyncio.sleep(self.consolidation_interval)
             except asyncio.CancelledError:
                 break
-            except Exception:
-                # Basic logging for now
+            except Exception as e:
+                logger.exception("Error during consolidation loop: %s", e)
                 await asyncio.sleep(60)  # Wait 1 minute before retry
 
     async def _perform_consolidation(self) -> None:
         """Perform memory consolidation operations."""
+        logger.info(
+            "Starting consolidation cycle with config: interval=%s seconds",
+            self.consolidation_interval,
+        )
         record_consolidation_run(
             success=True
         )  # Mark start of a run, assume success until exception
@@ -171,8 +178,15 @@ class ConsolidationWorker:
                             offset=offset,
                         )
                     )
+                    logger.debug(
+                        "Retrieved %d items for consolidation evaluation",
+                        len(items_to_check),
+                    )
 
                     if not items_to_check:
+                        logger.debug(
+                            "No more items found with low importance threshold"
+                        )
                         break  # No more items found with low importance
 
                     items_deleted_in_batch = 0
@@ -186,6 +200,12 @@ class ConsolidationWorker:
                             )
                             items_deleted_in_batch += 1
 
+                    logger.debug(
+                        "Deleted %d items in batch, processed %d total",
+                        items_deleted_in_batch,
+                        processed_count,
+                    )
+
                     if len(items_to_check) < batch_size:
                         # Fetched less than batch size, probably no more items
                         break
@@ -197,41 +217,47 @@ class ConsolidationWorker:
                     ):  # Process max 1000 items per cycle for safety
                         break
 
-                # 2. Placeholder for merging similar experiences
-                # This is a complex task involving semantic similarity checks,
-                # content merging, and updating metadata (e.g., increasing
-                # importance of merged memory).
-                # Example:
-                #   - Fetch pairs of highly similar memories
-                #     (e.g., high cosine similarity of embeddings).
-                #   - If content is very similar and metadata matches certain criteria:
-                #     - Create a new, consolidated LearningContext.
-                #     - Store the new context.
-                #     - Delete the original, less important/older contexts.
+            logger.info(
+                "Consolidation cycle completed. Total items processed: %d",
+                processed_count,
+            )
 
-                # 3. Placeholder for updating importance scores (e.g., decay over time)
-                # Example:
-                #   - For memories not accessed recently, slightly decrease importance.
-                #   - This requires tracking access times or having a
-                #     reinforcement mechanism.
+            # 2. Placeholder for merging similar experiences
+            # This is a complex task involving semantic similarity checks,
+            # content merging, and updating metadata (e.g., increasing
+            # importance of merged memory).
+            # Example:
+            #   - Fetch pairs of highly similar memories
+            #     (e.g., high cosine similarity of embeddings).
+            #   - If content is very similar and metadata matches certain criteria:
+            #     - Create a new, consolidated LearningContext.
+            #     - Store the new context.
+            #     - Delete the original, less important/older contexts.
 
-                # 4. Monitoring and Metrics Collection (Basic)
-                # More advanced metrics will be added in Phase 4 with Prometheus.
-                # For now, log basic stats.
-                # The MEMORY_ITEMS_COUNT gauge in VectorMemoryStore handles
-                # collection size metric automatically.
-                # So, no direct metric update for size here, but logging is fine.
-                if hasattr(self.store, "get_collection_size"):
-                    self.store.get_collection_size()  # For logging
+            # 3. Placeholder for updating importance scores (e.g., decay over time)
+            # Example:
+            #   - For memories not accessed recently, slightly decrease importance.
+            #   - This requires tracking access times or having a
+            #     reinforcement mechanism.
 
-        except Exception:
+            # 4. Monitoring and Metrics Collection (Basic)
+            # More advanced metrics will be added in Phase 4 with Prometheus.
+            # For now, log basic stats.
+            # The MEMORY_ITEMS_COUNT gauge in VectorMemoryStore handles
+            # collection size metric automatically.
+            # So, no direct metric update for size here, but logging is fine.
+            if hasattr(self.store, "get_collection_size"):
+                self.store.get_collection_size()  # For logging
+
+        except Exception as e:
             # Record failed consolidation run
+            logger.exception("Error during consolidation cycle: %s", e)
             # The CONSOLIDATION_RUNS_TOTAL was already incremented with success=True.
             # This is a limitation of the current simple record_consolidation_run.
             # A more robust approach would be to have distinct success/failure counters
             # or update the status label if the metric system supports it.
             # For now, we log the error. The duration will still be recorded.
-            pass
+            raise
             # Optionally, re-increment CONSOLIDATION_RUNS_TOTAL with status="failure"
             # but this would double count the "run" itself.
             # A better way is to have a separate failure counter or a label for status.
