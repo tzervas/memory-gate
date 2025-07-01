@@ -18,7 +18,8 @@ USER memorygate
 WORKDIR /home/memorygate
 
 # Initialize Python environment
-ENV PYTHONPATH=/workspaces/memory-gate:${PYTHONPATH}
+ARG PYTHONPATH_ARG=.
+ENV PYTHONPATH=${PYTHONPATH_ARG}:${PYTHONPATH}
 ENV PYTHONUNBUFFERED=1
 
 # Install Python dependencies - actual installation happens in postCreateCommand
