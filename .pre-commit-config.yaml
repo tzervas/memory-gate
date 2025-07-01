@@ -99,7 +99,7 @@ repos:
     hooks:
       - id: safety
         name: safety
-        entry: safety check --full-report
+        entry: safety scan --full-report
         language: system
         files: (requirements.*\.txt|pyproject\.toml)$
         pass_filenames: false

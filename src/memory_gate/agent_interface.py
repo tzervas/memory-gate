@@ -123,9 +123,7 @@ class BaseMemoryEnabledAgent:
             record_agent_task_processed(
                 self.agent_name, self.domain.value, success=False
             )
-        except (
-            Exception
-        ) as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
+        except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
             task_failed_exception = e
             result_str = ERROR_MSG_UNEXPECTED_TASK_ERROR.format(error=e)
             confidence = 0.0

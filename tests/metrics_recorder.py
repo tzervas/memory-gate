@@ -228,7 +228,9 @@ class MetricsRecorder:
                     trend_symbol = (
                         "📈"
                         if current_vs_avg > 5
-                        else "📉" if current_vs_avg < -5 else "➡️"
+                        else "📉"
+                        if current_vs_avg < -5
+                        else "➡️"
                     )
                     report_sections.append(
                         f"  {trend_symbol} {name}: {self.format_duration(value)} (avg: {self.format_duration(stats['mean'])}, {current_vs_avg:+.1f}%)"
