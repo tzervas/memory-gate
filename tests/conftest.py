@@ -7,7 +7,7 @@ import sys
 import tempfile
 import time
 
-from metrics_recorder import MetricsRecorder
+from .metrics_recorder import MetricsRecorder
 import pytest
 import pytest_asyncio
 
