@@ -1,12 +1,10 @@
 import asyncio
-from unittest.mock import patch, AsyncMock
+import logging
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
 from memory_gate.main import main_async, shutdown_handler
-
-
-import logging
 
 
 @pytest.mark.asyncio

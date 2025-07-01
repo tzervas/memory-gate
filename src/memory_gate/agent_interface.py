@@ -1,16 +1,16 @@
 """Agent interface and base classes for memory-enabled AI agents in MemoryGate."""
 
-from typing import Any, Optional, Tuple, List, Dict
 import asyncio
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
-from memory_gate.memory_protocols import LearningContext
 from memory_gate.memory_gateway import MemoryGateway
+from memory_gate.memory_protocols import LearningContext
 from memory_gate.metrics import (
     AGENT_TASK_DURATION_SECONDS,
-    record_agent_task_processed,
     record_agent_memory_learned,
+    record_agent_task_processed,
 )
 
 
@@ -62,9 +62,9 @@ class BaseMemoryEnabledAgent:
     async def process_task(
         self,
         task_input: str,
-        task_specific_context: Optional[Dict[str, Any]] = None,
+        task_specific_context: dict[str, Any] | None = None,
         store_interaction_memory: bool = True,
-    ) -> Tuple[str, float]:  # Returns (result_string, confidence_score)
+    ) -> tuple[str, float]:  # Returns (result_string, confidence_score)
         """
         Processes a given task, leveraging the memory system, and learns from the interaction.
 
@@ -127,7 +127,7 @@ class BaseMemoryEnabledAgent:
                 f"Result: {result_str}"
             )
             if task_failed_exception:
-                interaction_summary += f"\nFailureReason: {str(task_failed_exception)}"
+                interaction_summary += f"\nFailureReason: {task_failed_exception!s}"
 
             learning_ctx = LearningContext(
                 content=interaction_summary,
@@ -172,9 +172,9 @@ class BaseMemoryEnabledAgent:
     def _build_enhanced_context(
         self,
         task_input: str,
-        retrieved_memories: List[LearningContext],
-        base_context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        retrieved_memories: list[LearningContext],
+        base_context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Constructs an enhanced context dictionary for task execution.
         This can be overridden by subclasses for more specific context building.
@@ -212,8 +212,8 @@ class BaseMemoryEnabledAgent:
         return enhanced
 
     async def _execute_task(
-        self, enhanced_context: Dict[str, Any]
-    ) -> Tuple[str, float]:  # (result_string, confidence_score)
+        self, enhanced_context: dict[str, Any]
+    ) -> tuple[str, float]:  # (result_string, confidence_score)
         """
         Executes the agent's specific task logic using the enhanced context.
         This method MUST be implemented by subclasses.
@@ -230,7 +230,7 @@ class BaseMemoryEnabledAgent:
         self,
         memory_key: str,  # Assuming memories can be identified by a key
         feedback_score: float,  # e.g., 1.0 for very useful, -1.0 for not useful
-        new_importance: Optional[float] = None,
+        new_importance: float | None = None,
     ) -> None:
         """
         Allows the agent or an external system to provide feedback on a specific memory.
@@ -268,8 +268,8 @@ class SimpleEchoAgent(BaseMemoryEnabledAgent):
         )
 
     async def _execute_task(
-        self, enhanced_context: Dict[str, Any]
-    ) -> Tuple[str, float]:
+        self, enhanced_context: dict[str, Any]
+    ) -> tuple[str, float]:
         task_input = enhanced_context.get("task_input", "No input provided.")
         memories_retrieved = enhanced_context.get("retrieved_memories", [])
 

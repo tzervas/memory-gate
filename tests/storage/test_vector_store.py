@@ -1,12 +1,12 @@
 """This module contains tests for the VectorMemoryStore, covering functionality such as initialization, data persistence, experience lifecycle, and error handling."""
 
-import logging
 from dataclasses import replace
 from datetime import datetime
+import logging
 
-import pytest
-from hypothesis import given, strategies as st, settings, HealthCheck
+from hypothesis import HealthCheck, given, settings, strategies as st
 from hypothesis.extra.pytz import timezones
+import pytest
 
 from memory_gate.memory_protocols import LearningContext
 from memory_gate.storage.vector_store import VectorMemoryStore

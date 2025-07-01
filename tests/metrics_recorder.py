@@ -1,8 +1,8 @@
-import json
-import statistics
 from datetime import datetime
-from typing import Dict, Optional, Any
+import json
 from pathlib import Path
+import statistics
+from typing import Any
 
 
 class MetricsRecorder:
@@ -22,7 +22,7 @@ class MetricsRecorder:
     def __init__(
         self,
         metrics_file: str = "test_metrics.json",
-        display_config: Optional[Dict] = None,
+        display_config: dict | None = None,
     ):
         self.metrics_file = Path(metrics_file)
         self.display_config = {**self.DEFAULT_DISPLAY_CONFIG, **(display_config or {})}
@@ -39,12 +39,12 @@ class MetricsRecorder:
         """Load previous test run metrics from file."""
         if self.metrics_file.exists():
             try:
-                with open(self.metrics_file, "r") as file:
+                with open(self.metrics_file) as file:
                     self.previous_runs = json.load(file)
                 # Keep only the last N runs based on config
                 max_runs = self.display_config["max_history_runs"]
                 self.previous_runs = self.previous_runs[-max_runs:]
-            except (json.JSONDecodeError, IOError) as e:
+            except (OSError, json.JSONDecodeError) as e:
                 print(f"Warning: Could not load previous metrics: {e}")
                 self.previous_runs = []
         else:
@@ -79,7 +79,7 @@ class MetricsRecorder:
 
     def calculate_statistics(
         self, metric_category: str, metric_name: str
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate statistics for a metric across previous runs."""
         values = []
         for run in self.previous_runs:
@@ -139,10 +139,9 @@ class MetricsRecorder:
 
         if abs(slope) < 0.01:  # Threshold for "stable"
             return "stable"
-        elif slope > 0:
+        if slope > 0:
             return "increasing"
-        else:
-            return "decreasing"
+        return "decreasing"
 
     def save_metrics(self):
         """Save current metrics to file."""
@@ -156,19 +155,18 @@ class MetricsRecorder:
         try:
             with open(self.metrics_file, "w") as file:
                 json.dump(self.previous_runs, file, indent=2)
-        except IOError as e:
+        except OSError as e:
             print(f"Warning: Could not save metrics: {e}")
 
     def format_duration(self, seconds: float) -> str:
         """Format duration in a human-readable way."""
         if seconds < 1:
             return f"{seconds * 1000:.1f}ms"
-        elif seconds < 60:
+        if seconds < 60:
             return f"{seconds:.2f}s"
-        else:
-            minutes = int(seconds // 60)
-            secs = seconds % 60
-            return f"{minutes}m {secs:.1f}s"
+        minutes = int(seconds // 60)
+        secs = seconds % 60
+        return f"{minutes}m {secs:.1f}s"
 
     def generate_report(self) -> str:
         """Generate a comprehensive report based on display configuration."""
@@ -260,7 +258,7 @@ class MetricsRecorder:
         """Update display configuration."""
         self.display_config.update(kwargs)
 
-    def get_summary_metrics(self) -> Dict[str, Any]:
+    def get_summary_metrics(self) -> dict[str, Any]:
         """Get a summary of key metrics for quick review."""
         summary = {}
 

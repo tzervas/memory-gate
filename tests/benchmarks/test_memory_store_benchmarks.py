@@ -1,8 +1,7 @@
 """Benchmark tests for memory store performance."""
 
-import logging
 from datetime import datetime
-from typing import List
+import logging
 
 import pytest
 
@@ -13,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def benchmark_data() -> List[tuple[str, LearningContext]]:
+def benchmark_data() -> list[tuple[str, LearningContext]]:
     """Generate benchmark test data."""
     return [
         (
@@ -36,7 +35,7 @@ def benchmark_data() -> List[tuple[str, LearningContext]]:
 async def test_store_experience_performance(
     benchmark,
     persistent_vector_store: VectorMemoryStore,
-    benchmark_data: List[tuple[str, LearningContext]],
+    benchmark_data: list[tuple[str, LearningContext]],
 ):
     """Benchmark storing experiences."""
     logger.info("Starting store experience performance benchmark")
@@ -66,7 +65,7 @@ async def test_store_experience_performance(
 async def test_batch_store_performance(
     benchmark,
     persistent_vector_store: VectorMemoryStore,
-    benchmark_data: List[tuple[str, LearningContext]],
+    benchmark_data: list[tuple[str, LearningContext]],
 ):
     """Benchmark batch storing of experiences."""
     logger.info("Starting batch store performance benchmark")

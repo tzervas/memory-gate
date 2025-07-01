@@ -1,5 +1,8 @@
 import asyncio
-from typing import Optional
+
+# Need to import timedelta and List for the new code
+from datetime import datetime, timedelta  # datetime needed for logging timestamps
+from typing import TYPE_CHECKING
 
 from memory_gate.memory_protocols import (
     KnowledgeStore,
@@ -7,13 +10,9 @@ from memory_gate.memory_protocols import (
 )  # Keep LearningContext if used by type hints
 from memory_gate.metrics import (
     CONSOLIDATION_DURATION_SECONDS,
-    record_consolidation_run,
     record_consolidation_items_processed,
+    record_consolidation_run,
 )
-
-# Need to import timedelta and List for the new code
-from datetime import datetime, timedelta  # datetime needed for logging timestamps
-from typing import TYPE_CHECKING
 
 if (
     TYPE_CHECKING
@@ -38,7 +37,7 @@ class ConsolidationWorker:
     ) -> None:
         self.store = store
         self.consolidation_interval = consolidation_interval
-        self._task: Optional[asyncio.Task[None]] = None
+        self._task: asyncio.Task[None] | None = None
 
     async def start(self) -> None:
         """Start background consolidation task."""
@@ -293,7 +292,7 @@ class ConsolidationWorker:
             # CONSOLIDATION_FAILURES_TOTAL.inc() # Call this in except block.
             # This is cleaner. I'll add this to metrics.py later if requested.
             # For now, logging the failure.
-            pass  # Error already logged
+            # Error already logged
 
 
 # Need to import timedelta and List for the new code

@@ -1,9 +1,8 @@
-from typing import Any, List, Optional, Dict, cast
 import asyncio
-import logging
 from dataclasses import dataclass
 from datetime import datetime
-
+import logging
+from typing import Any, cast
 
 import chromadb  # type: ignore[import-not-found]
 from chromadb.config import Settings  # type: ignore[import-not-found]
@@ -13,9 +12,9 @@ from sentence_transformers import SentenceTransformer  # type: ignore[import-not
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import (
-    MEMORY_STORE_LATENCY_SECONDS,
-    MEMORY_RETRIEVAL_LATENCY_SECONDS,
     MEMORY_ITEMS_COUNT,
+    MEMORY_RETRIEVAL_LATENCY_SECONDS,
+    MEMORY_STORE_LATENCY_SECONDS,
     record_memory_operation,
 )
 
@@ -39,9 +38,9 @@ class VectorStoreConfig:
 
     collection_name: str = "memory_gate_default_collection"
     embedding_model_name: str = "all-MiniLM-L6-v2"
-    persist_directory: Optional[str] = "./data/chromadb_store"
-    collection_metadata: Optional[Dict[str, Any]] = None
-    chroma_settings: Optional[Dict[str, Any]] = None
+    persist_directory: str | None = "./data/chromadb_store"
+    collection_metadata: dict[str, Any] | None = None
+    chroma_settings: dict[str, Any] | None = None
     max_batch_size: int = 100
     embedding_device: str = "cpu"  # or "cuda" for GPU support
 
@@ -49,19 +48,13 @@ class VectorStoreConfig:
 class VectorStoreError(Exception):
     """Base exception for VectorMemoryStore errors."""
 
-    pass
-
 
 class VectorStoreInitError(VectorStoreError):
     """Raised when VectorMemoryStore initialization fails."""
 
-    pass
-
 
 class VectorStoreOperationError(VectorStoreError):
     """Raised when a VectorMemoryStore operation fails."""
-
-    pass
 
 
 class VectorMemoryStore(KnowledgeStore[LearningContext]):
@@ -74,8 +67,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         self,
         collection_name: str = "memory_gate_default_collection",
         embedding_model_name: str = "all-MiniLM-L6-v2",
-        persist_directory: Optional[str] = "./data/chromadb_store",
-        chroma_settings: Optional[Dict[str, Any]] = None,
+        persist_directory: str | None = "./data/chromadb_store",
+        chroma_settings: dict[str, Any] | None = None,
     ) -> None:
         """
         Initializes the VectorMemoryStore.
@@ -115,12 +108,12 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             lambda: self.collection.count()  # Periodically update with current count
         )
 
-    async def _generate_embedding(self, text: str) -> List[float]:
+    async def _generate_embedding(self, text: str) -> list[float]:
         """Generates embedding for a given text using sentence-transformer model."""
         loop = asyncio.get_event_loop()
         # SentenceTransformer.encode is CPU-bound, run in executor
         embedding = await loop.run_in_executor(None, self.embedding_model.encode, text)
-        return cast(List[float], embedding.tolist())
+        return cast("list[float]", embedding.tolist())
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """
@@ -158,9 +151,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         self,
         query: str,
         limit: int = 10,
-        domain_filter: Optional[str] = None,
-        metadata_filter: Optional[Dict[str, Any]] = None,
-    ) -> List[LearningContext]:
+        domain_filter: str | None = None,
+        metadata_filter: dict[str, Any] | None = None,
+    ) -> list[LearningContext]:
         """
         Retrieves relevant context using vector similarity search.
 
@@ -179,7 +172,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             ).time():
                 query_embedding = await self._generate_embedding(query)
 
-                where_clause: Dict[str, Any] = {}
+                where_clause: dict[str, Any] = {}
                 if domain_filter:
                     where_clause["domain"] = domain_filter
 
@@ -196,7 +189,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     include=["metadatas", "documents", "distances"],
                 )
 
-            contexts: List[LearningContext] = []
+            contexts: list[LearningContext] = []
             if (
                 query_results["ids"] and query_results["ids"][0]
             ):  # Check if there are any results
@@ -232,7 +225,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             print(f"Error retrieving context for query '{query}': {e}")
             raise  # Re-raise for now
 
-    async def get_experience_by_id(self, key: str) -> Optional[LearningContext]:
+    async def get_experience_by_id(self, key: str) -> LearningContext | None:
         """Retrieves a specific experience by its key."""
         try:
             with MEMORY_RETRIEVAL_LATENCY_SECONDS.labels(
@@ -287,14 +280,14 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
     def get_collection_size(self) -> int:
         """Returns the number of items in the collection."""
         # This is now handled by the MEMORY_ITEMS_COUNT gauge's set_function
-        return cast(int, self.collection.count())
+        return cast("int", self.collection.count())
 
     async def get_experiences_by_metadata_filter(
         self,
-        metadata_filter: Dict[str, Any],
+        metadata_filter: dict[str, Any],
         limit: int = 100,  # Default limit to avoid fetching too much
         offset: int = 0,
-    ) -> List[tuple[str, LearningContext]]:
+    ) -> list[tuple[str, LearningContext]]:
         """
         Retrieves experiences (ID and LearningContext) based on a metadata filter.
         Uses ChromaDB's get() method which can filter on metadata.
@@ -318,7 +311,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     include=["metadatas", "documents"],  # IDs are included by default
                 )
 
-            items: List[tuple[str, LearningContext]] = []
+            items: list[tuple[str, LearningContext]] = []
             if (
                 results["ids"] and results["documents"] and results["metadatas"]
             ):  # Ensure all lists are present and non-empty

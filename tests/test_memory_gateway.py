@@ -1,10 +1,11 @@
 import asyncio
-import pytest
-from unittest.mock import AsyncMock
 from datetime import datetime
+from unittest.mock import AsyncMock
+
+import pytest
 
 from memory_gate.memory_gateway import MemoryGateway
-from memory_gate.memory_protocols import LearningContext, MemoryAdapter, KnowledgeStore
+from memory_gate.memory_protocols import KnowledgeStore, LearningContext, MemoryAdapter
 
 
 @pytest.fixture

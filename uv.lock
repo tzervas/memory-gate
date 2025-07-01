@@ -995,8 +995,13 @@ dev-essential = [
     { name = "pytest-asyncio" },
     { name = "ruff" },
 ]
+storage = [
+    { name = "chromadb" },
+    { name = "sentence-transformers" },
+]
 test = [
     { name = "hypothesis", extra = ["pytz"] },
+    { name = "pytest-asyncio" },
     { name = "pytest-benchmark" },
     { name = "pytest-cov" },
     { name = "pytest-mock" },
@@ -1055,8 +1060,13 @@ dev-essential = [
     { name = "pytest-asyncio", specifier = ">=0.23.0" },
     { name = "ruff", specifier = ">=0.8.0" },
 ]
+storage = [
+    { name = "chromadb", specifier = ">=0.6.3" },
+    { name = "sentence-transformers", specifier = ">=2.7.0" },
+]
 test = [
     { name = "hypothesis", extras = ["pytz"], specifier = ">=6.75.3" },
+    { name = "pytest-asyncio", specifier = ">=0.26.0" },
     { name = "pytest-benchmark", specifier = ">=4.0.0" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
     { name = "pytest-mock", specifier = ">=3.12.0" },

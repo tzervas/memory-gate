@@ -1,9 +1,9 @@
-from typing import Any, Dict, Tuple, List
 import asyncio
+from typing import Any
 
-from memory_gate.agent_interface import BaseMemoryEnabledAgent, AgentDomain
-from memory_gate.memory_protocols import LearningContext
+from memory_gate.agent_interface import AgentDomain, BaseMemoryEnabledAgent
 from memory_gate.memory_gateway import MemoryGateway
+from memory_gate.memory_protocols import LearningContext
 
 
 class InfrastructureAgent(BaseMemoryEnabledAgent):
@@ -21,8 +21,8 @@ class InfrastructureAgent(BaseMemoryEnabledAgent):
         )
 
     async def _execute_task(
-        self, enhanced_context: Dict[str, Any]
-    ) -> Tuple[str, float]:  # (result_string, confidence_score)
+        self, enhanced_context: dict[str, Any]
+    ) -> tuple[str, float]:  # (result_string, confidence_score)
         """
         Executes an infrastructure-related task, such as diagnosing an issue.
 
@@ -35,11 +35,11 @@ class InfrastructureAgent(BaseMemoryEnabledAgent):
         task_input: str = enhanced_context.get(
             "task_input", "No specific task provided."
         )
-        retrieved_memories: List[Dict[str, Any]] = enhanced_context.get(
+        retrieved_memories: list[dict[str, Any]] = enhanced_context.get(
             "retrieved_memories", []
         )
 
-        response_parts: List[str] = []
+        response_parts: list[str] = []
         confidence: float = 0.3  # Base confidence for a new, unanalyzed issue
 
         response_parts.append(f"Analyzing infrastructure task: '{task_input}'")

@@ -1,14 +1,12 @@
-import pytest_asyncio
+import asyncio
+from datetime import datetime, timedelta
+from unittest.mock import AsyncMock
 
 import pytest
-import asyncio
-from unittest.mock import AsyncMock
+import pytest_asyncio
 
 from memory_gate.consolidation import ConsolidationWorker
 from memory_gate.memory_protocols import LearningContext
-
-from datetime import datetime, timedelta
-
 from memory_gate.storage.vector_store import (
     VectorMemoryStore,
 )  # Using VectorMemoryStore for concrete tests

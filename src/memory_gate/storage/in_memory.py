@@ -1,4 +1,3 @@
-from typing import Dict, List
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 
 
@@ -6,7 +5,7 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
     """An in-memory implementation of the KnowledgeStore protocol."""
 
     def __init__(self) -> None:
-        self._store: Dict[str, LearningContext] = {}
+        self._store: dict[str, LearningContext] = {}
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """Stores a learning experience in the in-memory dictionary."""
@@ -14,7 +13,7 @@ class InMemoryKnowledgeStore(KnowledgeStore[LearningContext]):
 
     async def retrieve_context(
         self, query: str, limit: int = 10
-    ) -> List[LearningContext]:
+    ) -> list[LearningContext]:
         """Retrieves relevant context from the in-memory store."""
         # This is a naive implementation for demonstration purposes.
         # A real implementation would use a more sophisticated search.

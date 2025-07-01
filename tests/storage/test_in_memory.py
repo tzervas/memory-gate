@@ -1,5 +1,6 @@
-import pytest
 from datetime import datetime
+
+import pytest
 
 from memory_gate.memory_protocols import LearningContext
 from memory_gate.storage.in_memory import InMemoryKnowledgeStore
