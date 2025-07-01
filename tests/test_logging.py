@@ -469,7 +469,7 @@ async def test_logging_integration_stability(
     info_logs = [record for record in caplog.records if record.levelname == "INFO"]
 
     # Should have some info logs from the process
-    assert len(info_logs) > 0, "Expected some info logs during integration test"
+    assert info_logs, "Expected some info logs during integration test"
 
     # Verify the agent actually worked
     assert result is not None
