@@ -25,7 +25,7 @@ jobs:
         echo "$HOME/.cargo/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        uv pip install --system -e .[dev]
+        uv pip install --system -e .[dev,storage]
     - name: Lint with Ruff
       run: |
         uv run ruff check src tests

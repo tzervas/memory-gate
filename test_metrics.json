@@ -1,128 +1,5 @@
 [
   {
-    "timestamp": "2025-07-01T10:19:56.567643",
-    "performance": {
-      "Average Test Duration": {
-        "value": 0.3961629867553711,
-        "unit": "seconds"
-      }
-    },
-    "quality": {
-      "Pass Rate": "100.0%",
-      "Total Tests": 1,
-      "Passed Tests": 1,
-      "Failed Tests": 0,
-      "Skipped Tests": 0,
-      "Error Tests": 0
-    },
-    "timing": {
-      "test_load_malformed_json_duration": 0.0006401538848876953,
-      "Total Run Time": 0.3961629867553711
-    },
-    "errors": [],
-    "metadata": {
-      "python_version": "3.12.7",
-      "platform": "Linux",
-      "architecture": "x86_64",
-      "pytest_args": "tests/test_metrics_recorder.py::TestMetricsPersistence::test_load_malformed_json",
-      "exit_status": 1
-    }
-  },
-  {
-    "timestamp": "2025-07-01T10:20:16.643032",
-    "performance": {
-      "Average Test Duration": {
-        "value": 0.39308595657348633,
-        "unit": "seconds"
-      }
-    },
-    "quality": {
-      "Pass Rate": "100.0%",
-      "Total Tests": 1,
-      "Passed Tests": 1,
-      "Failed Tests": 0,
-      "Skipped Tests": 0,
-      "Error Tests": 0
-    },
-    "timing": {
-      "test_save_io_error_duration": 0.0006401538848876953,
-      "Total Run Time": 0.39308595657348633
-    },
-    "errors": [],
-    "metadata": {
-      "python_version": "3.12.7",
-      "platform": "Linux",
-      "architecture": "x86_64",
-      "pytest_args": "tests/test_metrics_recorder.py::TestMetricsErrorHandling::test_save_io_error",
-      "exit_status": 1
-    }
-  },
-  {
-    "timestamp": "2025-07-01T10:20:34.143834",
-    "performance": {
-      "Average Test Duration": {
-        "value": 0.46222376823425293,
-        "unit": "seconds"
-      }
-    },
-    "quality": {
-      "Pass Rate": "0.0%",
-      "Total Tests": 1,
-      "Passed Tests": 0,
-      "Failed Tests": 1,
-      "Skipped Tests": 0,
-      "Error Tests": 0
-    },
-    "timing": {
-      "test_load_io_error_duration": 0.0008504390716552734,
-      "Total Run Time": 0.46222376823425293
-    },
-    "errors": [
-      {
-        "test": "tests/test_metrics_recorder.py::TestMetricsErrorHandling::test_load_io_error",
-        "type": "test_failure",
-        "message": "tests/test_metrics_recorder.py:184: in test_load_io_error\n    assert \"Warning: Could not load previous metrics:\" in captured.out\nE   AssertionError: assert 'Warning: Could not load previous metrics:' in ''\nE    +  where '' = CaptureResult(out='', err='').out",
-        "timestamp": "2025-07-01T10:20:33.970351"
-      }
-    ],
-    "metadata": {
-      "python_version": "3.12.7",
-      "platform": "Linux",
-      "architecture": "x86_64",
-      "pytest_args": "tests/test_metrics_recorder.py::TestMetricsErrorHandling::test_load_io_error",
-      "exit_status": 1
-    }
-  },
-  {
-    "timestamp": "2025-07-01T10:21:22.374585",
-    "performance": {
-      "Average Test Duration": {
-        "value": 0.44670653343200684,
-        "unit": "seconds"
-      }
-    },
-    "quality": {
-      "Pass Rate": "100.0%",
-      "Total Tests": 1,
-      "Passed Tests": 1,
-      "Failed Tests": 0,
-      "Skipped Tests": 0,
-      "Error Tests": 0
-    },
-    "timing": {
-      "test_load_io_error_duration": 0.0006210803985595703,
-      "Total Run Time": 0.44670653343200684
-    },
-    "errors": [],
-    "metadata": {
-      "python_version": "3.12.7",
-      "platform": "Linux",
-      "architecture": "x86_64",
-      "pytest_args": "tests/test_metrics_recorder.py::TestMetricsErrorHandling::test_load_io_error",
-      "exit_status": 1
-    }
-  },
-  {
     "timestamp": "2025-07-01T10:21:39.488708",
     "performance": {
       "Average Test Duration": {
@@ -452,6 +329,70 @@
       "platform": "Linux",
       "architecture": "x86_64",
       "pytest_args": "tests/test_logging.py",
+      "exit_status": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-01T17:38:37.200708",
+    "performance": {},
+    "quality": {},
+    "timing": {
+      "Total Run Time": 0.7561764717102051
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Linux",
+      "architecture": "x86_64",
+      "pytest_args": "tests",
+      "exit_status": 2
+    }
+  },
+  {
+    "timestamp": "2025-07-01T17:40:39.019265",
+    "performance": {},
+    "quality": {},
+    "timing": {
+      "Total Run Time": 0.09990620613098145
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Linux",
+      "architecture": "x86_64",
+      "pytest_args": "tests/test_logging.py::test_logger_configuration_stability",
+      "exit_status": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-01T17:40:53.953883",
+    "performance": {},
+    "quality": {},
+    "timing": {
+      "Total Run Time": 0.11070609092712402
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Linux",
+      "architecture": "x86_64",
+      "pytest_args": "tests/test_metrics_recorder.py",
+      "exit_status": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-01T17:41:04.654300",
+    "performance": {},
+    "quality": {},
+    "timing": {
+      "Total Run Time": 0.17890048027038574
+    },
+    "errors": [],
+    "metadata": {
+      "python_version": "3.12.11",
+      "platform": "Linux",
+      "architecture": "x86_64",
+      "pytest_args": "tests",
       "exit_status": 0
     }
   }
