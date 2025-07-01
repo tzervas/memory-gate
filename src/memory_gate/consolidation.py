@@ -72,7 +72,7 @@ class ConsolidationWorker:
                 await asyncio.sleep(self.consolidation_interval)
             except asyncio.CancelledError:
                 break
-            except Exception as e:
+            except Exception:
                 logger.exception("Error during consolidation loop")
                 await asyncio.sleep(60)  # Wait 1 minute before retry
 
@@ -249,7 +249,7 @@ class ConsolidationWorker:
             if hasattr(self.store, "get_collection_size"):
                 self.store.get_collection_size()  # For logging
 
-        except Exception as e:
+        except Exception:
             # Record failed consolidation run
             logger.exception("Error during consolidation cycle")
             # The CONSOLIDATION_RUNS_TOTAL was already incremented with success=True.

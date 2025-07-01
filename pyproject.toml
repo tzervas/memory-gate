@@ -46,8 +46,8 @@ dev = [
     "hypothesis[pytz]>=6.75.3,<7.0.0",  # For timezone strategies
     
     # Code quality and formatting
-    "ruff>=0.8.0,<1.0.0",               # Linting and formatting (replaces black + flake8)
-    "mypy>=1.8.0,<2.0.0",               # Type checking
+    "ruff>=0.12.1,<1.0.0",              # Linting and formatting (replaces black + flake8)
+    "mypy>=1.16.1,<2.0.0",              # Type checking
     
     # Documentation
     "sphinx>=7.0.0,<8.0.0",             # Future: API documentation
@@ -103,9 +103,7 @@ all = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.black]
-line-length = 88
-target-version = ['py312']
+# Remove explicit black config since we're using ruff format which matches black's defaults
 
 [tool.mypy]
 python_version = "3.12"
@@ -120,6 +118,8 @@ explicit_package_bases = true
 
 # Paths
 files = ["src", "tests"]
+packages = ["memory_gate"]
+mypy_path = "src"
 exclude = [
     "build/",
     "dist/",
@@ -274,8 +274,6 @@ select = [
     "RUF",  # Ruff-specific rules
 ]
 ignore = [
-    "ANN101",  # Missing type annotation for `self` in method
-    "ANN102",  # Missing type annotation for `cls` in classmethod
     "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
     "ANN002",  # Missing type annotation for `*args`
     "ANN003",  # Missing type annotation for `**kwargs`
@@ -388,8 +386,8 @@ docstring-code-line-length = "dynamic"
 dev-essential = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
-    "ruff>=0.8.0",
-    "mypy>=1.8.0",
+    "ruff>=0.12.1",
+    "mypy>=1.16.1",
     "pre-commit>=4.2.0",
 ]
 
@@ -415,5 +413,7 @@ storage = [
 dev = [
     "black>=25.1.0",
     "isort>=6.0.1",
+    "pre-commit>=4.2.0",
+    "safety>=3.5.2",
 ]
 
