@@ -139,9 +139,7 @@ class MetricsRecorder:
 
         if abs(slope) < 0.01:  # Threshold for "stable"
             return "stable"
-        if slope > 0:
-            return "increasing"
-        return "decreasing"
+        return "increasing" if slope > 0 else "decreasing"
 
     def save_metrics(self):
         """Save current metrics to file."""
