@@ -1,13 +1,16 @@
 import asyncio
 
 # Need to import timedelta and List for the new code
-from datetime import datetime, timedelta  # datetime needed for logging timestamps
+from datetime import (
+    datetime,  # datetime needed for logging timestamps
+    timedelta,
+)
 from typing import TYPE_CHECKING
 
-from memory_gate.memory_protocols import (
+from memory_gate.memory_protocols import (  # Keep LearningContext if used by type hints
     KnowledgeStore,
     LearningContext,
-)  # Keep LearningContext if used by type hints
+)
 from memory_gate.metrics import (
     CONSOLIDATION_DURATION_SECONDS,
     record_consolidation_items_processed,
@@ -18,8 +21,8 @@ if (
     TYPE_CHECKING
 ):  # To avoid circular import issues if KnowledgeStore methods return specific types
     from memory_gate.storage.vector_store import (
-        VectorMemoryStore,
-    )  # Or a more generic store type
+        VectorMemoryStore,  # Or a more generic store type
+    )
 
 
 class ConsolidationWorker:

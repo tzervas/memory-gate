@@ -29,9 +29,7 @@ CHROMA_COLLECTION_NAME = os.getenv(
     "CHROMA_COLLECTION_NAME", "memory_gate_prod_collection"
 )
 # Ensure the persist directory exists if it's local
-if CHROMA_PERSIST_DIRECTORY.startswith("./") or CHROMA_PERSIST_DIRECTORY.startswith(
-    "/"
-):
+if CHROMA_PERSIST_DIRECTORY.startswith(("./", "/")):
     os.makedirs(CHROMA_PERSIST_DIRECTORY, exist_ok=True)
 
 

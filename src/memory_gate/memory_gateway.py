@@ -3,8 +3,8 @@ from typing import Generic, TypeVar
 
 from memory_gate.memory_protocols import KnowledgeStore, MemoryAdapter
 from memory_gate.metrics import (
-    record_memory_operation,
-)  # Assuming this is a general operation counter
+    record_memory_operation,  # Assuming this is a general operation counter
+)
 
 T = TypeVar(
     "T"

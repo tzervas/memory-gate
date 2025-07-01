@@ -109,7 +109,9 @@ class BaseMemoryEnabledAgent:
                 self.agent_name, self.domain.value, success=False
             )
             print(f"Agent {self.agent_name} failed to execute task '{task_input}': {e}")
-        except Exception as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
+        except (
+            Exception
+        ) as e:  # pylint: disable=broad-except  # fallback for truly unexpected errors
             task_failed_exception = e
             result_str = f"Unexpected error processing task: {e}"
             confidence = 0.0
