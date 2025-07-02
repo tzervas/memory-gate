@@ -1,18 +1,12 @@
 import asyncio
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 import logging
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import chromadb
 from chromadb.config import Settings
 import numpy as np
-
-# from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
@@ -22,6 +16,11 @@ from memory_gate.metrics import (
     MEMORY_STORE_LATENCY_SECONDS,
     record_memory_operation,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+# from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -385,7 +384,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     where=metadata_filter,
                     limit=limit,
                     offset=offset,
-                    include=["metadatas", "documents"],  # IDs are included by default
+                    include=[
+                        "metadatas",
+                        "documents",
+                    ],  # IDs are included by default
                 )
 
             items: list[tuple[str, LearningContext]] = []
