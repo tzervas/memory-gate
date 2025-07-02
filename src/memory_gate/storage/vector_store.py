@@ -2,14 +2,11 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 import logging
-from typing import TYPE_CHECKING, Any, cast
+from typing import Any, cast
 
 import chromadb
+from chromadb.api.types import Include
 from chromadb.config import Settings
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer
@@ -202,10 +199,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 }
 
                 # Convert embeddings to sequence for ChromaDB
-                embeddings_seq: Sequence[float] = cast("Sequence[float]", embedding)
                 self.collection.upsert(
                     ids=[key],
-                    embeddings=[embeddings_seq],
+                    embeddings=[embedding],
                     documents=[experience.content],
                     metadatas=[
                         cast("dict[str, str | int | float | bool]", metadata_to_store)
@@ -253,18 +249,11 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                         where_clause = metadata_filter
 
                 # Convert query embeddings to sequence for ChromaDB
-                query_embeddings_seq: Sequence[float] = cast(
-                    "Sequence[float]", query_embedding
-                )
                 query_results = self.collection.query(
-                    query_embeddings=[query_embeddings_seq],
+                    query_embeddings=[query_embedding],
                     n_results=limit,
                     where=where_clause if where_clause else None,
-                    include=[
-                        "metadatas",
-                        "documents",
-                        "distances",
-                    ],
+                    include=[Include.metadatas, Include.documents, Include.distances],
                 )
 
             contexts: list[LearningContext] = []
@@ -314,7 +303,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 store_type="vector_store"
             ).time():
                 result = self.collection.get(
-                    ids=[key], include=["metadatas", "documents"]
+                    ids=[key],
+                    include=[Include.metadatas, Include.documents],
                 )
 
             if not result["ids"] or not result["documents"]:
@@ -389,8 +379,8 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     limit=limit,
                     offset=offset,
                     include=[
-                        "metadatas",
-                        "documents",
+                        Include.metadatas,
+                        Include.documents,
                     ],  # IDs are included by default
                 )
 
