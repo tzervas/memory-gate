@@ -2,7 +2,8 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 import logging
-from typing import TYPE_CHECKING, Any, Literal, cast
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, cast
 
 import chromadb
 from chromadb.config import Settings
@@ -19,9 +20,6 @@ from memory_gate.metrics import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-
-# ChromaDB include types
-Include = Literal["metadatas", "documents", "distances", "embeddings"]
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 
@@ -98,8 +96,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
 
         try:
             if self.config.persist_directory:
+                # Ensure persist_directory is a string for ChromaDB 1.0.13+
+                persist_path = str(Path(self.config.persist_directory).resolve())
                 self.client = chromadb.PersistentClient(
-                    path=self.config.persist_directory,
+                    path=persist_path,
                     settings=Settings(
                         **(
                             self.config.chroma_settings
