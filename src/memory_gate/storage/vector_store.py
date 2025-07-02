@@ -2,7 +2,7 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 import logging
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import chromadb
 from chromadb.config import Settings
@@ -19,6 +19,9 @@ from memory_gate.metrics import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
+# ChromaDB include types
+Include = Literal["metadatas", "documents", "distances", "embeddings"]
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 
