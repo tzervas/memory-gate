@@ -480,11 +480,11 @@ async def test_logging_integration_stability(
 
 # Test to ensure log message consistency and format stability
 @pytest.mark.parametrize(
-    ("module_name", "logger_name"),
+    "logger_name",
     [
-        ("memory_gate.main", "memory_gate.main"),
-        ("memory_gate.consolidation", "memory_gate.consolidation"),
-        ("memory_gate.agent_interface", "memory_gate.agent_interface"),
+        "memory_gate.main",
+        "memory_gate.consolidation",
+        "memory_gate.agent_interface",
     ],
 )
 def test_logger_configuration_stability(logger_name: str) -> None:

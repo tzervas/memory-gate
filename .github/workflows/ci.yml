@@ -1,45 +1,72 @@
-name: Python CI
+name: Continuous Integration
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
-  build:
+  code-quality:
+    name: Code Quality
+    uses: ./.github/workflows/lint.yml
+    with:
+      python-version: '3.13'
+      target-dirs: 'src tests'
+      
+  security:
+    name: Security Analysis
+    uses: ./.github/workflows/security.yml
+    with:
+      python-version: '3.13'
+      
+  unit-tests:
+    name: Unit Tests
+    uses: ./.github/workflows/test.yml
+    needs: [code-quality]
+    with:
+      python-version: '3.13'
+      test-type: 'unit'
+      coverage-threshold: '85'
+      
+  integration-tests:
+    name: Integration Tests
+    uses: ./.github/workflows/test.yml
+    needs: [unit-tests]
+    with:
+      python-version: '3.13'
+      test-type: 'integration'
+      coverage-threshold: '75'
+      
+  regression-tests:
+    name: Regression Tests
+    uses: ./.github/workflows/test.yml
+    needs: [integration-tests]
+    with:
+      python-version: '3.13'
+      test-type: 'regression'
+      coverage-threshold: '85'
+      
+  ci-complete:
+    name: CI Complete
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"]
-
+    needs: [code-quality, security, unit-tests, integration-tests, regression-tests]
+    if: always()
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install uv
+    - name: Check all jobs status
       run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        uv pip install --system -e .[dev]
-    - name: Lint with Ruff
-      run: |
-        uv run ruff check src tests
-    - name: Format with Ruff
-      run: |
-        uv run ruff format --check src tests
-    - name: Type check with Mypy
-      run: |
-        uv run mypy src
-    - name: Test with Pytest
-      run: |
-        uv run pytest
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} # Optional: for private repos
-        fail_ci_if_error: true
+        echo "Code Quality: ${{ needs.code-quality.result }}"
+        echo "Security: ${{ needs.security.result }}"
+        echo "Unit Tests: ${{ needs.unit-tests.result }}"
+        echo "Integration Tests: ${{ needs.integration-tests.result }}"
+        echo "Regression Tests: ${{ needs.regression-tests.result }}"
+        
+        if [[ "${{ needs.code-quality.result }}" != "success" || 
+              "${{ needs.security.result }}" != "success" || 
+              "${{ needs.unit-tests.result }}" != "success" || 
+              "${{ needs.integration-tests.result }}" != "success" || 
+              "${{ needs.regression-tests.result }}" != "success" ]]; then
+          echo "One or more CI steps failed"
+          exit 1
+        fi
+        echo "All CI steps completed successfully"

@@ -20,6 +20,7 @@ def vector_store(request):
     return request.getfixturevalue(request.param)
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_initialization(
     persistent_vector_store: VectorMemoryStore,
@@ -35,6 +36,7 @@ async def test_initialization(
     assert in_memory_vector_store.config.collection_name == "test_in_memory_collection"
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_store_and_retrieve_single_experience(vector_store: VectorMemoryStore):
     """Test storing and retrieving a single learning experience."""
@@ -72,6 +74,7 @@ async def test_store_and_retrieve_single_experience(vector_store: VectorMemorySt
     logger.info("Single experience test completed successfully")
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_experience_lifecycle(vector_store: VectorMemoryStore):
     """Test full lifecycle of an experience (store, retrieve, update, delete)."""
@@ -138,6 +141,7 @@ def learning_contexts(draw):
     )
 
 
+@pytest.mark.unit
 @given(key=st.text(min_size=1, max_size=50), context=learning_contexts())
 @settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
 @pytest.mark.asyncio
@@ -147,6 +151,8 @@ async def test_property_based_store_and_retrieve(
     """Test that storing and retrieving a LearningContext preserves its properties."""
     await vector_store.store_experience(key, context)
     retrieved = await vector_store.get_experience_by_id(key)
+
+    # Core property assertions
     assert retrieved is not None
     assert retrieved.content == context.content
     assert retrieved.domain == context.domain
@@ -154,6 +160,6 @@ async def test_property_based_store_and_retrieve(
         microsecond=0
     )
     assert abs(retrieved.importance - context.importance) < 1e-6
-    for k, v in context.metadata.items():
-        assert k in retrieved.metadata
-        assert retrieved.metadata[k] == v
+
+    # Metadata integrity check (avoiding for loop)
+    assert retrieved.metadata == context.metadata

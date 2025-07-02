@@ -1,0 +1,92 @@
+name: Tests
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: 'Python version to use'
+        required: false
+        default: '3.13'
+        type: string
+      test-type:
+        description: 'Type of tests to run (unit, integration, regression, all)'
+        required: false
+        default: 'all'
+        type: string
+      coverage-threshold:
+        description: 'Coverage threshold percentage'
+        required: false
+        default: '85'
+        type: string
+    outputs:
+      coverage-percentage:
+        description: 'Test coverage percentage'
+        value: ${{ jobs.test.outputs.coverage }}
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    outputs:
+      coverage: ${{ steps.coverage.outputs.percentage }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ inputs.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+        
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        
+    - name: Install dependencies
+      run: |
+        uv sync --group test --group storage
+        
+    - name: Run unit tests
+      if: ${{ inputs.test-type == 'unit' || inputs.test-type == 'all' }}
+      run: |
+        uv run pytest tests/ -m "not integration and not regression" \
+          --cov=src/memory_gate \
+          --cov-report=xml:coverage.xml \
+          --cov-report=term-missing \
+          --cov-fail-under=${{ inputs.coverage-threshold }} \
+          --tb=short
+          
+    - name: Run integration tests
+      if: ${{ inputs.test-type == 'integration' || inputs.test-type == 'all' }}
+      run: |
+        uv run pytest tests/ -m "integration" --tb=short
+        
+    - name: Run regression tests
+      if: ${{ inputs.test-type == 'regression' || inputs.test-type == 'all' }}
+      run: |
+        uv run pytest tests/regression/ --tb=short
+        
+    - name: Extract coverage percentage
+      id: coverage
+      if: always()
+      run: |
+        if [ -f coverage.xml ]; then
+          COVERAGE=$(python -c "import xml.etree.ElementTree as ET; print(f'{float(ET.parse(\"coverage.xml\").getroot().attrib[\"line-rate\"]) * 100:.1f}')")
+          echo "percentage=$COVERAGE" >> $GITHUB_OUTPUT
+        else
+          echo "percentage=0" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Upload coverage to Codecov
+      if: always()
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: false

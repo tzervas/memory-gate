@@ -20,26 +20,16 @@ repos:
         types_or: [python, pyi, jupyter]
         require_serial: false
 
-# Black - Python code formatter
-  # Using ruff format instead of black for consistency
-
-  # isort - Import sorting (disabled since ruff handles it)
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 5.13.2
-  #   hooks:
-  #     - id: isort
-  #       name: isort-check
-  #       args: [--check-only, --diff]
-  #       types: [python]
-
+# Ruff formatter
   # MyPy - Static type checker with strict mode
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.16.1
     hooks:
       - id: mypy
         name: mypy-strict
-        args: [--strict, --show-error-codes, --ignore-missing-imports, --disable-error-code=misc]
-        language_version: python3.12
+        # Use config from pyproject.toml
+        args: [--config-file=pyproject.toml]
+        language_version: python3.13
         types: [python]
         # Include additional dependencies that mypy needs for checking
         additional_dependencies: [
@@ -106,10 +96,10 @@ repos:
 
 # Global pre-commit configuration
 default_language_version:
-  python: python3.12
+  python: python3.13
 
 # Fail fast - stop running hooks after first failure
-fail_fast: false
+fail_fast: true
 
 # Repository-wide settings
 minimum_pre_commit_version: "3.0.0"

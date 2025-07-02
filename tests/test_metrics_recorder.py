@@ -7,8 +7,9 @@ Follows DRY, SRP, and KISS principles with extensive use of fixtures.
 
 from pathlib import Path
 
-from metrics_recorder import MetricsRecorder
 import pytest
+
+from .metrics_recorder import MetricsRecorder
 
 
 @pytest.fixture
