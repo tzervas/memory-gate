@@ -22,9 +22,9 @@ classifiers = [
 requires-python = ">=3.13,<4.0"
 dependencies = [
     # Core runtime dependencies
-    "pydantic>=2.6.0,<2.10.0",              # Data validation and settings management
-    "numpy==2.3.1",                # Numerical computing for embeddings
-    "prometheus-client==0.22.1",    # Metrics collection and exposure
+    "pydantic>=2.6.0,<3.0.0",              # Data validation and settings management
+    "numpy~=2.3.0",                        # Numerical computing for embeddings
+    "prometheus-client~=0.22.0",           # Metrics collection and exposure
 
     # Vector storage and ML dependencies (made optional to reduce core footprint)
     # These are moved to optional-dependencies for better modularity
@@ -34,40 +34,40 @@ dependencies = [
 # Development and testing dependencies
 dev = [
     # Testing framework
-    "pytest==8.4.1",
-    "pytest-asyncio==1.0.0",
-    "pytest-cov==6.2.1",
-    "pytest-benchmark==5.1.0",
-    "pytest-mock==3.14.1",
-    "pytest-timeout==2.4.0",
+    "pytest~=8.4.0",
+    "pytest-asyncio~=1.0.0",
+    "pytest-cov~=6.2.0",
+    "pytest-benchmark~=5.1.0",
+    "pytest-mock~=3.14.0",
+    "pytest-timeout~=2.4.0",
     
     # Property-based testing
-    "hypothesis==6.135.20",
-    "hypothesis[pytz]==6.135.20",  # For timezone strategies
+    "hypothesis~=6.135.0",
+    "hypothesis[pytz]~=6.135.0",  # For timezone strategies
 
     # Code quality and formatting
-    "ruff==0.12.1",              # Linting and formatting (replaces black + flake8)
-    "mypy==1.16.1",              # Type checking
+    "ruff~=0.12.0",              # Linting and formatting (replaces black + flake8)
+    "mypy~=1.16.0",              # Type checking
 
     # Documentation
-    "sphinx==8.2.3",             # Future: API documentation
-    "sphinx-rtd-theme==3.0.2",   # Future: Documentation theme
+    "sphinx~=8.2.0",             # Future: API documentation
+    "sphinx-rtd-theme~=3.0.0",   # Future: Documentation theme
 ]
 
 # Vector storage and ML dependencies
 storage = [
-    "chromadb==1.0.13",         # Primary vector database
-    "sentence-transformers==5.0.0", # Embedding generation
-    "qdrant-client==1.14.3",       # Alternative vector database
-    "redis==6.2.0",               # Alternative/cache storage
+    "chromadb~=1.0.0",              # Primary vector database
+    "sentence-transformers~=5.0.0", # Embedding generation
+    "qdrant-client~=1.14.0",        # Alternative vector database
+    "redis~=6.2.0",                 # Alternative/cache storage
 ]
 
 # GPU acceleration for embeddings
 gpu = [
-    "torch==2.7.1",
-    "transformers==4.53.0",
-    "sentence-transformers[gpu]==5.0.0",
-    "accelerate==1.8.1",         # GPU optimization for transformers
+    "torch~=2.7.0",
+    "transformers~=4.53.0",
+    "sentence-transformers[gpu]~=5.0.0",
+    "accelerate~=1.8.0",         # GPU optimization for transformers
 ]
 
 # MCP (Model Context Protocol) integration

@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any, cast
 import chromadb
 from chromadb.config import Settings
 import numpy as np
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sentence_transformers import SentenceTransformer
 
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
@@ -29,6 +30,58 @@ logger = logging.getLogger(__name__)
 # Error message constants
 ERROR_MSG_CHROMADB_INIT_FAILED = "Failed to initialize ChromaDB client: {error}"
 ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED = "Failed to initialize embedding model: {error}"
+
+
+class ChromaDBMetadata(BaseModel):
+    """Pydantic model for validating ChromaDB metadata.
+
+    Ensures metadata values are compatible with ChromaDB and LearningContext.
+    """
+
+    model_config = ConfigDict(extra="allow")  # Allow additional metadata fields
+
+    domain: str = Field(default="unknown", description="Domain of the learning context")
+    timestamp: str = Field(description="ISO formatted timestamp")
+    importance: float = Field(
+        default=1.0, ge=0.0, le=1.0, description="Importance score"
+    )
+
+    @field_validator("timestamp")
+    @classmethod
+    def validate_timestamp(cls, v: Any) -> str:
+        """Validate that timestamp is a valid ISO format."""
+        timestamp_str = str(v)
+        try:
+            datetime.fromisoformat(timestamp_str)
+            return timestamp_str
+        except ValueError as e:
+            raise ValueError(f"Invalid timestamp format: {timestamp_str}") from e
+
+    @field_validator("domain", mode="before")
+    @classmethod
+    def validate_domain(cls, v: Any) -> str:
+        """Ensure domain is converted to string."""
+        return str(v)
+
+    @field_validator("importance", mode="before")
+    @classmethod
+    def validate_importance(cls, v: Any) -> float:
+        """Ensure importance is converted to float."""
+        try:
+            return float(v)
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Invalid importance value: {v}") from e
+
+    def to_filtered_dict(self) -> dict[str, str]:
+        """Convert to filtered dictionary for LearningContext metadata.
+
+        Returns:
+            Dictionary with non-special fields converted to strings
+        """
+        special_fields = {"domain", "timestamp", "importance"}
+        return {
+            k: str(v) for k, v in self.model_dump().items() if k not in special_fields
+        }
 
 
 @dataclass
@@ -140,43 +193,97 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             lambda: self.collection.count()  # Periodically update with current count
         )
 
+    def _validate_query_results(self, query_results: dict[str, Any]) -> bool:
+        """Validate that query results contain the expected structure.
+
+        Args:
+            query_results: The results from ChromaDB query
+
+        Returns:
+            True if results are valid, False otherwise
+        """
+        required_keys = ["ids", "documents", "metadatas"]
+        for key in required_keys:
+            if (
+                not query_results.get(key)
+                or not query_results[key]
+                or len(query_results[key]) == 0
+                or not query_results[key][0]
+            ):
+                return False
+        return True
+
+    def _extract_contexts_from_results(
+        self, query_results: dict[str, Any]
+    ) -> list[LearningContext]:
+        """Extract contexts from validated query results.
+
+        Args:
+            query_results: Validated query results from ChromaDB
+
+        Returns:
+            List of LearningContext objects
+        """
+        contexts: list[LearningContext] = []
+
+        for i, doc_content in enumerate(query_results["documents"][0]):
+            # Check bounds and null values
+            if (
+                i < len(query_results["metadatas"][0])
+                and i < len(query_results["ids"][0])
+                and doc_content is not None
+            ):
+                metadata = query_results["metadatas"][0][i]
+                id_value = query_results["ids"][0][i]
+
+                if metadata is not None and id_value is not None:
+                    contexts.append(
+                        self._parse_metadata(
+                            id_value,
+                            cast("dict[str, str | int | float | bool]", metadata),
+                            doc_content,
+                        )
+                    )
+        return contexts
+
     def _parse_metadata(
         self, item_id: str, metadata: dict[str, str | int | float | bool], document: str
     ) -> LearningContext:
         """
         Private helper method to convert metadata from ChromaDB to LearningContext.
-
-        Filters out 'domain', 'timestamp', 'importance' from the metadata dict
-        and casts other values to str for LearningContext.metadata.
-        Parses ISO timestamp and importance values.
+        Uses Pydantic validation for type safety and consistency.
 
         Args:
-        item_id: The unique identifier for the experience (used for error reporting)
-        metadata: The raw metadata dict from ChromaDB
-        document: The document content
+            item_id: The unique identifier for the experience
+            metadata: The raw metadata dict from ChromaDB
+            document: The document content
 
         Returns:
             A LearningContext object with properly parsed metadata
         """
-        # Extract and filter out the special fields, casting remaining to str
-        filtered_metadata: dict[str, str] = {
-            k: str(v)
-            for k, v in metadata.items()
-            if k not in ["domain", "timestamp", "importance"]
-        }
+        try:
+            # Use Pydantic model for validation and parsing
+            validated_metadata = ChromaDBMetadata.model_validate(metadata)
 
-        # Parse the special fields with proper type conversion and defaults
-        domain = str(metadata.get("domain", "unknown"))
-        timestamp = datetime.fromisoformat(str(metadata["timestamp"]))
-        importance = float(metadata.get("importance", 1.0))
-
-        return LearningContext(
-            content=document,
-            domain=domain,
-            timestamp=timestamp,
-            importance=importance,
-            metadata=filtered_metadata,
-        )
+            return LearningContext(
+                content=document,
+                domain=validated_metadata.domain,
+                timestamp=datetime.fromisoformat(validated_metadata.timestamp),
+                importance=validated_metadata.importance,
+                metadata=validated_metadata.to_filtered_dict(),
+            )
+        except Exception as e:
+            logger.warning(
+                f"Failed to parse metadata for item {item_id}: {e}. Using defaults."
+            )
+            # Fallback to safe defaults if validation fails
+            return LearningContext(
+                content=document,
+                domain="unknown",
+                timestamp=datetime.now(),
+                importance=1.0,
+                metadata={},
+            )
 
     async def _generate_embedding(self, text: str) -> np.ndarray:
         """Generates embedding for a given text using sentence-transformer model."""
@@ -265,40 +372,12 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     include=["metadatas", "documents", "distances"],
                 )
 
-            contexts: list[LearningContext] = []
-            # Enhanced None-safety guards: check for emptiness before indexing
-            if (
-                query_results.get("ids")
-                and query_results["ids"]
-                and len(query_results["ids"]) > 0
-                and query_results["ids"][0]
-                and query_results.get("documents")
-                and query_results["documents"]
-                and len(query_results["documents"]) > 0
-                and query_results["documents"][0]
-                and query_results.get("metadatas")
-                and query_results["metadatas"]
-                and len(query_results["metadatas"]) > 0
-                and query_results["metadatas"][0]
-            ):  # Check if there are any results with comprehensive safety guards
-                for i, doc_content in enumerate(query_results["documents"][0]):
-                    # Additional safety checks for individual items
-                    if (
-                        i < len(query_results["metadatas"][0])
-                        and i < len(query_results["ids"][0])
-                        and doc_content is not None
-                    ):
-                        metadata = query_results["metadatas"][0][i]
-                        id_value = query_results["ids"][0][i]
-
-                if metadata is not None and id_value is not None:
-                    contexts.append(
-                        self._parse_metadata(
-                            id_value,
-                            cast("dict[str, str | int | float | bool]", metadata),
-                            doc_content,
-                        )
-                    )
+            # Use helper functions for cleaner code
+            query_results_dict = cast("dict[str, Any]", query_results)
+            if self._validate_query_results(query_results_dict):
+                contexts = self._extract_contexts_from_results(query_results_dict)
+            else:
+                contexts = []
             record_memory_operation(operation_type="retrieve_context", success=True)
             return contexts
         except Exception:
