@@ -169,12 +169,14 @@ addopts = [
     "--cov-report=xml:coverage.xml",
     "--cov-fail-under=85",
     "--timeout=300",                        # 5 minute timeout for tests
-    "--benchmark-only",                     # Separate benchmark runs
-    "--benchmark-skip",                     # Skip benchmarks in normal runs
+    "--tb=short",                           # Short traceback format
+    "-v",                                   # Verbose output
 ]
 markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests", 
+    "regression: marks tests as regression tests",
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-    "integration: marks tests as integration tests",
     "benchmark: marks tests as benchmarks",
     "gpu: marks tests requiring GPU",
     "network: marks tests requiring network access",
