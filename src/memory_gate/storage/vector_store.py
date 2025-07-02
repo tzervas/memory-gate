@@ -1,12 +1,16 @@
 import asyncio
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 import logging
 from typing import Any, cast
 
 import chromadb
-from chromadb.api.types import Include
 from chromadb.config import Settings
+import numpy as np
 
 # from chromadb.api import Collection  # type: ignore[import-not-found] - Reserved for future use
 from sentence_transformers import SentenceTransformer
@@ -172,12 +176,11 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             metadata=filtered_metadata,
         )
 
-    async def _generate_embedding(self, text: str) -> list[float]:
+    async def _generate_embedding(self, text: str) -> np.ndarray:
         """Generates embedding for a given text using sentence-transformer model."""
         loop = asyncio.get_event_loop()
         # SentenceTransformer.encode is CPU-bound, run in executor
-        embedding = await loop.run_in_executor(None, self.embedding_model.encode, text)
-        return cast("list[float]", embedding.tolist())
+        return await loop.run_in_executor(None, self.embedding_model.encode, text)
 
     async def store_experience(self, key: str, experience: LearningContext) -> None:
         """
@@ -189,7 +192,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         """
         try:
             with MEMORY_STORE_LATENCY_SECONDS.labels(store_type="vector_store").time():
-                embedding = await self._generate_embedding(experience.content)
+                embedding_array = await self._generate_embedding(experience.content)
+                # Convert numpy array to list and cast to sequence for ChromaDB
+                embedding_seq: Sequence[float] = embedding_array.tolist()
 
                 metadata_to_store = {
                     "domain": experience.domain,
@@ -201,7 +206,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                 # Convert embeddings to sequence for ChromaDB
                 self.collection.upsert(
                     ids=[key],
-                    embeddings=[embedding],
+                    embeddings=[embedding_seq],
                     documents=[experience.content],
                     metadatas=[
                         cast("dict[str, str | int | float | bool]", metadata_to_store)
@@ -236,7 +241,9 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             with MEMORY_RETRIEVAL_LATENCY_SECONDS.labels(
                 store_type="vector_store"
             ).time():
-                query_embedding = await self._generate_embedding(query)
+                query_embedding_array = await self._generate_embedding(query)
+                # Convert numpy array to list and cast to sequence for ChromaDB
+                query_embedding_seq: Sequence[float] = query_embedding_array.tolist()
 
                 where_clause: dict[str, Any] = {}
                 if domain_filter:
@@ -250,10 +257,10 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
 
                 # Convert query embeddings to sequence for ChromaDB
                 query_results = self.collection.query(
-                    query_embeddings=[query_embedding],
+                    query_embeddings=[query_embedding_seq],
                     n_results=limit,
                     where=where_clause if where_clause else None,
-                    include=[Include.metadatas, Include.documents, Include.distances],
+                    include=["metadatas", "documents", "distances"],
                 )
 
             contexts: list[LearningContext] = []
@@ -304,7 +311,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             ).time():
                 result = self.collection.get(
                     ids=[key],
-                    include=[Include.metadatas, Include.documents],
+                    include=["metadatas", "documents"],
                 )
 
             if not result["ids"] or not result["documents"]:
@@ -378,10 +385,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     where=metadata_filter,
                     limit=limit,
                     offset=offset,
-                    include=[
-                        Include.metadatas,
-                        Include.documents,
-                    ],  # IDs are included by default
+                    include=["metadatas", "documents"],  # IDs are included by default
                 )
 
             items: list[tuple[str, LearningContext]] = []
