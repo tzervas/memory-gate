@@ -60,22 +60,31 @@ MemoryGate is an **original, independently-conceived** dynamic memory learning l
 **Goal**: Pip-installable package that works with local Ollama
 
 #### Phase 1.1: Core Integration (Weeks 1-2)
-*Make MemoryGate useful with Ollama*
+*Make MemoryGate useful with Ollama and extensible for other providers*
 
-- [ ] **TASK-001**: Ollama Memory Bridge
-  - [ ] Create `ollama_bridge.py` module
-  - [ ] Implement Ollama API client (generate, chat, embeddings)
-  - [ ] Build prompt augmentation with retrieved memories
-  - [ ] Add streaming response support
-  - [ ] Create async interaction storage
-  - [ ] Unit tests with mocked Ollama
+- [x] **TASK-001**: Ollama Memory Bridge ✅
+  - [x] Create `ollama_bridge.py` module
+  - [x] Implement Ollama API client (generate, chat, embeddings)
+  - [x] Build prompt augmentation with retrieved memories
+  - [x] Add streaming response support
+  - [x] Create async interaction storage
+  - [x] Unit tests with mocked Ollama
   - [ ] Integration tests with real Ollama (optional)
+
+- [x] **TASK-001b**: Provider Framework ✅
+  - [x] Create `providers/` module with provider/connector pattern
+  - [x] Implement `BaseModelProvider` abstract class
+  - [x] Create `OllamaProvider` implementation
+  - [x] Create `OpenAPIProvider` (universal OpenAPI-compliant provider)
+  - [x] Implement `ProviderRegistry` for dynamic provider management
+  - [x] Add `GenerationConfig` and `ProviderResponse` standard types
+  - [x] Support for custom provider extensions
 
 - [ ] **TASK-002**: REST API Layer
   - [ ] Create FastAPI application structure
   - [ ] Memory CRUD endpoints (`/api/v1/memory/*`)
   - [ ] Prompt augmentation endpoint (`/api/v1/augment`)
-  - [ ] Ollama proxy endpoint (`/api/v1/generate`)
+  - [ ] Provider-agnostic generate endpoint (`/api/v1/generate`)
   - [ ] Health/readiness probes
   - [ ] OpenAPI documentation
   - [ ] API integration tests
@@ -245,6 +254,55 @@ MemoryGate is an **original, independently-conceived** dynamic memory learning l
 | API response time | <100ms p95 | N/A | ⬜ |
 | Uptime | 99.9% | N/A | ⬜ |
 | Security compliance | SOC2/GDPR | N/A | ⬜ |
+
+---
+
+## 🔬 Future Research & Exploration (Post-Enterprise)
+
+> These concepts represent longer-term research directions based on original ideas developed independently. They are tracked here for future implementation once core functionality is stable.
+
+### Temporal Continuity Layer
+
+**Concept**: Address the "perpetual instantiation" problem where models experience only the current moment without temporal context.
+
+**Goals**:
+- Provide models with a sense of past, present, and anticipated future
+- Enable better reasoning through temporal continuity of thought
+- Improve solution quality through accumulated temporal context
+
+**Rationale**: Based on exploration of philosophy, psychology, and computational science - the hypothesis is that temporal awareness will enable more effective cognition and better continuity of thought in AI systems.
+
+**Tasks** (Future):
+- [ ] Research temporal representation formats
+- [ ] Design temporal context injection mechanism
+- [ ] Implement temporal memory decay/reinforcement
+- [ ] Create temporal reasoning tests
+- [ ] Measure impact on solution quality
+
+### Balanced Ternary Computing Integration
+
+**Concept**: Explore integration of balanced ternary logic and math for memory encoding and storage.
+
+**Goals**:
+- Investigate efficiency gains from ternary representation
+- Explore holographic storage of memories and offsets
+- Potential integration with Embeddenator project's VSA approach
+
+**Rationale**: Balanced ternary logic appears to work efficiently for certain computational patterns. This exploration may yield more efficient memory encoding mechanisms.
+
+**Dependencies**:
+- [ ] Embeddenator project VSA data model validation
+- [ ] Proof-of-concept for ternary memory encoding
+- [ ] Performance comparison with binary approaches
+
+**Tasks** (Future):
+- [ ] Study balanced ternary representation for embeddings
+- [ ] Prototype ternary encoding for memory deltas
+- [ ] Evaluate holographic storage feasibility
+- [ ] Integration pathway with Embeddenator project
+- [ ] Benchmark against current binary approach
+
+> **Note**: These research areas will use current data models and plans until proof-of-concept validation is complete.
 
 ---
 

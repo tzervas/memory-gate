@@ -4,7 +4,7 @@
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| Tier 1: POC Core | 🟡 In Progress | 40% |
+| Tier 1: POC Core | 🟡 In Progress | 50% |
 | Tier 2: Service | ⬜ Not Started | 0% |
 | Tier 3: Enterprise | ⬜ Not Started | 0% |
 
@@ -28,17 +28,35 @@
 - [x] Align recent tool versions
 - [x] Improve test suite stability
 
+### TASK-001: Ollama Memory Bridge ✅
+- [x] Create `ollama_bridge.py` module
+- [x] Implement Ollama API client (generate, chat, embeddings)
+- [x] Build prompt augmentation with retrieved memories
+- [x] Add streaming response support
+- [x] Create async interaction storage
+- [x] Unit tests with mocked Ollama (`test_ollama_bridge.py`)
+
+### TASK-001b: Provider Framework ✅
+- [x] Create `providers/` module with provider/connector pattern
+- [x] Implement `BaseModelProvider` abstract class
+- [x] Create `OllamaProvider` implementation
+- [x] Create `OpenAPIProvider` (universal OpenAPI-compliant provider)
+- [x] Implement `ProviderRegistry` for dynamic provider management
+- [x] Add `GenerationConfig` and `ProviderResponse` standard types
+
 ### Documentation
 - [x] POC Specification document created
 - [x] Project tracker updated with 3-tier model
 - [x] Design principles documented
+- [x] Future research roadmap (temporal layer, balanced ternary)
 
 ---
 
 ## 🔄 In Progress
 
 - [ ] POC Phase 1.1: Core Integration
-  - [ ] Ollama Memory Bridge
+  - [x] Ollama Memory Bridge ✅
+  - [x] Provider Framework ✅
   - [ ] REST API Layer (FastAPI)
   - [ ] Package distribution setup
 
@@ -64,6 +82,14 @@
 - [ ] Finalize production build pipeline
 - [ ] Write end-to-end tests
 - [ ] Update README and CONTRIBUTING
+
+---
+
+## 🔬 Future Research (Tracked)
+
+- [ ] Temporal Continuity Layer (post-enterprise)
+- [ ] Balanced Ternary Computing Integration
+- [ ] Embeddenator VSA Integration
 
 ---
 

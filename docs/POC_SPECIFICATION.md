@@ -217,6 +217,44 @@ response = await ollama.generate(model="llama3", prompt=augmented_prompt)
 await memory_gateway.learn_from_interaction(user_prompt, response)
 ```
 
+#### 1b. Provider/Connector Pattern
+MemoryGate uses a provider/connector architecture for model integrations, enabling:
+- Easy addition of new model backends (Ollama, OpenAI, Anthropic, etc.)
+- Consistent interface across all providers
+- Custom provider extensions via OpenAPI-compliant universal provider
+
+```python
+from memory_gate.providers import (
+    get_provider,
+    ProviderType,
+    OllamaProviderConfig,
+    OpenAPIProviderConfig,
+)
+
+# Use Ollama provider
+async with get_provider(ProviderType.OLLAMA) as provider:
+    response = await provider.generate("Hello, world!")
+    print(response.content)
+
+# Use any OpenAPI-compliant API
+custom_config = OpenAPIProviderConfig(
+    base_url="https://api.example.com",
+    api_key="your-key",
+    default_model="gpt-4",
+)
+async with get_provider(ProviderType.CUSTOM, config=custom_config) as provider:
+    response = await provider.chat([ChatMessage.user("Hello!")])
+
+# Extend with custom providers
+from memory_gate.providers import register_provider, BaseModelProvider
+
+class MyCustomProvider(BaseModelProvider):
+    # Implement abstract methods...
+    pass
+
+register_provider(ProviderType.CUSTOM, MyCustomProvider)
+```
+
 #### 2. Differential Memory Versioning
 Instead of storing complete memory snapshots, store deltas:
 
