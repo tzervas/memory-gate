@@ -1,7 +1,8 @@
 """Tests for configuration management."""
 
-import tempfile
+import os
 from pathlib import Path
+import tempfile
 
 import pytest
 
@@ -228,8 +229,6 @@ def test_config_load_default() -> None:
     """Test loading default configuration when no file exists."""
     # Load from non-existent directory
     with tempfile.TemporaryDirectory() as tmpdir:
-        import os
-
         original_cwd = os.getcwd()
         try:
             os.chdir(tmpdir)

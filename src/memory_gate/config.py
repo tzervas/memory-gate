@@ -10,6 +10,11 @@ Configuration priority (highest to lowest):
 1. Environment variables
 2. Configuration file (YAML/TOML)
 3. Default values
+
+Note:
+    The global config instance (_config) is provided for convenience.
+    For production use with multiple threads or async contexts, consider
+    using dependency injection or context-local storage patterns.
 """
 
 from pathlib import Path
@@ -224,6 +229,10 @@ class MemoryGateConfig(BaseSettings):
         Raises:
             FileNotFoundError: If the configuration file doesn't exist.
             ValueError: If the TOML file is invalid.
+
+        Note:
+            Uses Python 3.11+ built-in tomllib module (read-only TOML support).
+            This is compatible with the project's Python 3.12+ requirement.
         """
         import tomllib  # Python 3.11+ built-in
 

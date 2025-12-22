@@ -26,7 +26,7 @@ async def demonstrate_ollama_provider() -> None:
     # Check if Ollama is available
     try:
         models = await provider.list_models()
-        print(f"✓ Connected to Ollama")
+        print("✓ Connected to Ollama")
         print(
             f"  Available models: {', '.join(models[:3])}{'...' if len(models) > 3 else ''}"
         )
@@ -60,7 +60,7 @@ async def demonstrate_openai_provider() -> None:
     # Note: This requires a valid API key
     provider = OpenAPIProvider(
         base_url="https://api.openai.com/v1",
-        api_key="your-api-key-here",  # Set via environment variable in production
+        api_key=None,  # Set via OPENAI_API_KEY environment variable in production
     )
 
     print("  OpenAI-compatible provider created")
@@ -92,7 +92,7 @@ async def demonstrate_provider_registry() -> None:
     # Register OpenAI provider
     openai = OpenAPIProvider(
         base_url="https://api.openai.com/v1",
-        api_key="your-api-key-here",
+        api_key=None,  # Set via OPENAI_API_KEY environment variable
     )
     registry.register("openai", openai)
     print("  ✓ Registered 'openai' provider")
@@ -147,8 +147,8 @@ async def demonstrate_custom_configuration() -> None:
         base_url="http://localhost:8080/v1",
         api_key="not-needed",
     )
-    print(f"    Base URL: http://localhost:8080/v1")
-    print(f"    Provider: OpenAPI-compatible")
+    print("    Base URL: http://localhost:8080/v1")
+    print("    Provider: OpenAPI-compatible")
 
 
 async def main() -> None:
