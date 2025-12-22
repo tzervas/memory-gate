@@ -1,6 +1,6 @@
 """FastAPI dependency injection utilities."""
 
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 from memory_gate.memory_gateway import MemoryGateway
 from memory_gate.storage.in_memory import InMemoryKnowledgeStore
@@ -19,7 +19,7 @@ def configure_gateway(gateway: MemoryGateway) -> None:
     _gateway = gateway
 
 
-async def get_memory_gateway() -> AsyncGenerator[MemoryGateway, None]:
+async def get_memory_gateway() -> AsyncGenerator[MemoryGateway]:
     """Dependency that provides a memory gateway instance.
 
     Yields:

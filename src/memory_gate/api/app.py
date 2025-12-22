@@ -1,19 +1,19 @@
 """FastAPI application factory for MemoryGate REST API."""
 
-import logging
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from memory_gate.api.routes import health, memory, generate
+from memory_gate.api.routes import generate, health, memory
 
 logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
-async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
+async def lifespan(_app: FastAPI) -> AsyncGenerator[None]:
     """Lifespan context manager for application startup and shutdown."""
     logger.info("Starting MemoryGate API")
     yield

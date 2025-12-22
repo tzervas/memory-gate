@@ -7,8 +7,8 @@ and provider-agnostic generation.
 from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
 from fastapi.testclient import TestClient
+import pytest
 
 from memory_gate.api.app import create_app
 from memory_gate.api.dependencies import configure_gateway
