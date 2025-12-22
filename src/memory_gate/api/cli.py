@@ -2,11 +2,13 @@
 
 import argparse
 import logging
+from pathlib import Path
 import sys
 
 import uvicorn
 
 from memory_gate.api.app import create_app
+from memory_gate.config import MemoryGateConfig
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -28,15 +30,19 @@ def main() -> None:
         description="MemoryGate API Server",
     )
     parser.add_argument(
+        "--config",
+        "-c",
+        type=Path,
+        help="Path to configuration file (YAML or TOML)",
+    )
+    parser.add_argument(
         "--host",
-        default="0.0.0.0",
-        help="Host to bind to (default: 0.0.0.0)",
+        help="Host to bind to (overrides config file)",
     )
     parser.add_argument(
         "--port",
         type=int,
-        default=8000,
-        help="Port to bind to (default: 8000)",
+        help="Port to bind to (overrides config file)",
     )
     parser.add_argument(
         "--reload",
@@ -51,10 +57,38 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    setup_logging(verbose=args.verbose)
+
+    # Load configuration
+    try:
+        if args.config:
+            config = MemoryGateConfig.load(args.config)
+        else:
+            config = MemoryGateConfig.load()
+    except FileNotFoundError as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Configuration file not found: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error loading configuration: {e}")
+        sys.exit(1)
+
+    # Override config with CLI arguments
+    if args.host:
+        config.server.host = args.host
+    if args.port:
+        config.server.port = args.port
+    if args.reload:
+        config.server.reload = args.reload
+    if args.verbose:
+        config.server.log_level = "debug"
+
+    setup_logging(verbose=args.verbose or config.server.log_level == "debug")
 
     logger = logging.getLogger(__name__)
-    logger.info(f"Starting MemoryGate API on {args.host}:{args.port}")
+    logger.info(f"Starting MemoryGate API on {config.server.host}:{config.server.port}")
+    if args.config:
+        logger.info(f"Loaded configuration from: {args.config}")
 
     # Create app instance
     app = create_app()
@@ -62,10 +96,10 @@ def main() -> None:
     # Run server
     uvicorn.run(
         app,
-        host=args.host,
-        port=args.port,
-        reload=args.reload,
-        log_level="debug" if args.verbose else "info",
+        host=config.server.host,
+        port=config.server.port,
+        reload=config.server.reload,
+        log_level=config.server.log_level,
     )
 
 
