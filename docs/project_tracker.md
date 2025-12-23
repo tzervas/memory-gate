@@ -80,21 +80,21 @@ MemoryGate is an **original, independently-conceived** dynamic memory learning l
   - [x] Add `GenerationConfig` and `ProviderResponse` standard types
   - [x] Support for custom provider extensions
 
-- [ ] **TASK-002**: REST API Layer
-  - [ ] Create FastAPI application structure
-  - [ ] Memory CRUD endpoints (`/api/v1/memory/*`)
-  - [ ] Prompt augmentation endpoint (`/api/v1/augment`)
-  - [ ] Provider-agnostic generate endpoint (`/api/v1/generate`)
-  - [ ] Health/readiness probes
-  - [ ] OpenAPI documentation
-  - [ ] API integration tests
+- [x] **TASK-002**: REST API Layer ✅
+  - [x] Create FastAPI application structure
+  - [x] Memory CRUD endpoints (`/api/v1/memory/*`)
+  - [x] Prompt augmentation endpoint (`/api/v1/augment`)
+  - [x] Provider-agnostic generate endpoint (`/api/v1/generate`)
+  - [x] Health/readiness probes
+  - [x] OpenAPI documentation
+  - [x] API integration tests
 
-- [ ] **TASK-003**: Package Distribution
-  - [ ] Verify pyproject.toml for PyPI
-  - [ ] Create CLI entry point (`memory-gate serve`)
-  - [ ] Add configuration file support (YAML/TOML)
-  - [ ] Write quickstart documentation
-  - [ ] Create example scripts
+- [x] **TASK-003**: Package Distribution ✅
+  - [x] Verify pyproject.toml for PyPI
+  - [x] Create CLI entry point (`memory-gate-serve`)
+  - [x] Add configuration file support (YAML/TOML)
+  - [x] Write quickstart documentation
+  - [x] Create example scripts
 
 #### Phase 1.2: Persona & Memory Management (Weeks 3-4)
 *Enable multiple memory contexts and intelligent cleanup*

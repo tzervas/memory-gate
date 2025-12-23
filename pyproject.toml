@@ -27,6 +27,7 @@ dependencies = [
     "numpy~=2.3.0",                        # Numerical computing for embeddings
     "prometheus-client~=0.22.0",           # Metrics collection and exposure
     "httpx~=0.28.0",                       # Async HTTP client for Ollama integration
+    "pyyaml~=6.0",                         # YAML configuration file support
 
     # Vector storage and ML dependencies (made optional to reduce core footprint)
     # These are moved to optional-dependencies for better modularity

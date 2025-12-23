@@ -1,0 +1,51 @@
+# MemoryGate Configuration Example (YAML)
+# This file demonstrates all available configuration options.
+# Copy this to config.yaml and customize as needed.
+
+# API Server Configuration
+server:
+  host: "0.0.0.0"               # Host to bind the server to
+  port: 8000                     # Port to listen on
+  reload: false                  # Enable auto-reload for development
+  workers: 1                     # Number of worker processes
+  log_level: "info"              # Logging level: debug, info, warning, error, critical
+
+# Storage Backend Configuration
+storage:
+  backend: "memory"              # Backend type: memory, chroma, qdrant
+  persist_directory: null        # Directory for persistent storage (ChromaDB)
+  collection_name: "memory_gate" # Collection name for vector store
+  
+  # ChromaDB specific settings (when backend: chroma)
+  # chroma_host: "localhost"     # Remote ChromaDB host
+  # chroma_port: 8080            # Remote ChromaDB port
+  
+  # Qdrant specific settings (when backend: qdrant)
+  # qdrant_url: "http://localhost:6333"
+  # qdrant_api_key: "your-api-key"
+
+# Model Provider Configuration
+provider:
+  default_provider: "ollama"     # Default provider: ollama, openai
+  
+  # Ollama settings
+  ollama_base_url: "http://localhost:11434"
+  ollama_default_model: "llama3"
+  
+  # OpenAI settings
+  # openai_api_key: "sk-..."    # Set via MEMORYGATE_PROVIDER__OPENAI_API_KEY env var
+  openai_base_url: "https://api.openai.com/v1"
+  openai_default_model: "gpt-4"
+
+# Memory Management Configuration
+memory:
+  max_context_length: 4000       # Maximum tokens for memory context
+  retrieval_limit: 10            # Default number of memories to retrieve
+  similarity_threshold: 0.7      # Minimum similarity score (0.0-1.0)
+  enable_consolidation: true     # Enable automatic memory consolidation
+  consolidation_interval: 3600   # Consolidation interval in seconds
+
+# Metrics and Monitoring
+metrics:
+  enable_metrics: true           # Enable Prometheus metrics
+  metrics_port: 9090             # Port for metrics endpoint

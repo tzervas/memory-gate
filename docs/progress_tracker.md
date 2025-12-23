@@ -4,7 +4,7 @@
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| Tier 1: POC Core | 🟡 In Progress | 50% |
+| Tier 1: POC Core | 🟡 In Progress | 65% |
 | Tier 2: Service | ⬜ Not Started | 0% |
 | Tier 3: Enterprise | ⬜ Not Started | 0% |
 
@@ -54,13 +54,20 @@
 
 ## 🔄 In Progress
 
-- [ ] POC Phase 1.1: Core Integration
-  - [x] Ollama Memory Bridge ✅
-  - [x] Provider Framework ✅
-  - [ ] REST API Layer (FastAPI)
-  - [ ] Package distribution setup
+- [ ] POC Phase 1.2: Persona & Memory Management
+  - [ ] Persona Manager implementation
+  - [ ] Memory Culling Engine
+  - [ ] Memory Differential System
 
 ---
+
+## ✅ Completed Work (POC Phase 1.1)
+
+### Phase 1.1: Core Integration ✅
+- [x] Ollama Memory Bridge ✅
+- [x] Provider Framework ✅
+- [x] REST API Layer ✅
+- [x] Package Distribution ✅
 
 ## ⬜ Remaining (POC / Tier 1)
 
