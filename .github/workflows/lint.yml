@@ -13,11 +13,6 @@ on:
         required: false
         default: 'src tests'
         type: string
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
-
 jobs:
   lint:
     name: Code Quality Checks

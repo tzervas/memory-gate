@@ -22,11 +22,6 @@ on:
       coverage-percentage:
         description: 'Test coverage percentage'
         value: ${{ jobs.test.outputs.coverage }}
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
-
 jobs:
   test:
     name: Run Tests
