@@ -105,7 +105,9 @@ all = [
 
 [tool.uv]
 # Pin minimum secure versions for transitive dependencies surfaced by Dependabot.
+# chromadb==1.5.9 is latest PyPI but still affected by CVE-2026-45829 (no vendor patch).
 override-dependencies = [
+    "chromadb==1.5.9",
     "authlib>=1.6.12",
     "cryptography>=48.0.1",
     "filelock>=3.20.3",
