@@ -82,6 +82,40 @@ class TestVectorStoreInitFailures:
             with pytest.raises(VectorStoreInitError, match="Failed to initialize embedding model"):
                 VectorMemoryStore(config=config)
 
+    def test_unknown_embedding_model_id(self) -> None:
+        config = VectorStoreConfig(
+            collection_name="fail",
+            persist_directory=None,
+            embedding_model_name="not-a-model",
+        )
+        mock_client = MagicMock()
+        with patch(
+            "memory_gate.storage.vector_store.chromadb.Client",
+            return_value=mock_client,
+        ):
+            with pytest.raises(VectorStoreInitError, match="unknown embedding model"):
+                VectorMemoryStore(config=config)
+
+    def test_resolves_stable_id_before_sentence_transformer(self) -> None:
+        config = VectorStoreConfig(
+            collection_name="catalog_test",
+            persist_directory=None,
+            embedding_model_name="bge-small-en-v1.5",
+        )
+        mock_client = MagicMock()
+        mock_client.get_or_create_collection.return_value = MagicMock()
+        with (
+            patch("memory_gate.storage.vector_store.chromadb.Client", return_value=mock_client),
+            patch(
+                "memory_gate.storage.vector_store.SentenceTransformer",
+            ) as mock_st,
+        ):
+            store = VectorMemoryStore(config=config)
+        mock_st.assert_called_once_with("BAAI/bge-small-en-v1.5", device="cpu")
+        assert store.embedding_model_stable_id == "bge-small-en-v1.5"
+        assert store.embedding_st_name == "BAAI/bge-small-en-v1.5"
+        assert store.embedding_dimension == 384
+
 
 @pytest.fixture
 def mocked_vector_store() -> VectorMemoryStore:

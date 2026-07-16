@@ -11,6 +11,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sentence_transformers import SentenceTransformer
 
+from memory_gate.embedding_catalog import resolve_model
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import (
     MEMORY_ITEMS_COUNT,
@@ -174,8 +175,17 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
             raise VectorStoreInitError(msg) from e
 
         try:
+            catalog_entry = resolve_model(self.config.embedding_model_name)
+        except ValueError as e:
+            raise VectorStoreInitError(str(e)) from e
+
+        self.embedding_model_stable_id = catalog_entry.stable_id
+        self.embedding_st_name = catalog_entry.st_name
+        self.embedding_dimension = catalog_entry.dimension
+
+        try:
             self.embedding_model = SentenceTransformer(
-                self.config.embedding_model_name, device=self.config.embedding_device
+                catalog_entry.st_name, device=self.config.embedding_device
             )
         except Exception as e:
             msg = ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED.format(error=e)

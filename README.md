@@ -108,6 +108,18 @@ Tyler Zervas
 
 A dynamic memory learning layer for AI agents, designed for DevOps automation and homelab AI R&D.
 
+## Supported embedding models
+
+`VectorStoreConfig.embedding_model_name` accepts a **stable catalog ID** (shared with [memory-gate-rs](https://github.com/tzervas/memory-gate-rs)) or the SentenceTransformers / Hugging Face load name. Default remains `all-MiniLM-L6-v2` for existing deployments; cross-port parity experiments should pin `all-minilm-l6-v2`.
+
+| Stable ID | SentenceTransformers / HF | Dim |
+|-----------|---------------------------|-----|
+| `all-minilm-l6-v2` | `all-MiniLM-L6-v2` | 384 |
+| `bge-small-en-v1.5` | `BAAI/bge-small-en-v1.5` | 384 |
+| `bge-base-en-v1.5` | `BAAI/bge-base-en-v1.5` | 768 |
+
+Resolve programmatically via `memory_gate.embedding_catalog.resolve_model(id)`.
+
 ## Key Features
 
 - **Persistent Learning**: Enables AI agents to retain and build upon operational knowledge across sessions.

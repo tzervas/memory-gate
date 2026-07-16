@@ -4,6 +4,7 @@ import logging
 
 from . import agents  # Import the agents submodule
 from .agent_interface import AgentDomain, BaseMemoryEnabledAgent, SimpleEchoAgent
+from .embedding_catalog import CatalogEntry, resolve_model
 from .memory_gateway import MemoryGateway
 from .memory_protocols import KnowledgeStore, LearningContext, MemoryAdapter
 
@@ -18,10 +19,12 @@ logging.basicConfig(
 __all__ = [
     "AgentDomain",
     "BaseMemoryEnabledAgent",
+    "CatalogEntry",
     "KnowledgeStore",
     "LearningContext",
     "MemoryAdapter",
     "MemoryGateway",
     "SimpleEchoAgent",
     "agents",
+    "resolve_model",
 ]
