@@ -71,7 +71,6 @@ class TestVectorStoreInitFailures:
     def test_embedding_model_init_failure(self) -> None:
         config = VectorStoreConfig(collection_name="fail", persist_directory=None)
         mock_client = MagicMock()
-        mock_client.get_or_create_collection.return_value = MagicMock()
         with (
             patch("memory_gate.storage.vector_store.chromadb.Client", return_value=mock_client),
             patch(
@@ -88,13 +87,10 @@ class TestVectorStoreInitFailures:
             persist_directory=None,
             embedding_model_name="not-a-model",
         )
-        mock_client = MagicMock()
-        with patch(
-            "memory_gate.storage.vector_store.chromadb.Client",
-            return_value=mock_client,
-        ):
+        with patch("memory_gate.storage.vector_store.chromadb.Client") as mock_client_cls:
             with pytest.raises(VectorStoreInitError, match="unknown embedding model"):
                 VectorMemoryStore(config=config)
+        mock_client_cls.assert_not_called()
 
     def test_resolves_stable_id_before_sentence_transformer(self) -> None:
         config = VectorStoreConfig(
@@ -102,8 +98,13 @@ class TestVectorStoreInitFailures:
             persist_directory=None,
             embedding_model_name="bge-small-en-v1.5",
         )
+        mock_collection = MagicMock()
+        mock_collection.metadata = {
+            "memory_gate_embedding_model": "bge-small-en-v1.5",
+            "memory_gate_embedding_dim": "384",
+        }
         mock_client = MagicMock()
-        mock_client.get_or_create_collection.return_value = MagicMock()
+        mock_client.get_or_create_collection.return_value = mock_collection
         with (
             patch("memory_gate.storage.vector_store.chromadb.Client", return_value=mock_client),
             patch(
@@ -117,6 +118,75 @@ class TestVectorStoreInitFailures:
         assert store.embedding_dimension == 384
 
 
+def _mock_collection_for_binding(
+    *,
+    model: str | None = None,
+    dim: str | None = None,
+    count: int = 0,
+) -> MagicMock:
+    mock_collection = MagicMock()
+    meta: dict[str, str] = {"description": "test"}
+    if model is not None:
+        meta["memory_gate_embedding_model"] = model
+    if dim is not None:
+        meta["memory_gate_embedding_dim"] = dim
+    mock_collection.metadata = meta
+    mock_collection.count.return_value = count
+    return mock_collection
+
+
+def _init_store_with_collection(
+    config: VectorStoreConfig, mock_collection: MagicMock
+) -> VectorMemoryStore:
+    mock_client = MagicMock()
+    mock_client.get_or_create_collection.return_value = mock_collection
+    with (
+        patch("memory_gate.storage.vector_store.chromadb.Client", return_value=mock_client),
+        patch("memory_gate.storage.vector_store.SentenceTransformer"),
+    ):
+        return VectorMemoryStore(config=config)
+
+
+class TestEmbeddingCollectionBinding:
+    """Chroma collection embedding model metadata enforcement."""
+
+    def test_matching_stamps_succeeds(self) -> None:
+        config = VectorStoreConfig(collection_name="bind_ok", persist_directory=None)
+        coll = _mock_collection_for_binding(
+            model="all-minilm-l6-v2", dim="384", count=10
+        )
+        store = _init_store_with_collection(config, coll)
+        coll.modify.assert_not_called()
+        assert store.embedding_model_stable_id == "all-minilm-l6-v2"
+
+    def test_mismatch_raises(self) -> None:
+        config = VectorStoreConfig(
+            collection_name="bind_bad",
+            persist_directory=None,
+            embedding_model_name="bge-small-en-v1.5",
+        )
+        coll = _mock_collection_for_binding(
+            model="all-minilm-l6-v2", dim="384", count=1
+        )
+        with pytest.raises(VectorStoreInitError, match="binding mismatch"):
+            _init_store_with_collection(config, coll)
+
+    def test_empty_unstamped_collection_gets_stamped(self) -> None:
+        config = VectorStoreConfig(collection_name="bind_stamp", persist_directory=None)
+        coll = _mock_collection_for_binding(count=0)
+        _init_store_with_collection(config, coll)
+        coll.modify.assert_called_once()
+        stamped = coll.modify.call_args.kwargs["metadata"]
+        assert stamped["memory_gate_embedding_model"] == "all-minilm-l6-v2"
+        assert stamped["memory_gate_embedding_dim"] == "384"
+
+    def test_nonempty_unstamped_raises(self) -> None:
+        config = VectorStoreConfig(collection_name="bind_legacy", persist_directory=None)
+        coll = _mock_collection_for_binding(count=3)
+        with pytest.raises(VectorStoreInitError, match="no memory_gate embedding metadata"):
+            _init_store_with_collection(config, coll)
+
+
 @pytest.fixture
 def mocked_vector_store() -> VectorMemoryStore:
     """Vector store with mocked ChromaDB and embedding model."""
@@ -124,8 +194,9 @@ def mocked_vector_store() -> VectorMemoryStore:
         collection_name="unit_test_collection",
         persist_directory=None,
     )
-    mock_collection = MagicMock()
-    mock_collection.count.return_value = 0
+    mock_collection = _mock_collection_for_binding(
+        model="all-minilm-l6-v2", dim="384", count=0
+    )
     mock_client = MagicMock()
     mock_client.get_or_create_collection.return_value = mock_collection
     mock_model = MagicMock()
@@ -159,6 +230,28 @@ class TestVectorStoreOperations:
         )
         assert context.domain == "unknown"
         assert context.content == "document body"
+
+    @pytest.mark.asyncio
+    async def test_store_strips_reserved_experience_metadata(
+        self, mocked_vector_store: VectorMemoryStore
+    ) -> None:
+        context = LearningContext(
+            content="meta strip",
+            domain="test",
+            timestamp=datetime.now(),
+            metadata={
+                "custom": "keep",
+                "memory_gate_embedding_model": "spoof",
+                "embedding_dim": "999",
+            },
+        )
+        await mocked_vector_store.store_experience("key-meta", context)
+        stored_meta = mocked_vector_store.collection.upsert.call_args.kwargs["metadatas"][
+            0
+        ]
+        assert stored_meta["custom"] == "keep"
+        assert "memory_gate_embedding_model" not in stored_meta
+        assert "embedding_dim" not in stored_meta
 
     @pytest.mark.asyncio
     async def test_store_experience_failure(
