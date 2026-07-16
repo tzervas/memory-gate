@@ -1,7 +1,12 @@
 name: Continuous Integration
 
-# Manual only — no push/pull_request CI triggers
+# Triggered on push/PR; also manual.
+# Linux x64 jobs: self-hosted Podman fleet.
 on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
   workflow_dispatch:
 jobs:
   code-quality:
@@ -46,7 +51,7 @@ jobs:
       
   ci-complete:
     name: CI Complete
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     needs: [code-quality, security, unit-tests, integration-tests, regression-tests]
     if: always()
     steps:

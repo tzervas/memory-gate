@@ -1,7 +1,11 @@
 name: Commitizen
 
-# Commitizen CI Contract v1 — manual pre-release conventional commit verification
+# Conventional commit verification on push/PR + manual
 on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
   workflow_dispatch:
 
 permissions:
@@ -10,7 +14,7 @@ permissions:
 jobs:
   cz-check:
     name: Conventional Commits Check
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
