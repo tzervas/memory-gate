@@ -11,6 +11,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sentence_transformers import SentenceTransformer
 
+from memory_gate.embedding_catalog import resolve_model
 from memory_gate.memory_protocols import KnowledgeStore, LearningContext
 from memory_gate.metrics import (
     MEMORY_ITEMS_COUNT,
@@ -30,6 +31,16 @@ logger = logging.getLogger(__name__)
 # Error message constants
 ERROR_MSG_CHROMADB_INIT_FAILED = "Failed to initialize ChromaDB client: {error}"
 ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED = "Failed to initialize embedding model: {error}"
+
+# Chroma collection metadata keys (string values only)
+MEMORY_GATE_EMBEDDING_MODEL_KEY = "memory_gate_embedding_model"
+MEMORY_GATE_EMBEDDING_DIM_KEY = "memory_gate_embedding_dim"
+
+# Reserved prefixes stripped from user-supplied experience metadata before Chroma upsert
+_RESERVED_EXPERIENCE_METADATA_PREFIXES = ("memory_gate_",)
+_RESERVED_EXPERIENCE_METADATA_EXACT = frozenset(
+    {MEMORY_GATE_EMBEDDING_MODEL_KEY, MEMORY_GATE_EMBEDDING_DIM_KEY}
+)
 
 
 class ChromaDBMetadata(BaseModel):
@@ -148,6 +159,15 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
         self.config = config
 
         try:
+            catalog_entry = resolve_model(self.config.embedding_model_name)
+        except ValueError as e:
+            raise VectorStoreInitError(str(e)) from e
+
+        self.embedding_model_stable_id = catalog_entry.stable_id
+        self.embedding_st_name = catalog_entry.st_name
+        self.embedding_dimension = catalog_entry.dimension
+
+        try:
             if self.config.persist_directory:
                 # Ensure persist_directory is a string for ChromaDB 1.0.13+
                 persist_path = str(Path(self.config.persist_directory).resolve())
@@ -175,23 +195,92 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
 
         try:
             self.embedding_model = SentenceTransformer(
-                self.config.embedding_model_name, device=self.config.embedding_device
+                catalog_entry.st_name, device=self.config.embedding_device
             )
         except Exception as e:
             msg = ERROR_MSG_EMBEDDING_MODEL_INIT_FAILED.format(error=e)
             raise VectorStoreInitError(msg) from e
 
+        collection_metadata = self._build_collection_metadata()
         self.collection = self.client.get_or_create_collection(
             name=self.config.collection_name,
-            metadata=self.config.collection_metadata
-            or {"description": "MemoryGate learning storage"},
+            metadata=collection_metadata,
         )
+        self._ensure_collection_embedding_binding()
         # Initialize item count gauge
         MEMORY_ITEMS_COUNT.labels(
             store_type="vector_store", collection_name=self.config.collection_name
         ).set_function(
             lambda: self.collection.count()  # Periodically update with current count
         )
+
+    def _build_collection_metadata(self) -> dict[str, str]:
+        """Merge user collection metadata with required embedding binding stamps."""
+        user_meta = dict(self.config.collection_metadata or {})
+        user_meta.pop(MEMORY_GATE_EMBEDDING_MODEL_KEY, None)
+        user_meta.pop(MEMORY_GATE_EMBEDDING_DIM_KEY, None)
+        if not user_meta:
+            user_meta = {"description": "MemoryGate learning storage"}
+        stamps = {
+            MEMORY_GATE_EMBEDDING_MODEL_KEY: self.embedding_model_stable_id,
+            MEMORY_GATE_EMBEDDING_DIM_KEY: str(self.embedding_dimension),
+        }
+        return {k: str(v) for k, v in {**user_meta, **stamps}.items()}
+
+    def _ensure_collection_embedding_binding(self) -> None:
+        """Validate or stamp Chroma collection embedding model metadata (fail closed)."""
+        meta = dict(self.collection.metadata or {})
+        stored_model = meta.get(MEMORY_GATE_EMBEDDING_MODEL_KEY)
+        stored_dim = meta.get(MEMORY_GATE_EMBEDDING_DIM_KEY)
+        expected_model = self.embedding_model_stable_id
+        expected_dim = str(self.embedding_dimension)
+
+        if stored_model is not None or stored_dim is not None:
+            if stored_model != expected_model or stored_dim != expected_dim:
+                msg = (
+                    "Chroma collection embedding binding mismatch: "
+                    f"collection has model={stored_model!r} dim={stored_dim!r}, "
+                    f"requested model={expected_model!r} dim={expected_dim!r}. "
+                    "Use a different collection_name or migrate data; "
+                    "one embedding model per collection is required."
+                )
+                raise VectorStoreInitError(msg)
+            return
+
+        item_count = self.collection.count()
+        if item_count > 0:
+            msg = (
+                "Chroma collection has no memory_gate embedding metadata but "
+                f"contains {item_count} item(s). "
+                "Create a new collection name or run a migration before switching "
+                "embedding models."
+            )
+            raise VectorStoreInitError(msg)
+
+        stamped = {
+            **{k: str(v) for k, v in meta.items()},
+            MEMORY_GATE_EMBEDDING_MODEL_KEY: expected_model,
+            MEMORY_GATE_EMBEDDING_DIM_KEY: expected_dim,
+        }
+        self.collection.modify(metadata=stamped)
+
+    @staticmethod
+    def _filter_experience_metadata(
+        metadata: dict[str, Any] | None,
+    ) -> dict[str, Any]:
+        """Drop reserved keys so user metadata cannot spoof collection binding."""
+        if not metadata:
+            return {}
+        filtered: dict[str, Any] = {}
+        for key, value in metadata.items():
+            if key in _RESERVED_EXPERIENCE_METADATA_EXACT:
+                continue
+            if key.startswith(_RESERVED_EXPERIENCE_METADATA_PREFIXES):
+                continue
+            if key.startswith("embedding_"):
+                continue
+            filtered[key] = value
+        return filtered
 
     def _validate_query_results(self, query_results: dict[str, Any]) -> bool:
         """Validate that query results contain the expected structure.
@@ -309,7 +398,7 @@ class VectorMemoryStore(KnowledgeStore[LearningContext]):
                     "domain": experience.domain,
                     "timestamp": experience.timestamp.isoformat(),
                     "importance": experience.importance,
-                    **(experience.metadata or {}),
+                    **self._filter_experience_metadata(experience.metadata),
                 }
 
                 # Convert embeddings to sequence for ChromaDB

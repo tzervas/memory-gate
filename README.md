@@ -108,6 +108,29 @@ Tyler Zervas
 
 A dynamic memory learning layer for AI agents, designed for DevOps automation and homelab AI R&D.
 
+## Supported embedding models
+
+`VectorStoreConfig.embedding_model_name` accepts a **stable catalog ID** (shared with [memory-gate-rs](https://github.com/tzervas/memory-gate-rs)) or a **catalog-listed** SentenceTransformers / Hugging Face load name. Off-catalog model strings are rejected at init. Default remains `all-MiniLM-L6-v2` for existing deployments; cross-port parity experiments should pin `all-minilm-l6-v2`.
+
+### One collection per embedding model
+
+Each Chroma collection is bound to exactly one catalog model and dimension. On `VectorMemoryStore` init, collection metadata is stamped (or validated):
+
+| Metadata key | Value |
+|--------------|-------|
+| `memory_gate_embedding_model` | Stable catalog ID (e.g. `all-minilm-l6-v2`) |
+| `memory_gate_embedding_dim` | Embedding dimension as a string (e.g. `384`) |
+
+If an existing collection was created with a different model or dimension, initialization fails with `VectorStoreInitError`. Legacy collections that already contain vectors but lack these keys also fail closed—use a new `collection_name` or migrate. Empty collections without stamps are updated automatically. User experience metadata cannot override binding: keys prefixed with `memory_gate_` or `embedding_` are stripped on store.
+
+| Stable ID | SentenceTransformers / HF | Dim |
+|-----------|---------------------------|-----|
+| `all-minilm-l6-v2` | `all-MiniLM-L6-v2` | 384 |
+| `bge-small-en-v1.5` | `BAAI/bge-small-en-v1.5` | 384 |
+| `bge-base-en-v1.5` | `BAAI/bge-base-en-v1.5` | 768 |
+
+Resolve programmatically via `memory_gate.embedding_catalog.resolve_model(id)`.
+
 ## Key Features
 
 - **Persistent Learning**: Enables AI agents to retain and build upon operational knowledge across sessions.
