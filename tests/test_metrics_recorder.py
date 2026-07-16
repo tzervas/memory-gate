@@ -55,9 +55,9 @@ def mock_io_error(monkeypatch: pytest.MonkeyPatch) -> None:
 class TestMetricsRecorderInit:
     """Test MetricsRecorder initialization."""
 
-    def test_default_initialization(self) -> None:
+    def test_default_initialization(self, metrics_file: str) -> None:
         """Test default initialization parameters."""
-        recorder = MetricsRecorder()
+        recorder = MetricsRecorder(metrics_file=metrics_file)
         assert recorder.metrics_file.name == "test_metrics.json"
         assert recorder.display_config["show_performance"] is True
         assert recorder.previous_runs == []
@@ -129,18 +129,17 @@ class TestMetricsPersistence:
         assert recorder.previous_runs == []
 
     def test_load_malformed_json(
-        self, malformed_json_file: str, capsys: pytest.CaptureFixture
+        self, malformed_json_file: str, caplog: pytest.LogCaptureFixture
     ) -> None:
         """Test graceful handling of malformed JSON with warning verification."""
-        recorder = MetricsRecorder(metrics_file=malformed_json_file)
+        with caplog.at_level("WARNING"):
+            recorder = MetricsRecorder(metrics_file=malformed_json_file)
 
         # Verify previous_runs becomes empty
         assert recorder.previous_runs == []
 
         # Verify warning is logged
-        captured = capsys.readouterr()
-        assert "Warning: Could not load previous metrics:" in captured.out
-        assert "JSONDecodeError" in captured.out or "Expecting" in captured.out
+        assert any("Could not load previous metrics" in r.message for r in caplog.records)
 
     def test_max_history_runs_limit(self, metrics_file: str) -> None:
         """Test history size limitation."""
@@ -168,44 +167,36 @@ class TestMetricsErrorHandling:
         self,
         populated_recorder: MetricsRecorder,
         mock_io_error: None,
-        capsys: pytest.CaptureFixture,
+        caplog: pytest.LogCaptureFixture,
     ) -> None:
         """Test graceful handling of save I/O errors with warning verification."""
-        # Should not raise exception, just print warning
-        populated_recorder.save_metrics()
+        with caplog.at_level("WARNING"):
+            populated_recorder.save_metrics()
 
-        # Verify warning is logged
-        captured = capsys.readouterr()
-        assert "Warning: Could not save metrics:" in captured.out
-        assert "Mock I/O error" in captured.out
+        assert any("Could not save metrics" in r.message for r in caplog.records)
+        assert any("Mock I/O error" in r.message for r in caplog.records)
 
     def test_load_io_error(
         self,
         metrics_file: str,
-        capsys: pytest.CaptureFixture,
+        caplog: pytest.LogCaptureFixture,
         monkeypatch: pytest.MonkeyPatch,
     ) -> None:
         """Test graceful handling of load I/O errors with warning verification."""
-        # First create a file so it exists
         Path(metrics_file).write_text('[{"test": "data"}]')
 
-        # Then mock open to raise IOError
         def mock_open(*args, **kwargs):  # noqa: ARG001
             msg = "Mock I/O error"
             raise OSError(msg)
 
         monkeypatch.setattr("builtins.open", mock_open)
 
-        # Now create recorder which should trigger the I/O error
-        recorder = MetricsRecorder(metrics_file=metrics_file)
+        with caplog.at_level("WARNING"):
+            recorder = MetricsRecorder(metrics_file=metrics_file)
 
-        # Verify previous_runs becomes empty
         assert recorder.previous_runs == []
-
-        # Verify warning is logged
-        captured = capsys.readouterr()
-        assert "Warning: Could not load previous metrics:" in captured.out
-        assert "Mock I/O error" in captured.out
+        assert any("Could not load previous metrics" in r.message for r in caplog.records)
+        assert any("Mock I/O error" in r.message for r in caplog.records)
 
 
 class TestMetricsAnalysis:

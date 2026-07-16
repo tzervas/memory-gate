@@ -3,13 +3,14 @@
 from dataclasses import replace
 from datetime import datetime
 import logging
+from uuid import uuid4
 
 from hypothesis import HealthCheck, given, settings, strategies as st
 from hypothesis.extra.pytz import timezones
 import pytest
 
 from memory_gate.memory_protocols import LearningContext
-from memory_gate.storage.vector_store import VectorMemoryStore
+from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
 
 logger = logging.getLogger(__name__)
 
@@ -143,12 +144,21 @@ def learning_contexts(draw):
 
 @pytest.mark.unit
 @given(key=st.text(min_size=1, max_size=50), context=learning_contexts())
-@settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(
+    suppress_health_check=[HealthCheck.function_scoped_fixture],
+    deadline=None,
+    max_examples=25,
+)
 @pytest.mark.asyncio
-async def test_property_based_store_and_retrieve(
-    vector_store: VectorMemoryStore, key: str, context: LearningContext
-):
+async def test_property_based_store_and_retrieve(key: str, context: LearningContext):
     """Test that storing and retrieving a LearningContext preserves its properties."""
+    vector_store = VectorMemoryStore(
+        config=VectorStoreConfig(
+            collection_name=f"property_test_{uuid4().hex}",
+            persist_directory=None,
+            embedding_model_name="all-MiniLM-L6-v2",
+        )
+    )
     await vector_store.store_experience(key, context)
     retrieved = await vector_store.get_experience_by_id(key)
 

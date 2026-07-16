@@ -258,6 +258,10 @@ class BaseMemoryEnabledAgent:
         # like `update_memory_importance(key, new_importance)` or
         # `record_feedback(key, score)`.
         # Example: self.memory_gateway.update_experience_importance(memory_key, new_importance)
+        print(f"Feedback received for memory '{memory_key}' with score {feedback_score}")
+        if new_importance is not None:
+            print(f"Suggested new importance: {new_importance}")
+        print("Actual feedback processing logic needs to be implemented.")
 
 
 # Example of a concrete agent (will be moved to a separate file or section later)
