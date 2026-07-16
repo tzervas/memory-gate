@@ -59,7 +59,7 @@ dev = [
 
 # Vector storage and ML dependencies
 storage = [
-    "chromadb~=1.0.0",              # Primary vector database
+    "chromadb~=1.5.9",              # Primary vector database
     "sentence-transformers~=5.0.0", # Embedding generation
     "qdrant-client~=1.14.0",        # Alternative vector database
     "redis~=6.2.0",                 # Alternative/cache storage
@@ -67,7 +67,7 @@ storage = [
 
 # GPU acceleration for embeddings
 gpu = [
-    "torch~=2.7.0",
+    "torch~=2.12.1",
     "transformers~=4.53.0",
     "sentence-transformers[gpu]~=5.0.0",
     "accelerate~=1.8.0",         # GPU optimization for transformers
@@ -435,11 +435,11 @@ ci = [
     "codecov==2.1.13",
 ]
 storage = [
-    "chromadb==1.0.13",
+    "chromadb==1.5.9",
     "sentence-transformers===5.0.0",
 ]
 dev = [
-    "black==25.1.0",
+    "black==26.3.1",
     "pre-commit==4.2.0",
     "safety==3.5.2",
 ]
