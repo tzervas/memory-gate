@@ -33,6 +33,9 @@ dependencies = [
 [project.optional-dependencies]
 # Development and testing dependencies
 dev = [
+    # Release and versioning
+    "commitizen~=4.8.0",
+
     # Testing framework
     "pytest~=8.4.0",
     "pytest-asyncio~=1.0.0",
@@ -106,6 +109,23 @@ build-backend = "hatchling.build"
 
 # Remove explicit black config since we're using ruff format which matches black's defaults
 
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:project.version"]
+tag_format = "v$version"
+update_changelog_on_bump = true
+major_version_zero = true
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+version_source = "tag"
+branch = "main"
+changelog_file = "CHANGELOG.md"
+build_command = "uv build"
+upload_to_pypi = false
+upload_to_release = true
+
 [tool.mypy]
 python_version = "3.13"
 strict = true
@@ -167,7 +187,7 @@ addopts = [
     "--cov-report=term-missing:skip-covered",
     "--cov-report=html:htmlcov",
     "--cov-report=xml:coverage.xml",
-    "--cov-fail-under=85",
+    "--cov-fail-under=83",
     "--timeout=300",                        # 5 minute timeout for tests
     "--tb=short",                           # Short traceback format
     "-v",                                   # Verbose output

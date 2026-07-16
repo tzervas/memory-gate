@@ -4,8 +4,10 @@ from datetime import datetime
 import json
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 import pytest
+import pytest_asyncio
 
 from memory_gate.memory_protocols import LearningContext
 from memory_gate.storage.vector_store import VectorMemoryStore, VectorStoreConfig
@@ -132,11 +134,11 @@ def edge_case_contexts(
     return contexts
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def isolated_vector_store() -> VectorMemoryStore:
     """Create an isolated vector store for regression testing."""
     config = VectorStoreConfig(
-        collection_name="regression_test_collection",
+        collection_name=f"regression_test_{uuid4().hex}",
         persist_directory=None,  # Always use in-memory for isolation
         embedding_model_name="all-MiniLM-L6-v2",
     )

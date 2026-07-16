@@ -1,3 +1,4 @@
+import copy
 from datetime import datetime
 import json
 import logging
@@ -149,7 +150,10 @@ class MetricsRecorder:
 
     def save_metrics(self) -> None:
         """Save current metrics to file."""
-        current_run = {"timestamp": datetime.now().isoformat(), **self.metrics}
+        current_run = {
+            "timestamp": datetime.now().isoformat(),
+            **copy.deepcopy(self.metrics),
+        }
         self.previous_runs.append(current_run)
 
         # Keep only the last N runs
@@ -274,9 +278,9 @@ class MetricsRecorder:
             )
 
         # Error count
-        summary["error_count"] = str(len(self.metrics["errors"]))
+        summary["error_count"] = len(self.metrics["errors"])
 
         # Quality metrics count
-        summary["quality_metrics_count"] = str(len(self.metrics["quality"]))
+        summary["quality_metrics_count"] = len(self.metrics["quality"])
 
         return summary

@@ -12,15 +12,6 @@ from memory_gate.storage.vector_store import VectorMemoryStore
 
 @pytest.mark.regression
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    ("key", "context"),
-    [
-        ("regression_basic_001", None),  # Will be filled by fixture
-        ("regression_meta_001", None),
-        ("regression_unicode_001", None),
-    ],
-    indirect=["context"],
-)
 async def test_core_storage_retrieval_stability(
     isolated_vector_store: VectorMemoryStore,
     core_test_contexts: list[tuple[str, LearningContext]],
@@ -168,15 +159,6 @@ async def test_experience_lifecycle_stability(isolated_vector_store: VectorMemor
 
 @pytest.mark.regression
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    ("key", "context"),
-    [
-        ("regression_min_001", None),
-        ("regression_max_001", None),
-        ("regression_zero_001", None),
-    ],
-    indirect=["context"],
-)
 async def test_edge_case_stability(
     isolated_vector_store: VectorMemoryStore,
     edge_case_contexts: list[tuple[str, LearningContext]],
