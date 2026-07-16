@@ -11,6 +11,7 @@ resolution-markers = [
 [manifest]
 overrides = [
     { name = "authlib", specifier = ">=1.6.12" },
+    { name = "chromadb", specifier = "==1.5.9" },
     { name = "cryptography", specifier = ">=48.0.1" },
     { name = "filelock", specifier = ">=3.20.3" },
     { name = "h2", specifier = ">=4.3.0" },
