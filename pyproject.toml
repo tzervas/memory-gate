@@ -64,7 +64,7 @@ storage = [
 
 # GPU acceleration for embeddings
 gpu = [
-    "torch~=2.7.0",
+    "torch~=2.12.1",
     "transformers~=4.53.0",
     "sentence-transformers[gpu]~=5.0.0",
     "accelerate~=1.8.0",         # GPU optimization for transformers
@@ -419,7 +419,7 @@ storage = [
     "sentence-transformers===5.0.0",
 ]
 dev = [
-    "black==25.1.0",
+    "black==26.3.1",
     "pre-commit==4.2.0",
     "safety==3.5.2",
 ]
