@@ -60,3 +60,19 @@ async def test_key_generation(memory_gateway: MemoryGateway[LearningContext]) ->
     # Keys should be deterministic for the same content
     assert key1 == key2
     assert len(key1) == 16
+
+
+@pytest.mark.asyncio
+async def test_learn_from_interaction_adapter_failure(
+    memory_gateway: MemoryGateway[LearningContext],
+) -> None:
+    """Adapter failures are recorded and re-raised."""
+    context = LearningContext(
+        content="failure path", domain="test", timestamp=datetime.now()
+    )
+    memory_gateway.adapter.adapt_knowledge.side_effect = RuntimeError("adapt failed")
+
+    with pytest.raises(RuntimeError, match="adapt failed"):
+        await memory_gateway.learn_from_interaction(context, 0.5)
+
+    memory_gateway.store.store_experience.assert_not_called()
