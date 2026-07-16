@@ -93,6 +93,10 @@ This setup supports:
 - **Linux**
 - **Dev Containers** for isolated development
 
+## Versioning
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/) and uses [Commitizen](https://commitizen-tools.github.io/commitizen/) for release versioning. Version is tracked in `pyproject.toml` (`project.version` and `[tool.commitizen]`). Before release, dispatch the **Commitizen** workflow (Actions → Commitizen → Run workflow) to verify commits on the current branch.
+
 ## Contact
 
 Tyler Zervas
