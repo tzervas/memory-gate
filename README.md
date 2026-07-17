@@ -76,6 +76,12 @@ To set up the project locally for development, follow these steps:
 
 ```bash
 # Run tests to verify everything is working
+
+<!-- FLEET-BADGES:BEGIN -->
+[![CI](https://github.com/tzervas/memory-gate/actions/workflows/fleet-ci.yml/badge.svg?branch=main)](https://github.com/tzervas/memory-gate/actions/workflows/fleet-ci.yml?query=branch%3Amain)
+[![Security](https://github.com/tzervas/memory-gate/actions/workflows/fleet-security.yml/badge.svg?branch=main)](https://github.com/tzervas/memory-gate/actions/workflows/fleet-security.yml?query=branch%3Amain)
+<!-- FLEET-BADGES:END -->
+
 pytest
 
 # Check code formatting
