@@ -1,0 +1,29 @@
+# memory-gate: intentional test keys + historical IDE completion-cache noise.
+# History once tracked .vscode/PythonImportHelper* (AWS EXAMPLE keys / openssh
+# sample blobs). Tip removes them; gitignore blocks re-add. Allowlist keeps
+# schedule/full-history fleet-security green without force-rewriting main.
+title = "memory-gate gitleaks"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Test fixtures, venv, and historical IDE completion caches (not live secrets)"
+paths = [
+  '''(^|/)tests/''',
+  '''(^|/)\.vscode/''',
+  '''PythonImportHelper''',
+  '''(^|/)\.venv/''',
+  '''(^|/)venv/''',
+  '''(^|/)__pycache__/''',
+  '''(^|/)site-packages/''',
+  '''(^|/)target/''',
+  '''(^|/)\.git/''',
+]
+regexes = [
+  # Local test document keys (vector store fixtures), not credentials
+  '''infra_cpu_web01''',
+  '''lifecycle_key''',
+  '''lifecycle_regression_test''',
+  '''regression_(min|max|zero)_001''',
+]
