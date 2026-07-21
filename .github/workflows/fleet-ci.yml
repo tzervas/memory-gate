@@ -30,10 +30,13 @@ jobs:
           set -euo pipefail
           rust=false; python=false
           # Real Rust crate or non-empty workspace members only.
+          # Empty virtual workspaces (members = []) must not enable cargo jobs.
+          # Ignore comments (e.g. "# Future: members = [\"crates/...\"]").
           if [ -f Cargo.toml ]; then
             if grep -qE '^\[package\]' Cargo.toml; then
               rust=true
-            elif grep -qE 'members\s*=\s*\[[^]]*["'\''][^"'\'']' Cargo.toml; then
+            elif grep -vE '^\s*#' Cargo.toml \
+              | grep -qE 'members\s*=\s*\[[^]]*["'\''][^"'\'']'; then
               rust=true
             elif find . -path ./target -prune -o -name Cargo.toml -print 2>/dev/null \
               | grep -v '^\./Cargo.toml$' | head -1 | grep -q .; then
