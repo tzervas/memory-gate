@@ -1,4 +1,6 @@
 # Fleet security lint/scan — self-hosted. Badge reflects honest job status on trunk.
+# Hardened: least privileges, pinned gitleaks + SHA256, no unauthenticated :latest.
+# Usability: PR/push scan working tree (tip); weekly schedule scans full git history.
 name: fleet-security
 
 on:
@@ -21,35 +23,61 @@ jobs:
   gitleaks:
     name: gitleaks
     runs-on: [self-hosted, linux, x64, podman]
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ github.event_name == 'schedule' && 0 || 1 }}
+          persist-credentials: false
+
+      - name: Ensure gitleaks (pinned + checksum)
+        run: |
+          set -euo pipefail
+          GITLEAKS_VERSION="8.30.1"
+          GITLEAKS_SHA256="551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+          if command -v gitleaks >/dev/null 2>&1; then
+            echo "using preinstalled $(command -v gitleaks) ($(gitleaks version 2>/dev/null || true))"
+            exit 0
+          fi
+          install_dir="${RUNNER_TEMP:-/tmp}/gitleaks-bin"
+          mkdir -p "$install_dir"
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          url="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${archive}"
+          tmp="${RUNNER_TEMP:-/tmp}/${archive}"
+          curl -fsSL "$url" -o "$tmp"
+          echo "${GITLEAKS_SHA256}  ${tmp}" | sha256sum -c -
+          tar -xzf "$tmp" -C "$install_dir" gitleaks
+          chmod 0755 "$install_dir/gitleaks"
+          echo "$install_dir" >> "$GITHUB_PATH"
+          "$install_dir/gitleaks" version
+
       - name: Run gitleaks
         run: |
           set -euo pipefail
-          if command -v gitleaks >/dev/null 2>&1; then
-            gitleaks detect --source . --verbose --redact
-          elif command -v docker >/dev/null 2>&1; then
-            docker run --rm -v "$PWD:/path" zricethezav/gitleaks:latest detect --source=/path --verbose --redact
-          elif command -v podman >/dev/null 2>&1; then
-            podman run --rm -v "$PWD:/path:ro" docker.io/zricethezav/gitleaks:latest detect --source=/path --verbose --redact
-          else
-            echo "gitleaks not available on runner — FAIL (honest security gate)" >&2
+          if ! command -v gitleaks >/dev/null 2>&1; then
+            echo "gitleaks not available after install — FAIL (honest security gate)" >&2
             exit 1
+          fi
+          if [ "${GITHUB_EVENT_NAME}" = "schedule" ]; then
+            gitleaks detect --source . --verbose --redact --exit-code 1
+          else
+            gitleaks detect --source . --no-git --verbose --redact --exit-code 1
           fi
 
   trivy-fs:
     name: trivy filesystem (vuln+secret+license)
     runs-on: [self-hosted, linux, x64, podman]
     continue-on-error: true
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Trivy fs
         run: |
           set -euo pipefail
           if ! command -v trivy >/dev/null 2>&1; then
-            echo "trivy missing — advisory skip (continue-on-error)"
+            echo "trivy missing on runner — advisory skip (continue-on-error; install trivy on image for hard gate)"
             exit 0
           fi
           trivy fs --scanners vuln,secret,license \

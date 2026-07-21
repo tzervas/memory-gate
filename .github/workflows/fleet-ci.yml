@@ -29,7 +29,17 @@ jobs:
         run: |
           set -euo pipefail
           rust=false; python=false
-          if [ -f Cargo.toml ]; then rust=true; fi
+          # Real Rust crate or non-empty workspace members only.
+          if [ -f Cargo.toml ]; then
+            if grep -qE '^\[package\]' Cargo.toml; then
+              rust=true
+            elif grep -qE 'members\s*=\s*\[[^]]*["'\''][^"'\'']' Cargo.toml; then
+              rust=true
+            elif find . -path ./target -prune -o -name Cargo.toml -print 2>/dev/null \
+              | grep -v '^\./Cargo.toml$' | head -1 | grep -q .; then
+              rust=true
+            fi
+          fi
           if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f setup.py ]; then python=true; fi
           echo "rust=$rust" >> "$GITHUB_OUTPUT"
           echo "python=$python" >> "$GITHUB_OUTPUT"
