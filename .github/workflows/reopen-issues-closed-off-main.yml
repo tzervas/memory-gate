@@ -14,11 +14,18 @@ permissions:
   pull-requests: read
 
 jobs:
+  # Always-green gate so skipped evaluations never mark the run red with zero jobs.
+  gate:
+    name: gate
+    runs-on: [self-hosted, linux, x64, podman]
+    steps:
+      - name: noop
+        run: echo "reopen workflow loaded"
+
   reopen:
     name: Reopen issues closed off-main
-    # Meta workflow: GitHub-hosted is correct (no product build). Avoids self-hosted
-    # queue when runners are busy/down; only needs gh + GITHUB_TOKEN.
-    runs-on: ubuntu-latest
+    needs: [gate]
+    runs-on: [self-hosted, linux, x64, podman]
     if: >
       github.event_name == 'pull_request' &&
       github.event.pull_request.merged == true &&
@@ -35,21 +42,16 @@ jobs:
           set -euo pipefail
           body=$(gh api "repos/$REPO/pulls/$PR" --jq .body)
           title=$(gh api "repos/$REPO/pulls/$PR" --jq .title)
-          # Extract Closes/Fixes/Resolves #N
-          nums=$(TITLE="$title" BODY="$body" python3 <<'PY'
-import os, re
-text = (os.environ.get("TITLE") or "") + "\n" + (os.environ.get("BODY") or "")
-kw = r"(?:fix(?:e[sd])?|close[sd]?|resolve[sd]?)"
-found = set()
-for m in re.finditer(rf"(?is)\b{kw}\b(?:\s*:)?\s*((?:#?\d+(?:\s*[,&/and\s]+#?\d+)*))", text):
-    prefix = text[max(0, m.start() - 24) : m.start()].lower()
-    if re.search(r"(?:no|not|without|dont)\W*$", prefix):
-        continue
-    for n in re.findall(r"\d+", m.group(1)):
-        found.add(n)
-print("\n".join(sorted(found, key=int)))
-PY
-)
+          # Keyword + #N extraction without a column-0 heredoc (that breaks YAML block scalars).
+          nums=$(
+            printf '%s\n%s\n' "$title" "$body" \
+              | tr '[:upper:]' '[:lower:]' \
+              | grep -oE '(fix(e[sd])?|close[sd]?|resolve[sd]?)[[:space:]:]*#[0-9]+([,[:space:]&]+#[0-9]+)*' \
+              | grep -oE '[0-9]+' \
+              | sort -n \
+              | uniq \
+              || true
+          )
           if [ -z "${nums}" ]; then
             echo "No closing keywords — nothing to reopen"
             exit 0

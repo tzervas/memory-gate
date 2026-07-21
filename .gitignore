@@ -188,3 +188,7 @@ cython_debug/
 
 # Test metrics file (local only)
 test_metrics.json
+
+# IDE completion caches can embed sample/private key blobs
+.vscode/PythonImportHelper*
+.vscode/*.json
